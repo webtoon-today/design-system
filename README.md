@@ -10,7 +10,7 @@
 1. run dependency install on root folder. 
 
 ```bash
-webtoon-today-ui$ npm install
+design-system$ npm install
 ```
 
 2. build
@@ -19,16 +19,16 @@ At root directory
 
 ```bash
 // build all packages
-webtoon-today-ui$ npm run build:all
+design-system$ npm run build:all
 ```
 
 ```bash
 // build each package
-webtoon-today-ui$ npm run build:toast
-webtoon-today-ui$ npm run build:drawer
+design-system$ npm run build:toast
+design-system$ npm run build:drawer
 ```
 
 At package directory
 ```bash
-webtoon-today-ui/packages/toast$ npm run build
+design-system/packages/toast$ npm run build
 ```
