@@ -4,9 +4,7 @@
   "description": "webtoon today design system",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "toast/*",
-    "drawer/*"
+    "packages/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
