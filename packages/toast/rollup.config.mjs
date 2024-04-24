@@ -6,7 +6,7 @@ export default [
     {
         input: 'src/main.ts',
         output: {
-            file: './index.js',
+            file: '../../toast/index.js',
             format: 'cjs'
         },
         plugins: [
@@ -20,7 +20,7 @@ export default [
     {
         input: 'src/main.ts',
         output: {
-            file: './index.d.ts',
+            file: '../../toast/index.d.ts',
             format: 'es'
         },
         plugins: [
