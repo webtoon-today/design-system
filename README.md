@@ -13,7 +13,13 @@
 design-system$ npm install
 ```
 
-2. build
+2. dev
+
+```bash
+design-system$ npm run storybook
+``` 
+
+3. build
 
 At root directory
 
