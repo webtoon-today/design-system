@@ -86,7 +86,6 @@
         }
         100% {
             display: none;
-            background-color: rgba(36,42,48,0.0);
         }
     }
 
@@ -99,7 +98,6 @@
         }
         100% {
             display: none;
-            transform: translateX(100%);
         }
     }
     @keyframes modal-in-web {
@@ -127,7 +125,6 @@
         }
         100% {
             display: none;
-            transform: translateY(100%);
         }
     }
     @keyframes modal-in-mobile {

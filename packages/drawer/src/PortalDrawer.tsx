@@ -8,7 +8,7 @@ export const DrawerContext = createContext<{
 } | null>(null);
 
 export const PortalDrawer = ({
-    isClient = false, container = document.body,
+    isClient = false, container,
     ...props
 }:{ isClient: boolean, container?: Element | DocumentFragment | null} & nestedDrawerPropsType
 ) => {

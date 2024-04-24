@@ -118,16 +118,16 @@ export const WithModalDrawer = () => {
             <PortalDrawer 
                 isClient={true} 
                 open={open} 
-                onClose={()=>{console.log('close drawer'); setOpenModal(true)}}
+                onClose={()=>setOpenModal(true)}
             >
                 hello ModalDrawer
             </PortalDrawer>
-            <div style={{position: 'absolute', width: 300, height:300, top: "50%", left:"50%", transform: 'translate3d(-50%, -50%, 0)',backgroundColor: 'plum', zIndex: 2000, ...{display: openModal && open ? 'block' : 'none'}}}>
+            {openModal && open && <div style={{position: 'absolute', width: 300, height:300, top: "50%", left:"50%", transform: 'translate3d(-50%, -50%, 0)',backgroundColor: 'plum', zIndex: 2000 }}>
                 <div style={{display: 'flex', flexDirection: 'column', gap: 10, justifyContent:'center', alignContent: 'center'}}>
                     <h1>Modal</h1>
                     <button onClick={()=>setOpen(false)}>close</button>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
