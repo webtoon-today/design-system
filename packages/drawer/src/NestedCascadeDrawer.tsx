@@ -1,81 +1,68 @@
-import React, { CSSProperties, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { DrawerContext } from "./PortalDrawer";
+import useAnimation from "./useAnimation";
 
 import './NestedCascadeDrawer.scss';
-import UseAnimation from "./UseAnimation";
 
 export type nestedDrawerPropsType = {
     children: ReactNode,
-    open: boolean, onClose: Function,
-    hasModal?: boolean,
+    open: boolean, onClose: Function
     className?: string,
     style?:CSSProperties,
 }
 
+let drawerId = 0;
+
 export const NestedCascadeDrawer = ({ 
-    children, open, onClose: givenOnClose, hasModal=false, className = "", style,
-}: nestedDrawerPropsType) => {
-    const ref = useRef<HTMLDivElement>(null);
-
-    const [ depth, setDepth ] = useState<number>(0);
-    const { isRender, onTransitionEnd, isAnimating } = UseAnimation(open);
-
-    useEffect(()=>{
-        const handleDrawerOpen = ()=> {
-            const depth = (ref?.current?.querySelectorAll('.DrawerOn > .CascadeDrawer') || []).length;
-            setDepth(depth)
-            ref?.current?.querySelector('.CascadeDrawer')?.setAttribute('data-depth', `${depth}` )
-            console.log("event received", depth)
-        };
-        window.addEventListener('drawerOpen', handleDrawerOpen);
-        window.addEventListener('drawerClose', handleDrawerOpen);
-
-        handleDrawerOpen();
-
-        return ()=>{
-            window.removeEventListener('drawerOpen', handleDrawerOpen);
-            window.removeEventListener('drawerClose', handleDrawerOpen);
-        }
-    },[])
-
-    useEffect(()=>{
-        const drawerOpenEvent = new CustomEvent('drawerOpen');
-
-        window.dispatchEvent(drawerOpenEvent);
-
-    },[open, isAnimating])
-
-
-    const handleClose = useCallback(()=>{
-
-        if ( !ref?.current ){ return; }
-
-        if ( hasModal ) { return; }
-
-        givenOnClose();
-
-    },[givenOnClose, hasModal, open])
+    children, 
+    open, onClose,
+    className = "", style = {},
+}: nestedDrawerPropsType ) => {
     
-    if (!isRender) {
-        return <></>;
+    const context = useContext(DrawerContext);
+
+    if (context === null) { 
+        throw new Error('NestedCascadeDrawer must be used PortalDrawer as parent.');
     }
+
+    const { nestedDrawerIdList, setNestedDrawerIdList } = context;
     
+    const { isRender, onTransitionEnd, isAnimating } = useAnimation(open);
+
+    const [id] = useState(()=> drawerId++);
+
+    const depth = useMemo(() => {
+        const idIndex = nestedDrawerIdList.findIndex((v) => v === id);
+        return idIndex >= 0 
+            ? nestedDrawerIdList.length - (1 + idIndex)
+            : 0;
+    }, [nestedDrawerIdList, id]);
+    
+    useEffect(() => {
+        if (open) {
+            setNestedDrawerIdList((prev)=>[...prev, id]);
+        } else {
+            setNestedDrawerIdList((prev)=>prev.filter((v) => v !== id));
+        }
+    },[open, id]);
+        
     return (
-    <div 
-        className={`BackgroundScreen ${className} ${isAnimating?"DrawerOn":"DrawerOff"}`} 
-        onTransitionEnd={onTransitionEnd} 
-        onAnimationEnd={onTransitionEnd} 
-        ref={ref} 
-        onClick={handleClose}  
-    >
-            <div className={`CascadeDrawer`}
-                {...{"data-depth": depth}}
-                onClick={(e)=>{
-                    e.stopPropagation();
-                }}
+        <div 
+            className={['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v)=>v).join(' ')} 
+            style={{...style, ...isRender ? {} : {display: 'none'}}}
+            onTransitionEnd={onTransitionEnd} 
+            onAnimationEnd={onTransitionEnd} 
+            onClick={() => onClose()}
+        >
+            <div 
+                className={`CascadeDrawer`}
+                data-depth={depth}
+                onClick={(e)=>e.stopPropagation()}
             >
                 <div className={'DrawerInner'}>
                     {children}
                 </div>
             </div>
-        </div>)
+        </div>
+    )
 }

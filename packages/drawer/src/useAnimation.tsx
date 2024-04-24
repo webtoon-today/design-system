@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 
-const UseAnimation = ( condition: boolean ) => {
+const useAnimation = ( condition: boolean ) => {
 
     const [ isComplete, setIsComplete ] = useState<boolean>(false);
 
@@ -12,7 +12,7 @@ const UseAnimation = ( condition: boolean ) => {
         }
     },[condition])
 
-    const isRender     = condition || isComplete;
+    const isRender    = condition || isComplete;
     const isAnimating = condition && isComplete
 
     const onTransitionEnd = (): void => {
@@ -21,7 +21,7 @@ const UseAnimation = ( condition: boolean ) => {
         }
     }
     
-    return({ isRender, onTransitionEnd, isAnimating })
+    return { isRender, onTransitionEnd, isAnimating };
 }
 
-export default UseAnimation;
+export default useAnimation;
