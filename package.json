@@ -10,9 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build:all": "npm run build:toast && npm run build:drawer",
-    "build:toast": "npm run build -w toast",
-    "build:drawer": "npm run build -w drawer"
+    "build": "sh scripts/build.sh $npm_config_package"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.3",
