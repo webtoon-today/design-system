@@ -1,21 +1,19 @@
 
 import { useEffect, useState } from "react";
 
-
 const useAnimation = ( condition: boolean ) => {
-
-    const [ isComplete, setIsComplete ] = useState<boolean>(false);
+    const [ isComplete, setIsComplete ] = useState(condition);
 
     useEffect(() => {
         if (condition) {
             setIsComplete(true);
         }
-    },[condition])
+    },[condition]);
 
     const isRender    = condition || isComplete;
-    const isAnimating = condition && isComplete
+    const isAnimating = condition && isComplete;
 
-    const onTransitionEnd = (): void => {
+    const onTransitionEnd = () => {
         if ( !condition ) {
             setIsComplete(false);
         }

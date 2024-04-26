@@ -34,7 +34,7 @@ export const NestedCascadeDrawer = ({
     const depth = useMemo(() => {
         const index = nestedDrawerIdList.findIndex((v) => v === id);
         if (index === -1) {
-            return 0
+            return index;
         };
         return nestedDrawerIdList.length - (index + 1);
     }, [nestedDrawerIdList, id]);
@@ -45,8 +45,12 @@ export const NestedCascadeDrawer = ({
         } else {
             setNestedDrawerIdList((prev)=>prev.filter((v) => v !== id));
         }
+
+        return ()=>{
+            setNestedDrawerIdList((prev)=>prev.filter((v) => v !== id));
+        }
     },[open, id]);
-        
+
     return (
         <div 
             className={['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v)=>v).join(' ')} 
@@ -55,7 +59,7 @@ export const NestedCascadeDrawer = ({
             onAnimationEnd={onTransitionEnd} 
             onClick={() => onClose()}
         >
-            <div 
+            <div
                 className={`CascadeDrawer`}
                 data-depth={depth}
                 onClick={(e)=>e.stopPropagation()}

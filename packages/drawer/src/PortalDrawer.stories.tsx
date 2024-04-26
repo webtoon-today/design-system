@@ -57,14 +57,23 @@ export const NestedDrawer = () => {
                 <br />
                 <button onClick={()=>setOpen1(true)}>open NestedDrawer</button>
                 <NestedCascadeDrawer open={open1} onClose={()=>setOpen1(false)}>
-                    hello NestedCascadeDrawer1
+                    depth 1
+                    <br />
+                    <div>hello NestedCascadeDrawer1</div>
+                    <div>hello NestedCascadeDrawer1</div>
+                    <div>hello NestedCascadeDrawer1</div>
+                    <div>hello NestedCascadeDrawer1</div>
                     <br />
                     <button onClick={()=>setOpen2(true)}>open NestedDrawer</button>
                     <NestedCascadeDrawer open={open2} onClose={()=>setOpen2(false)}>
+                        depth 2
+                        <br />
                         hello NestedCascadeDrawer2
                         <br />
                         <button onClick={()=>setOpen3(true)}>open NestedDrawer</button>
                         <NestedCascadeDrawer open={open3} onClose={()=>setOpen3(false)}>
+                            depth 3
+                            <br />
                             hello NestedCascadeDrawer3
                             <br />
                             <button onClick={()=>setOpen3(false)}>close</button>
@@ -118,7 +127,7 @@ export const WithModalDrawer = () => {
             <PortalDrawer 
                 isClient={true} 
                 open={open} 
-                onClose={()=>setOpenModal(true)}
+                onClose={() => setOpenModal(true)}
             >
                 hello ModalDrawer
             </PortalDrawer>
