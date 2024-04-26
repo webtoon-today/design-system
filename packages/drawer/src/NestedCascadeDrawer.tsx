@@ -31,7 +31,13 @@ export const NestedCascadeDrawer = ({
 
     const [id] = useState(()=> drawerId++);
 
-    const depth = useMemo(() => Math.max(nestedDrawerIdList.length - (1 + nestedDrawerIdList.findIndex((v) => v === id)) , 0), [nestedDrawerIdList, id]);
+    const depth = useMemo(() => {
+        const index = nestedDrawerIdList.findIndex((v) => v === id);
+        if (index === -1) {
+            return 0
+        };
+        return nestedDrawerIdList.length - (index + 1);
+    }, [nestedDrawerIdList, id]);
     
     useEffect(() => {
         if (open) {
