@@ -6,5 +6,8 @@ if [ -z "$PACKAGE" ]; then
   exit 0
 fi
 
+echo "build package: config"
+npm run build -w config
+
 echo "build package: $PACKAGE"
 npm run build -w $PACKAGE
