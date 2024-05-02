@@ -5,5 +5,8 @@
     "types": "./index.d.ts",
     "scripts": {
         "build": "rollup -c"
+    },
+    "devDependencies": {
+        "rollup-config": "file: ../../configs/rollup"
     }
 }

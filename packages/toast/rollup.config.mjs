@@ -1,3 +1,3 @@
-import { generateRollupConfig } from "../config/index.js";
+import { generateRollupConfig } from "rollup-config";
 
 export default generateRollupConfig('../../toast');

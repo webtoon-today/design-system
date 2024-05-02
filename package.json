@@ -4,6 +4,7 @@
   "description": "webtoon today design system",
   "private": true,
   "workspaces": [
+    "configs/*",
     "packages/*"
   ],
   "scripts": {
