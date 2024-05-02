@@ -43,26 +43,26 @@ design-system/packages/toast$ npm run build
 1. make directory
 
 ```bash
-design-system$ mkdir packages/<new-package>
+design-system$ mkdir packages/<root-package>/<new-package>
 ```
 
 2. touch and copy config file
 
 ```bash
 design-system$ 
-mkdir packages/<new-package>/src \ 
-touch packages/<new-package>/src/main.ts
+mkdir packages/<root-package>/<new-package>/src \ 
+touch packages/<root-package>/<new-package>/src/main.ts
 
 design-system$ 
-cp packages/drawer/package.json \
-packages/drawer/rollup.config.mjs \
-packages/drawer/tsconfig.json \
-packages/<new-package>
+cp packages/utils/drawer/package.json \
+packages/utils/drawer/rollup.config.mjs \
+packages/utils/drawer/tsconfig.json \
+packages/<root-package>/<new-package>
 ```
 
 3. change config file
 
-- `<new-package>/package.json`
+- `<root-package>/<new-package>/package.json`
 
 ```diff
 {
@@ -75,18 +75,18 @@ packages/<new-package>
         "build": "rollup -c"
     },
     "devDependencies": {
-        "rollup-config": "file: ../../configs/rollup"
+        "rollup-config": "file: ../../../configs/rollup"
     }
 }
 ```
 
-- `<new-package>/rollup.config.mjs`
+- `<root-package>/<new-package>/rollup.config.mjs`
 
 ```diff
-import { generateRollupConfig } from "../config/index.js";
+import { generateRollupConfig } from "rollup-config";
 
-- export default generateRollupConfig('../../drawer');
-+ export default generateRollupConfig('../../<new-package>');
+- export default generateRollupConfig(../../../utils/Drawer');
++ export default generateRollupConfig('../../<root-package>/<new-package>');
 ```
 
 TODO: 패키지를 새로 만드는 과정은 반복적인 일이기 때문에 필요시 스크립트를 작성할 수 있습니다.
