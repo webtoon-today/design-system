@@ -1,11 +1,7 @@
-import React, { Dispatch, createContext, useState } from "react";
+import React, { useState } from "react";
 import { createPortal } from 'react-dom';
 import { NestedCascadeDrawer, nestedDrawerPropsType } from "./NestedCascadeDrawer";
-
-export const DrawerContext = createContext<{
-    nestedDrawerIdList: number[]; 
-    setNestedDrawerIdList: Dispatch<React.SetStateAction<number[]>>;
-} | null>(null);
+import { DrawerContextProvider } from "./DrawerContext";
 
 export const PortalDrawer = ({
     isClient = false, container,
@@ -21,9 +17,9 @@ export const PortalDrawer = ({
 
     return (
         createPortal(
-            <DrawerContext.Provider value={{nestedDrawerIdList, setNestedDrawerIdList}}>
+            <DrawerContextProvider value={{nestedDrawerIdList, setNestedDrawerIdList}}>
                 <NestedCascadeDrawer {...props} />
-            </DrawerContext.Provider>, 
+            </DrawerContextProvider>, 
             container || document.body
         )
     )

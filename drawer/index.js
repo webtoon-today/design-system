@@ -4,48 +4,9 @@ var jsxRuntime = require('react/jsx-runtime');
 var react = require('react');
 var reactDom = require('react-dom');
 
-/******************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise, SuppressedError, Symbol */
-
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
-    var e = new Error(message);
-    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
-
 const DrawerContext = react.createContext(null);
-const PortalDrawer = (_a) => {
-    var { isClient = false, container } = _a, props = __rest(_a, ["isClient", "container"]);
-    if (!isClient) {
-        return jsxRuntime.jsx(jsxRuntime.Fragment, {});
-    }
-    const [nestedDrawerIdList, setNestedDrawerIdList] = react.useState([]);
-    return (reactDom.createPortal(jsxRuntime.jsx(DrawerContext.Provider, { value: { nestedDrawerIdList, setNestedDrawerIdList }, children: jsxRuntime.jsx(NestedCascadeDrawer, Object.assign({}, props)) }), container || document.body));
+const DrawerContextProvider = ({ value, children }) => {
+    return (jsxRuntime.jsx(DrawerContext.Provider, { value: value, children: children }));
 };
 
 const useAnimation = (condition) => {
@@ -123,6 +84,49 @@ const NestedCascadeDrawer = ({ children, open, onClose, className = "", style = 
         };
     }, [open, id]);
     return (jsxRuntime.jsx("div", { className: ['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v) => v).join(' '), style: Object.assign(Object.assign({}, style), isRender ? {} : { display: 'none' }), onTransitionEnd: onTransitionEnd, onAnimationEnd: onTransitionEnd, onClick: () => onClose(), children: jsxRuntime.jsx("div", { className: `CascadeDrawer`, "data-depth": depth, onClick: (e) => e.stopPropagation(), children: jsxRuntime.jsx("div", { className: 'DrawerInner', children: children }) }) }));
+};
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol */
+
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+const PortalDrawer = (_a) => {
+    var { isClient = false, container } = _a, props = __rest(_a, ["isClient", "container"]);
+    if (!isClient) {
+        return jsxRuntime.jsx(jsxRuntime.Fragment, {});
+    }
+    const [nestedDrawerIdList, setNestedDrawerIdList] = react.useState([]);
+    return (reactDom.createPortal(jsxRuntime.jsx(DrawerContextProvider, { value: { nestedDrawerIdList, setNestedDrawerIdList }, children: jsxRuntime.jsx(NestedCascadeDrawer, Object.assign({}, props)) }), container || document.body));
 };
 
 exports.NestedCascadeDrawer = NestedCascadeDrawer;
