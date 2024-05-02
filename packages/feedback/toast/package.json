@@ -1,12 +1,15 @@
 {
-    "name": "drawer",
+    "name": "toast",
     "version": "0.1.0",
     "main": "./index.js",
     "types": "./index.d.ts",
     "scripts": {
         "build": "rollup -c"
+      },
+    "dependencies": {
+      "recoil": "^0.7.7"
     },
     "devDependencies": {
-        "rollup-config": "file: ../../configs/rollup"
+      "rollup-config": "file: ../../../configs/rollup"
     }
 }
