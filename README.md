@@ -54,9 +54,9 @@ mkdir packages/<new-package>/src \
 touch packages/<new-package>/src/main.ts
 
 design-system$ 
-cp packages/toast/package.json \
-packages/toast/rollup.config.mjs \
-packages/toast/tsconfig.json \
+cp packages/drawer/package.json \
+packages/drawer/rollup.config.mjs \
+packages/drawer/tsconfig.json \
 packages/<new-package>
 ```
 
@@ -66,7 +66,7 @@ packages/<new-package>
 
 ```diff
 {
--    "name": "toast",
+-    "name": "drawer",
 +    "name": "<new-package>",
     "version": "0.1.0",
     "main": "./index.js",
@@ -74,8 +74,8 @@ packages/<new-package>
     "scripts": {
         "build": "rollup -c"
     },
-    "dependencies": {
-    ...
+    "devDependencies": {
+        "rollup-config": "file: ../../configs/rollup"
     }
 }
 ```
@@ -85,7 +85,7 @@ packages/<new-package>
 ```diff
 import { generateRollupConfig } from "../config/index.js";
 
-- export default generateRollupConfig('../../toast');
+- export default generateRollupConfig('../../drawer');
 + export default generateRollupConfig('../../<new-package>');
 ```
 
