@@ -1,8 +1,8 @@
 'use strict';
 
-var typescript = require('@rollup/plugin-typescript');
-var rollupPluginDts = require('rollup-plugin-dts');
-var postcss = require('rollup-plugin-postcss');
+const typescript = require('@rollup/plugin-typescript');
+const rollupPluginDts = require('rollup-plugin-dts');
+const postcss = require('rollup-plugin-postcss');
 
 const generateRollupConfig = (relativePackagePath) => {
     return [{
