@@ -4,20 +4,23 @@ const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process')
 
-const packageDirectories = fs.readdirSync(path.resolve(__dirname, '../packages'));
-const packageNames = packageDirectories
-    .map((directory) => {
-        const componentDirectories = fs.readdirSync(path.resolve(__dirname, `../packages/${directory}`));
+const packageDirectories = fs.readdirSync(path.resolve(__dirname, '../packages'), {withFileTypes: true})
+    .filter((file) => file.isDirectory())
+    .map((directory) => directory.name);
 
-        return componentDirectories.map((component) => {
-            const packageJsonPath = path.resolve(__dirname, `../packages/${directory}/${component}/package.json`);
+const packageNames = packageDirectories.map((directory) => 
+    fs.readdirSync(path.resolve(__dirname, `../packages/${directory}`), {withFileTypes: true})
+        .filter((file) => file.isDirectory())
+        .map((component) => {
+            const componentName = component.name;
+            const packageJsonPath = path.resolve(__dirname, `../packages/${directory}/${componentName}/package.json`);
             const packageName = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')).name;
             return packageName;
-        });
-    })
+        }
+    ))
     .flat();
 
-console.log(packageNames)
+console.log(packageNames);
 
 packageNames.forEach((packageName) => {
     const buildCommand = `npm run build -w ${packageName}`;
