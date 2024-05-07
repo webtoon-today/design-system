@@ -11,7 +11,7 @@ import { PortalDrawer } from './PortalDrawer';
  * NesetedCascadeDrawer is a component that must be nested in PortalDrawer.
  */
 const meta = {
-  title: 'Drawer/PortalDrawer',
+  title: 'utils/Drawer',
   component: PortalDrawer,
   parameters: {
     layout: 'centered',
