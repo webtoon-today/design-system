@@ -85,8 +85,8 @@ packages/<root-package>/<new-package>
 ```diff
 import { generateRollupConfig } from "rollup-config";
 
-- export default generateRollupConfig(../../../utils/Drawer');
-+ export default generateRollupConfig('../../<root-package>/<new-package>');
+- export default generateRollupConfig(../../../dist/Drawer');
++ export default generateRollupConfig('../../dist/<new-package>');
 ```
 
 TODO: 패키지를 새로 만드는 과정은 반복적인 일이기 때문에 필요시 스크립트를 작성할 수 있습니다.
