@@ -50,13 +50,12 @@ design-system$ mkdir packages/<root-package>/<new-package>
 
 ```bash
 design-system$ 
-mkdir packages/<root-package>/<new-package>/src \ 
-touch packages/<root-package>/<new-package>/src/main.ts
+mkdir packages/<root-package>/<new-package>/src && touch packages/<root-package>/<new-package>/src/main.ts
 
 design-system$ 
-cp packages/utils/drawer/package.json \
-packages/utils/drawer/rollup.config.mjs \
-packages/utils/drawer/tsconfig.json \
+cp packages/utils/Dawer/package.json \
+packages/utils/Dawer/rollup.config.mjs \
+packages/utils/Dawer/tsconfig.json \
 packages/<root-package>/<new-package>
 ```
 
