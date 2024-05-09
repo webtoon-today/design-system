@@ -8,5 +8,8 @@
       },
     "dependencies": {
       "recoil": "^0.7.7"
+    },
+    "devDependencies": {
+      "rollup-config": "file: ../../../configs/rollup"
     }
 }
