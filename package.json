@@ -9,8 +9,8 @@
   ],
   "files": [
     "dist",
-    "scripts/postinstall.js",
-    "package*.json"
+    "scripts/postinstall.sh",
+    "package.json"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
