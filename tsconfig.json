@@ -23,6 +23,7 @@
   },
   "exclude": [
     "**/*.stories.*", 
-    "**/*.mdx"
+    "**/*.mdx",
+    "node_modules"
   ]
 }
