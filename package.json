@@ -2,22 +2,22 @@
   "name": "design-system",
   "description": "webtoon today design system",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "workspaces": [
     "configs/*",
     "packages/**/**"
   ],
   "files": [
     "dist",
-    "scripts/postinstall.js",
-    "package*.json"
+    "scripts/postinstall.sh",
+    "package.json"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "sh scripts/build.sh $npm_config_package",
-    "postinstall": "node scripts/postinstall.js"
+    "postinstall": "sh scripts/postinstall.sh"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.3",

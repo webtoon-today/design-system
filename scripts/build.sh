@@ -1,10 +1,20 @@
-PACKAGE="$1"
+TARGET_PACKAGE="$1"
 
-if [ -z "$PACKAGE" ]; then
+if [ -z "$TARGET_PACKAGE" ]; then
   echo "build all packages"
-  node scripts/build.js
+  
+  PACKAGES=$(ls -d ./packages/*/*)
+
+  for PACKAGE in $PACKAGES; do
+    PACKAGE_NAME=$(node -e "
+      let fs = require('fs');
+      let fn = fs.readFileSync('${PACKAGE}/package.json','utf8');  
+      console.log(JSON.parse(fn).name); 
+    ")
+    npm run build -w $PACKAGE_NAME
+  done
   exit 0
 fi
 
-echo "build package: $PACKAGE"
-npm run build -w $PACKAGE
+echo "build package: $TARGET_PACKAGE"
+npm run build -w $TARGET_PACKAGE
