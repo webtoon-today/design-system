@@ -17,7 +17,6 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-
   args: { onClose: fn() },
 } satisfies Meta<typeof PortalDrawer>;
 

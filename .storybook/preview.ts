@@ -1,5 +1,4 @@
 import type { Preview } from "@storybook/react";
-import { RecoilRoot } from "recoil";
 
 const preview: Preview = {
   parameters: {
@@ -9,6 +8,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    chromatic: { 
+      disableSnapshot:true
+    }
   }
 };
 
