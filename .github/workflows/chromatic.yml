@@ -2,7 +2,13 @@
 
 name: "Chromatic"
 
-on: [pull_request, push] 
+on: 
+  pull_request: 
+    branches:
+      - "*"
+  push:
+    branches:
+      - "*"
 
 concurrency:
   group: ci-${{ github.ref }}
