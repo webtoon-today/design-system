@@ -140,22 +140,3 @@ export const WithModalDrawer = () => {
         </div>
     )
 }
-/**
- * NestedCascadeDrawer must be used PortalDrawer as parent.
- * Without PortalDrawer fires an error.
- * 
- * ```bash
- * Error: NestedCascadeDrawer must be used PortalDrawer as parent.
- * ```
- */
-export const Error = () => {
-    const [open, setOpen] = useState(false);
-    return (
-        <div>
-            <button onClick={()=>setOpen(true)}>open NestedCascadeDrawer</button>
-            <NestedCascadeDrawer open={open} onClose={()=>setOpen(false)}>
-                hello NestedCascadeDrawer
-            </NestedCascadeDrawer>
-        </div>
-    )
-}
