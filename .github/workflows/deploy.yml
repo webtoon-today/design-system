@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'release/**'
+      
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -33,4 +34,4 @@ jobs:
         run: npm run build-storybook
       
       - name: deploy storybook
-        run: npm run delploy-storybook
+        run: npm run deploy-storybook

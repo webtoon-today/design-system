@@ -16,6 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "deploy-storybook": "sh scripts/deploy_storybook.sh",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },
