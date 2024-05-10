@@ -35,7 +35,7 @@ export const Default = () => {
                 >
                     {'click'}
                 </MoreMenu.MenuItemButton>
-        </MoreMenu>
+            </MoreMenu>
         </div>
     )
 }
