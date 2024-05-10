@@ -1,16 +1,15 @@
-# .github/workflows/chromatic.yml
+name: "Storybook Deploy"
 
-name: "Chromatic"
-
-on: 
-  push
-
+on:
+  push:
+    branches:
+      - 'release/**'
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  chromatic:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Chromatic
-        uses: chromaui/action@latest
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      - name: build-storybook
+        run: npm run build-storybook
+      
+      - name: deploy storybook
+        run: npm run delploy-storybook
