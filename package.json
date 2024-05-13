@@ -14,9 +14,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "zip": "sh scripts/zip.sh",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy-storybook": "sh scripts/deploy_storybook.sh",
+    "deploy-storybook": "npm run build-storybook && npm run deploy-storybook:only",
+    "deploy-storybook:only": "npm run zip && sh scripts/deploy_storybook.sh",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },
