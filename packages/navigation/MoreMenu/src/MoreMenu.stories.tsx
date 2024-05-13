@@ -9,20 +9,6 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  args: {
-    children: '',
-    ButtonElementChild: '',
-    className: '',
-    PaperProps: undefined,
-    anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right',
-    },
-    transformOrigin: {
-        vertical: 'top',
-        horizontal: 'left',
-    },
-  },
   tags: ['autodocs']
 } satisfies Meta<typeof MoreMenu>;
 
