@@ -1,1 +1,1 @@
-# TODO: aws deploy
+storybook-to-aws-s3 --bucket-path=front-design-system.webtoon.today --aws-profile=NONE
