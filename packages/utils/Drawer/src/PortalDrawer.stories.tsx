@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import { expect, fn, userEvent, within } from '@storybook/test';
 import React, { useRef, useState } from 'react';
 import { NestedCascadeDrawer } from './NestedCascadeDrawer';
 import { PortalDrawer } from './PortalDrawer';
@@ -14,29 +14,45 @@ const meta = {
   title: 'utils/Drawer',
   component: PortalDrawer,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
-
-  args: { onClose: fn() },
+  args: {
+    isClient: true,
+    open: false,
+    onClose: () => {},
+    style: {},
+    children: 'hello PortalDrawer',
+    className: "",
+    container: undefined
+  },
 } satisfies Meta<typeof PortalDrawer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default = () => {
-    const [open, setOpen] = useState(false);
-    return (
-        <div>
-            <button onClick={()=>setOpen(true)}>open PortalDrawer</button>
-            <PortalDrawer 
-                isClient={true} 
-                open={open} 
-                onClose={()=>setOpen(false)}>
-                hello PortalDrawer
-            </PortalDrawer>
-        </div>
-    )
+export const Default: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        await userEvent.click(canvas.getByText('open PortalDrawer'));
+    },
+    render:({...args}) => {
+        const [open, setOpen] = useState(false);
+        return (
+            <div>
+                <button onClick={()=>setOpen(true)}>open PortalDrawer</button>
+                <PortalDrawer
+                    isClient={args.isClient} 
+                    open={args.open || open} 
+                    onClose={()=>setOpen(false)}
+                    style={args.style}
+                >
+                    {args.children}
+                </PortalDrawer>
+            </div>
+        )
+    }
 }
 
 export const NestedDrawer = () => {
@@ -90,29 +106,45 @@ export const NestedDrawer = () => {
  * 
  * Drawer is anchored to the specified element.
  */
-export const AnchoredDrawer = () => {
-    const [open, setOpen] = useState(false);
+export const AnchoredDrawer: Story = {
+    args: {
+        children: "hello AnchorDrawer"
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        await userEvent.click(canvas.getByText('open AnchorDrawer'));
+
+        const anchorDrawer = canvas.getByText('hello AnchorDrawer');
+        expect(anchorDrawer).toBeInTheDocument();
+
+        await userEvent.click(canvas.getByText('close'));
+    },
+    render: ({...args}) => {
+        const [open, setOpen] = useState(false);
+        
+        const ref = useRef<HTMLDivElement>(null);
     
-    const ref = useRef<HTMLDivElement>(null);
-
-    return (
-
-        <div>
-            <div style={{position: 'relative', height: 300, width: 300, backgroundColor: 'red'}} ref={ref}>anchor</div>
-            <button onClick={()=>setOpen(true)}>open AnchorDrawer</button>
-            <PortalDrawer
-                isClient={true} 
-                open={open} 
-                onClose={()=>setOpen(false)}
-                container={ref.current}
-            >
-                hello AnchorDrawer
-                <button onClick={()=>setOpen(false)}>close</button>
-            </PortalDrawer>
-        </div>
-    )
-
+        return (
+    
+            <div>
+                <div style={{position: 'relative', height: 300, width: 300, backgroundColor: 'red'}} ref={ref}>anchor</div>
+                <button onClick={()=>setOpen(true)}>open AnchorDrawer</button>
+                <PortalDrawer
+                    isClient={args.isClient}
+                    open={args.open || open} 
+                    onClose={()=>setOpen(false)}
+                    container={ref.current}
+                    style={args.style}
+                >
+                    {args.children}
+                    <button onClick={()=>setOpen(false)}>close</button>
+                </PortalDrawer>
+            </div>
+        )
+    }
 }
+
 
 /**
  * 
