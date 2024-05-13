@@ -31,30 +31,30 @@ const defaultArgs: Story['args'] = {
 }
 
 const DefaultTemplete = (args:Story['args']) => {
-    return (
-      <div>
-        <MoreMenu
-          ButtonElementChild={
-              args?.ButtonElementChild ||
-              <img src='https://static.webtoon.today/ddah/icon/more_horiz.svg' style={{transform: 'rotate(90deg)'}} alt='more_horiz' width={20} height={20} />
-          }
-          anchorOrigin={args?.anchorOrigin}
-          transformOrigin={args?.transformOrigin}
-        >
-          <MoreMenu.MenuItemButton onClick={ () => alert('click')}>
-              {'click'}
-          </MoreMenu.MenuItemButton>
-        </MoreMenu>
-      </div>
+  return (
+    <div>
+      <MoreMenu
+        ButtonElementChild={
+            args?.ButtonElementChild ||
+            <img src='https://static.webtoon.today/ddah/icon/more_horiz.svg' style={{transform: 'rotate(90deg)'}} alt='more_horiz' width={20} height={20} />
+        }
+        anchorOrigin={args?.anchorOrigin}
+        transformOrigin={args?.transformOrigin}
+      >
+        <MoreMenu.MenuItemButton onClick={ () => alert('click')}>
+            {'click'}
+        </MoreMenu.MenuItemButton>
+      </MoreMenu>
+    </div>
   )
 }
 
-export const Default:Story = {
+export const Default: Story = {
   args: defaultArgs,
   render: DefaultTemplete
 }
 
-export const Interaction:Story = {
+export const Interaction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
