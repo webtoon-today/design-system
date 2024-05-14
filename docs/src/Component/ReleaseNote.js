@@ -5,28 +5,28 @@ import { Card, List, ListItem } from '@material-ui/core';
 
 const ReleaseNote = () => {
 
-  const [releaseLogList, setReleaseLogList] = useState([]);
-  
-  useEffect(()=>{
-    (async()=> {
-      const res = await getRelease();
-      const blockList = res.trim().split('\n\n');
-      const parsedJSXBlock = blockList.map((block) => parseMD(block).flat());
-      setReleaseLogList(parsedJSXBlock);
-    })();
-  },[]);
+    const [releaseLogList, setReleaseLogList] = useState([]);
 
-  return (
-    <div>
-      <h1>{'Release Note'}</h1>
-      <List>
-        {releaseLogList.reverse().map((releaseLog, index) => 
-        <ListItem key={index}>
-          <Card style={{padding: 8}}>{releaseLog}</Card>
-        </ListItem>)}
-      </List>
-    </div>
-  )
+    useEffect(() => {
+        (async () => {
+            const res = await getRelease();
+            const blockList = res.trim().split('\n\n');
+            const parsedJSXBlock = blockList.map((block) => parseMD(block).flat());
+            setReleaseLogList(parsedJSXBlock);
+        })();
+    }, []);
+
+    return (
+        <div>
+            <h1>{'Release Note'}</h1>
+            <List>
+                {releaseLogList.reverse().map((releaseLog, index) =>
+                    <ListItem key={index}>
+                        <Card style={{ padding: 8 }}>{releaseLog}</Card>
+                    </ListItem>)}
+            </List>
+        </div>
+    )
 }
 
 export default ReleaseNote;
