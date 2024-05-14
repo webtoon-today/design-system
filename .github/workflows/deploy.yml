@@ -41,4 +41,4 @@ jobs:
         run: npm run build-storybook
       
       - name: deploy-storybook
-        run: npm run deploy-storybook
+        run: npm run deploy-storybook --branch=${{ github.head_ref }} 
