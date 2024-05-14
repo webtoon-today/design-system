@@ -98,7 +98,7 @@ const GoogleSignin = async (response, ) => {
                 crnt.session = nullSession;
             }
 
-            localStorage.setItem("session", crnt.session);
+            localStorage.setItem("session", JSON.stringify(crnt.session));
         }catch(e){
             console.error(e);
         } finally{
