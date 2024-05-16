@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Update Release log
-        run: npm run release-log
+        run: npm run build-release-log
       
       - name: Commit Release log
         run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push
