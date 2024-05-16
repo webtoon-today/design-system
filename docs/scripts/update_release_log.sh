@@ -1,4 +1,10 @@
-current=$(git branch --show-current)
+current=$1
+
+if [ -z "$current" ]; then
+  current=$(git branch --show-current)
+fi
+
+echo "current branch: $current"
 
 if [ $(cat public/RELEASE_LOG.md | grep "$current" | wc -l) -gt 0 ]; then
   echo "skip"
