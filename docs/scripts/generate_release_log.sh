@@ -1,5 +1,7 @@
 current=$(git branch --show-current)
 
+echo "current branch: $current"
+
 if [ $(cat public/RELEASE_LOG.md | grep "$current" | wc -l) -gt 0 ]; then
   echo "skip"
   exit 0
