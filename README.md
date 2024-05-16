@@ -1,4 +1,4 @@
-### cicd test: release log
+### cicd test: deploy storybook
 
 ### Webtoon Today Design System
 
