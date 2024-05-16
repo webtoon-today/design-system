@@ -1,6 +1,9 @@
 name: "Storybook Deploy"
 
 on:
+  pull_request:
+    branches:
+      - 'release/**'
   push:
     branches:
       - 'release/**'
