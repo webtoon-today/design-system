@@ -2,7 +2,7 @@
   "name": "design-system",
   "description": "webtoon today design system",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "workspaces": [
     "configs/*",
     "packages/**/**"
@@ -15,7 +15,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "sh scripts/build_storybook.sh",
+    "deploy-storybook": "sh scripts/deploy_storybook.sh $npm_config_branch",
+    "build-docs": "cd docs && npm run build",
+    "deploy-docs": "sh scripts/deploy_docs.sh",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },

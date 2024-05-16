@@ -1,0 +1,44 @@
+name: "Storybook Deploy"
+
+on:
+  push:
+    branches:
+      - 'release/**'
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: cache
+        id: npm-cache 
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - if: steps.npm-cache.outputs.cache-hit == 'true'
+        run: echo 'npm cache hit'
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: build-storybook
+        run: npm run build-storybook
+      
+      - name: deploy-storybook
+        run: npm run deploy-storybook --branch=${{ github.head_ref }} 
