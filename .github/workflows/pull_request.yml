@@ -22,7 +22,12 @@ jobs:
         run: npm run build-release-log
       
       - name: Commit Release log
-        run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push
+        run: | 
+          git config --global user.email ""
+          git config --global user.name "design-system-bot"
+          git add docs/public/RELEASE_LOG.md
+          git commit -m "Update release log"
+          git push
 
       - name: Deploy Release log
         run: npm run deploy-release-log
