@@ -39,5 +39,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Deploy Release log
-        run: npm run deploy-release-log
+      - name: Deploy Docs
+        run: npm run deploy-docs

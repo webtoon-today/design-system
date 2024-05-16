@@ -20,7 +20,6 @@
     "build-docs": "cd docs && npm run build",
     "deploy-docs": "sh scripts/deploy_docs.sh",
     "build-release-log": "cd docs && npm run build-release-log $npm_config_branch",
-    "deploy-release-log": "cd docs && npm run deploy-release-log",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },

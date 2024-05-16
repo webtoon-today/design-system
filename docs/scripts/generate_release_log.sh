@@ -14,3 +14,5 @@ fi
 echo "### $(date)" >> public/RELEASE_LOG.md
 
 echo "[$current](https://design-system.webtoon.today/$current)\n" >> public/RELEASE_LOG.md
+
+npm run build
