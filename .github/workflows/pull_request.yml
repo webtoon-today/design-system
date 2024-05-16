@@ -26,7 +26,7 @@ jobs:
           git add docs/public/RELEASE_LOG.md
           git status
           git commit -m "Update release log"
-          git push
+          git push origin HEAD:${{ github.head_ref }}
 
       - name: Deploy Release log
         run: npm run deploy-release-log
