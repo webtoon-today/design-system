@@ -2,13 +2,12 @@ name: "open pull requset"
 
 on:
   pull_request:
-    branches:
-      - 'release/**'
     types:
       - opened
 
 jobs:
-  update-release-log:
+  run-if:
+    if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,7 +19,7 @@ jobs:
         run: cd docs && npm run release-log
       
       - name: Commit Release log
-        run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push origin HEAD:${{ github.head_ref }}
+        run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push
 
       - name: Deploy Release log
         run: cd docs && npm run deploy-release-log
