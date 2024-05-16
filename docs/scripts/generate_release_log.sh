@@ -1,7 +1,7 @@
 current=$(git branch --show-current)
 
 if [ $(cat public/RELEASE_LOG.md | grep "$current" | wc -l) -gt 0 ]; then
-  echo "Already logging" > 2
+  echo "Already logging"
   exit 1
 fi
 

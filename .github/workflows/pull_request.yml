@@ -1,13 +1,16 @@
 name: "open pull requset"
 
 on:
-  pull_request:
-    types:
-      - opened
+  push:
+    branches:
+      - 'release/**'
+  # pull_request:
+  #   types:
+  #     - opened
 
 jobs:
   update-release-log:
-    if: startsWith(github.head_ref, 'release/')
+    # if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
