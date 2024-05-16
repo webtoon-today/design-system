@@ -20,7 +20,7 @@ jobs:
         run: cd docs && npm run release-log
       
       - name: Commit Release log
-        run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push
+        run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push origin HEAD:${{ github.head_ref }}
 
       - name: Deploy Release log
         run: cd docs && npm run deploy-release-log
