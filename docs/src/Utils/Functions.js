@@ -19,14 +19,16 @@ export const parseMD = (rawString) => {
  * @returns {JSX.Element | null}
  */
 export const parseMDHead = (line) => {
+    const removedHashs = line.replace(/#/gm, '').trim();
+
     if (line.startsWith('### ')) {
-        return <h3>{line.replace(/#/gm, '').trim()}</h3>
+        return <h3>{removedHashs}</h3>
     }
     if (line.startsWith('## ')) {
-        return <h2>{line.replace(/#/gm, '').trim()}</h2>
+        return <h2>{removedHashs}</h2>
     }
     if (line.startsWith('# ')) {
-        return <h1>{line.replace(/#/gm, '').trim()}</h1>
+        return <h1>{removedHashs}</h1>
     }
 
     return null
