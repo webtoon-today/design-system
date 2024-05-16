@@ -1,4 +1,8 @@
-current=$(git branch --show-current)
+current=$1
+
+if [ -z "$current" ]; then
+  current=$(git branch --show-current)
+fi
 
 echo "current branch: $current"
 
