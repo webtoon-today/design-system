@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { Button, Collapse, IconButton, TextField, } from '@material-ui/core';
+import { Button, Collapse, IconButton } from '@material-ui/core';
 import { Close, MoreVert, Warning } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 
 import { useGoogleLogin } from "@react-oauth/google";
 
 import LoadingCircle from '../Component/LoadingCircle';
+import ReleaseNote from '../Component/ReleaseNote';
 
 import { logBehavior } from '../Data/Behavior';
 import ss from '../Data/Session';
+
 import { useSignIn } from '../Hook/useSignIn';
 
 import { fn } from '../Functions';
@@ -106,7 +108,7 @@ const Setting = (props) => {
     }
 
     return (
-        <div className={"SettingStyle"}>
+        <div>
             <div className={"SettingContainer"}>
                 <div className={"Section"}>
                     <div className={"SectionHeader"}>{"프로필"}</div>
@@ -121,6 +123,7 @@ const Setting = (props) => {
                     </div>
                 </div>
             </div>
+            <ReleaseNote />
         </div>
     )
 };

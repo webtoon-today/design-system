@@ -1,3 +1,5 @@
+### cicd test: release log
+
 ### Webtoon Today Design System
 
 ### Preferred Dev Environment

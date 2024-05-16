@@ -1,0 +1,30 @@
+name: "open pull requset"
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  update-release-log:
+    if: startsWith(github.head_ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update Release log
+        run: npm run build-release-log
+      
+      - name: Commit Release log
+        run: | 
+          git config --global user.email ""
+          git config --global user.name "design-system-bot"
+          git add docs/public/RELEASE_LOG.md
+          git commit -m "Update release log"
+          git push
+
+      - name: Deploy Release log
+        run: npm run deploy-release-log
