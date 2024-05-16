@@ -6,7 +6,7 @@ on:
       - opened
 
 jobs:
-  run-if:
+  update-release-log:
     if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
@@ -16,10 +16,10 @@ jobs:
           fetch-depth: 0
 
       - name: Update Release log
-        run: cd docs && npm run release-log
+        run: npm run release-log
       
       - name: Commit Release log
         run: git add docs/public/RELEASE_LOG.md && git commit -m "Update release log" && git push
 
       - name: Deploy Release log
-        run: cd docs && npm run deploy-release-log
+        run: npm run deploy-release-log
