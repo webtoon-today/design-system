@@ -1,5 +1,3 @@
-### cicd test: deploy storybook
-
 ### Webtoon Today Design System
 
 ### Preferred Dev Environment
