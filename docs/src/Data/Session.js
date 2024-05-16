@@ -35,7 +35,6 @@ const afterSessionChanged = async () => {
     );
 }
 
-
 const registerSessionCallback = (func) => {
     sessionUpdateCallbackList.add(func);
     return true;
@@ -200,7 +199,6 @@ const EmailSignin = async (email, token) => {
     }
     return false;
 }
-
 
 async function isManager () {
     if (crnt.session.isManager !== null && crnt.session.isManager !== undefined){

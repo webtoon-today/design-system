@@ -20,10 +20,11 @@ const ReleaseNote = () => {
         <div>
             <h1>{'Release Note'}</h1>
             <List>
-                {releaseLogList.reverse().map((releaseLog, index) =>
+                {releaseLogList.reverse().map((releaseLog, index) => (
                     <ListItem key={index}>
                         <Card style={{ padding: 8 }}>{releaseLog}</Card>
-                    </ListItem>)}
+                    </ListItem>
+                ))}
             </List>
         </div>
     )

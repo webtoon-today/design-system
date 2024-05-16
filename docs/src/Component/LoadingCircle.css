@@ -5,6 +5,9 @@
     transition: 400ms;
     z-index: -1;
 
+    width: 100vw;
+    height: 100vh;
+
     &.Show {
         background-color: rgba(244,244,244,0.8);
         z-index: 3;

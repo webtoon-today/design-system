@@ -9,7 +9,6 @@ import { useGoogleLogin } from "@react-oauth/google";
 import LoadingCircle from '../Component/LoadingCircle';
 import ReleaseNote from '../Component/ReleaseNote';
 
-import { logBehavior } from '../Data/Behavior';
 import ss from '../Data/Session';
 
 import { useSignIn } from '../Hook/useSignIn';
@@ -54,9 +53,7 @@ const Setting = (props) => {
                 if (email && token){
                     setIsLoading(true);
                     let res = await ss.EmailSignin(email, token);
-                    if (res){
-                        logBehavior('loginSuccess');
-                    }else{
+                    if (!res){
                         setTokenErrorMessage("인증에 실패했습니다. 다시 확인해주세요.")
                     }
                     setIsLoading(false);
