@@ -1,9 +1,6 @@
 name: "Storybook Deploy"
 
 on:
-  pull_request:
-    branches:
-      - 'release/**'
   push:
     branches:
       - 'release/**'
@@ -44,4 +41,4 @@ jobs:
         run: npm run build-storybook
       
       - name: deploy-storybook
-        run: npm run deploy-storybook --branch=${{ github.head_ref }} 
+        run: npm run deploy-storybook
