@@ -106,17 +106,19 @@ const Setting = (props) => {
 
     return (
         <div>
-            <div className={"SettingContainer"}>
-                <div className={"Section"}>
-                    <div className={"SectionHeader"}>{"프로필"}</div>
-                    <div className={"SectionBody"}>
-                        <h3>{session.name}</h3>
-                        <Button
-                            variant={"outlined"} className={"LogoutButton"} color={"secondary"} fullWidth
-                            onClick={()=>{logout()}}
-                        >
-                            {"로그아웃"}
-                        </Button>
+            <div className={"SettingStyle"}>
+                <div className={"SettingContainer"}>
+                    <div className={"Section"}>
+                        <div className={"SectionHeader"}>{"프로필"}</div>
+                        <div className={"SectionBody"}>
+                            <h3>{session.name}</h3>
+                            <Button
+                                variant={"outlined"} className={"LogoutButton"} color={"secondary"} fullWidth
+                                onClick={()=>{logout()}}
+                            >
+                                {"로그아웃"}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
