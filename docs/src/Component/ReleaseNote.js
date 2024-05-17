@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, List, ListItem } from '@material-ui/core';
+import { KeyboardArrowUp } from '@material-ui/icons';
+
 import ReactMarkdown from 'react-markdown';
 import { getReleaseNote } from '../Data/Release';
 
@@ -29,22 +31,27 @@ const ReleaseNote = () => {
                 {releaseNoteList.reverse().map((releaseNote) => (
                     <ListItem key={releaseNote.githubUrl}>
                         <Card className={'ReleaseNoteCard'}>
-                            <h1 className={'ReleaseTitle'}>
-                                <a href={releaseNote.githubUrl}>
-                                    {releaseNote.title}
-                                </a>
-                            </h1>
-                            <div className={'ReleaseBody'}>
-                                <ReactMarkdown
-                                    children={releaseNote.body}
-                                    components={{
-                                        h1: `h2`,
-                                        h2: `h3`,
-                                        h3: `h4`,
-                                    }}
-                                />
-                            </div>
-                            <a href={`/${releaseNote.branch}`}>{'storybook preview'}</a>
+                            <details>
+                                <summary>
+                                    <h1 className={'ReleaseTitle'}>
+                                        <a href={releaseNote.githubUrl}>
+                                            {releaseNote.title}
+                                        </a>
+                                    </h1>
+                                    <KeyboardArrowUp className={'Arrow'}/>
+                                </summary>
+                                <div className={'ReleaseBody'}>
+                                    <ReactMarkdown
+                                        children={releaseNote.body}
+                                        components={{
+                                            h1: `h2`,
+                                            h2: `h3`,
+                                            h3: `h4`,
+                                        }}
+                                    />
+                                </div>
+                                <a href={`/${releaseNote.branch}`}>{'storybook preview'}</a>
+                            </details>
                         </Card>
                     </ListItem>
                 ))}
