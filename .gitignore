@@ -1,2 +1,8 @@
 **/node_modules
 *storybook.log
+
+*storybook-static*
+
+build
+
+coverage
