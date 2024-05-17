@@ -15,7 +15,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "sh scripts/build_storybook.sh",
+    "build-storybook": "storybook build",
     "deploy-storybook": "sh scripts/deploy_storybook.sh",
     "build-docs": "cd docs && npm run build",
     "deploy-docs": "sh scripts/deploy_docs.sh",
