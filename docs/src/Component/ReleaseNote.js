@@ -19,7 +19,7 @@ const ReleaseNote = () => {
                 return;
             }
 
-            setReleaseNoteList(res);
+            setReleaseNoteList(res.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)));
 
         })();
     },[]);
@@ -28,7 +28,7 @@ const ReleaseNote = () => {
         <div className={'ReleaseNote'}>
             <h1>{'Release Note'}</h1>
             <List>
-                {releaseNoteList.reverse().map((releaseNote) => (
+                {releaseNoteList.map((releaseNote) => (
                     <ListItem key={releaseNote.githubUrl}>
                         <Card className={'ReleaseNoteCard'}>
                             <details>

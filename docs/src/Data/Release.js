@@ -7,7 +7,8 @@ const octokit = new Octokit({});
  *  title: string,
  *  body: string,
  *  githubUrl: string,
- *  branch: string
+ *  branch: string,
+ *  updatedAt: string
  * }} ReleaseNote
  */
 
@@ -36,6 +37,7 @@ export const getReleaseNote = async () => {
             body: release.body,
             githubUrl: release.html_url,
             branch: release.head.ref,
+            updatedAt: release.updated_at
         }));
         
         return releaseLogList;
