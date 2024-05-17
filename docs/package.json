@@ -16,8 +16,7 @@
   },
   "scripts": {
     "start": "HOST=mydomain.com react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false CI=false react-scripts build",
-    "update-release-log": "sh scripts/update_release_log.sh"
+    "build": "GENERATE_SOURCEMAP=false CI=false react-scripts build"
   },
   "browserslist": {
     "production": [

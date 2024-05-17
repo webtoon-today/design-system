@@ -19,7 +19,6 @@
     "deploy-storybook": "sh scripts/deploy_storybook.sh",
     "build-docs": "cd docs && npm run build",
     "deploy-docs": "sh scripts/deploy_docs.sh",
-    "update-release-log": "cd docs && npm run update-release-log $npm_config_branch",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },

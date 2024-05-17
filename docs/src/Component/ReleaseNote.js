@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getRelease } from '../Data/Release';
-import { parseMD } from '../Utils/Functions';
+import React, { useState } from 'react';
 import { Card, List, ListItem } from '@material-ui/core';
 
 const ReleaseNote = () => {
 
     const [releaseLogList, setReleaseLogList] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            const res = await getRelease();
-            const blockList = res.trim().split('\n\n');
-            const parsedJSXBlock = blockList.map((block) => parseMD(block).flat());
-            setReleaseLogList(parsedJSXBlock);
-        })();
-    }, []);
 
     return (
         <div>
