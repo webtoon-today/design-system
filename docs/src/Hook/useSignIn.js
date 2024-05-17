@@ -2,27 +2,28 @@ import ss, { nullSession } from "../Data/Session";
 import { useCallback, useState } from "react";
 
 export const useSignIn = () => {
-  const [session, setSession] = useState(()=>ss.getCurrentSession());
+    const [session, setSession] = useState(()=>ss.getCurrentSession());
 
-  const GoogleSignin = useCallback(async (response) => {
+    const GoogleSignin = useCallback(async (response) => {
     const newSession = await ss.GoogleSignin(response);
 
     setSession(newSession);
     if(newSession.userid){
-      return newSession;
+        return newSession;
     } else{
-      return nullSession;
+        return nullSession;
     }
-  }, [setSession]);
+    }, [setSession]);
 
-  const logout = useCallback(async () => {
+    const logout = useCallback(async () => {
     const newSession = await ss.logout();
+    
     setSession(newSession);
-  }, [setSession]);
+    }, [setSession]);
 
-  return {
-    GoogleSignin,
-    logout,
-    session
-  }
+    return {
+        GoogleSignin,
+        logout,
+        session
+    }
 }

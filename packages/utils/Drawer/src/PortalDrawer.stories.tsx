@@ -11,13 +11,13 @@ import { PortalDrawer } from './PortalDrawer';
  * NesetedCascadeDrawer is a component that must be nested in PortalDrawer.
  */
 const meta = {
-  title: 'utils/Drawer',
-  component: PortalDrawer,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
-  args: { onClose: fn() },
+    title: 'utils/Drawer',
+    component: PortalDrawer,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+    args: { onClose: fn() },
 } satisfies Meta<typeof PortalDrawer>;
 
 export default meta;
