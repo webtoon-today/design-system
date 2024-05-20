@@ -8,8 +8,8 @@ if [ -z "$TARGET_PACKAGE" ]; then
   for PACKAGE in $PACKAGES; do
     PACKAGE_NAME=$(node -e "
       let fs = require('fs');
-      let fn = fs.readFileSync('${PACKAGE}/package.json','utf8');  
-      console.log(JSON.parse(fn).name); 
+      let fn = fs.readFileSync('${PACKAGE}/package.json','utf8');
+      console.log(JSON.parse(fn).name);
     ")
     npm run build -w $PACKAGE_NAME
   done
