@@ -17,6 +17,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
+    "deploy-storybook": "sh scripts/deploy_storybook.sh",
+    "build-docs": "cd docs && npm run build",
+    "deploy-docs": "sh scripts/deploy_docs.sh",
     "build": "sh scripts/build.sh $npm_config_package",
     "postinstall": "sh scripts/postinstall.sh"
   },
@@ -37,7 +40,6 @@
     "@storybook/test-runner": "^0.18.0",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.18",
-    "chromatic": "^11.3.2",
     "css-loader": "^7.1.1",
     "postcss": "^8.4.32",
     "react": "^17.0.2",

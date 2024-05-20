@@ -3,6 +3,7 @@ import { expect, userEvent, within } from '@storybook/test';
 import React, { useRef, useState } from 'react';
 import { NestedCascadeDrawer } from './NestedCascadeDrawer';
 import { PortalDrawer } from './PortalDrawer';
+
 /**
  * PortalDrawer is a component that renders Drawer in the body element.
  * 
@@ -11,21 +12,21 @@ import { PortalDrawer } from './PortalDrawer';
  * NesetedCascadeDrawer is a component that must be nested in PortalDrawer.
  */
 const meta = {
-  title: 'utils/Drawer',
-  component: PortalDrawer,
-  parameters: {
-    layout: 'centered'
-  },
-  tags: ['autodocs'],
-  args: {
-    isClient: true,
-    open: false,
-    onClose: () => {},
-    style: {},
-    children: 'hello PortalDrawer',
-    className: "",
-    container: undefined
-  },
+    title: 'utils/Drawer',
+    component: PortalDrawer,
+    parameters: {
+        layout: 'centered'
+    },
+    tags: ['autodocs'],
+    args: {
+        isClient: true,
+        open: false,
+        onClose: () => {},
+        style: {},
+        children: 'hello PortalDrawer',
+        className: "",
+        container: undefined
+    },
 } satisfies Meta<typeof PortalDrawer>;
 
 export default meta;
