@@ -1,0 +1,48 @@
+.MenuContainer {
+    .OpenMenu {
+        min-width: unset;
+
+        padding: 4px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        border: none;
+
+        transition-duration: 0.3s;
+        background: transparent;
+        cursor: pointer;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+
+.MoreMenuPaper {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+    border-radius: 4px;
+    margin-top: 8px;
+    
+    .MoreMenuList {
+        padding: 0;
+
+        .MoreMenuItemButton {
+            width: 100%;
+            box-sizing: border-box;
+
+            button, a {
+                width: 100%;
+
+                span {
+                    text-align: start;
+                    display: flex;
+                    justify-content: flex-start;
+                }
+            }
+        }
+    }
+}

@@ -7,19 +7,32 @@
 
 ### Install instruction
 
-1. run dependency install on root folder. 
+#### 1. run dependency install on root folder. 
 
 ```bash
 design-system$ npm install
 ```
 
-2. dev
+#### 2. dev
 
 ```bash
 design-system$ npm run storybook
-``` 
+```
 
-3. build
+#### 3. test
+
+[test-storybook CLI options](https://storybook.js.org/docs/writing-tests/test-runner#cli-options)
+- `--help`
+- `--watchAll`
+- `--watch`
+- `--coverage`
+
+```bash
+design-system$ npm run test-storybook
+design-system$ npm run test-storybook -- --<option> 
+```
+
+#### 4. build
 
 At root directory
 
