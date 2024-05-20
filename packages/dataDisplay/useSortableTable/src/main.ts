@@ -1,1 +1,1 @@
-export {default as useSortableTable} from "./useSortable";
+export { default as useSortableTable } from "./useSortableTable";

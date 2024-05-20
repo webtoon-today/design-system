@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 
 import SortableTable from './SortableTable';
-import useSortableTable from './useSortable';
+import useSortableTable from './useSortableTable';
 
 const meta = {
   title: 'data display/useSortableTable',
