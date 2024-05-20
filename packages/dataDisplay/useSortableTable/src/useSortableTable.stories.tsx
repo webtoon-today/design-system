@@ -22,24 +22,41 @@ type Story = StoryObj<typeof meta>;
 // TODO: 스토리북 테스트를 위한 공용 파일로 분리
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const objectDummy: {name: string; like: number; period: {start: number, end: number}}[] = [
-    {name: "banana", like: 10, period: {start: new Date(2024, 1, 1, 11).setMilliseconds(1000), end: new Date(2024, 1, 1, 12).setMilliseconds(1000)} },
-    {name: "apple", like: 100, period: {start: new Date(2024, 1, 2).setMilliseconds(1000), end: new Date(2024, 1, 4).setMilliseconds(1000)} },
-    {name: "pineapple", like: 50, period: {start: new Date(2024, 1, 3).setMilliseconds(1000), end: new Date(2024, 1, 10).setMilliseconds(1000)} },
-    {name: "cherry", like: 30, period: {start: new Date(2024, 1, 1).setMilliseconds(1000), end: new Date(2024, 1, 20).setMilliseconds(1000)} },
-    {name: "orange", like: 1, period: {start: new Date(2024, 1, 1, 0).setMilliseconds(1000), end: new Date(2024, 1, 1, 10).setMilliseconds(1000)} },
+const objectDummy: {name: string; like: number; checked: boolean; period: {start: number, end: number};}[] = [
+    {name: "banana", like: 10, checked: true, period: {start: new Date(2024, 1, 1, 11).setMilliseconds(1000), end: new Date(2024, 1, 1, 12).setMilliseconds(1000)} },
+    {name: "apple", like: 100, checked: false, period: {start: new Date(2024, 1, 2).setMilliseconds(1000), end: new Date(2024, 1, 4).setMilliseconds(1000)} },
+    {name: "pineapple", like: 50, checked: true, period: {start: new Date(2024, 1, 3).setMilliseconds(1000), end: new Date(2024, 1, 10).setMilliseconds(1000)} },
+    {name: "cherry", like: 30, checked: true, period: {start: new Date(2024, 1, 1).setMilliseconds(1000), end: new Date(2024, 1, 20).setMilliseconds(1000)} },
+    {name: "orange", like: 1, checked: false, period: {start: new Date(2024, 1, 1, 0).setMilliseconds(1000), end: new Date(2024, 1, 1, 10).setMilliseconds(1000)},  },
 ];
 
 const DefaultTemplete = ({...args}) => {
-    const keys = ["name", "like", "period"];
+    const keys = ["checked", "name", "like", "period"] as const;
 
-    const {sort, sortableData, initializeSort } = useSortableTable({keys, data: objectDummy});
+    const { sort, sortableData, initializeSort } = useSortableTable(objectDummy);
 
-    const [selected, setSelected] = useState<string[]>([]);
+    const sortCompareFn = (key: typeof keys[number] | "period-end") => {
+        if (key === "name") {
 
-    const sortName = <T,>(a:T, b: T) => a > b ? 1 : -1;
-    const sortLike = <T,>(a:T, b: T) => Number(a) - Number(b);
-    const sortPeriod = (target: 'start' | 'end') => <T,>(a: T, b: T) => a[target] > b[target] ? 1 : -1;
+            return (a, b) => {
+                return a.localeCompare(b);
+            }
+        }
+
+        if (key === "like") {
+            return (a, b) => a - b;
+        }
+
+        if (key === "period") {
+            return (a, b) => a.start - b.start;
+        }
+
+        if (key === "period-end") {
+            return (a, b) => a.end - b.end;
+        }
+
+        throw new Error("key is not valid");
+    }
 
     return (
         <SortableTable {...args}>
@@ -55,19 +72,15 @@ const DefaultTemplete = ({...args}) => {
                                 name={objKey === "period" ? "period-start" : objKey}
                                 id={objKey === "period" ? "period-start" : objKey}
                                 onChange={(e) => {
+                                    if (objKey === "checked") {
+                                        return;
+                                    }
+
                                     if (e.target.checked) {
                                         if (objKey === "name") {
-                                            sort(objKey, sortName);
-                                            return;
+                                            sort(objKey, sortCompareFn(objKey));
                                         }
-                                        if (objKey === "like") {
-                                            sort(objKey, sortLike);
-                                            return;
-                                        }
-                                        if (objKey === "period") {
-                                            sort(objKey, sortPeriod('start'));
-                                            return;
-                                        }
+                                        return;
                                     }
                                     initializeSort();
                                 }} 
@@ -84,7 +97,7 @@ const DefaultTemplete = ({...args}) => {
                             id="period-end"
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort("period", sortPeriod('end'));
+                                    sort("period", sortCompareFn('period-end'));
                                 }
                             }}
                         />
@@ -94,6 +107,7 @@ const DefaultTemplete = ({...args}) => {
             <tbody style={{textAlign: 'center'}}>
             {sortableData.map((obj, index) => (
                 <tr key={obj.name} aria-label={`${index}-row`}>
+                    <td>{obj.checked ? "check" : "uncheck"}</td>
                     <td>{obj.name}</td>
                     <td>{obj.like}</td>
                     <td colSpan={2}>
