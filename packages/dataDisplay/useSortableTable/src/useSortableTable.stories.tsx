@@ -1,12 +1,13 @@
+import React, { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
-import React, { useEffect, useRef, useState } from 'react';
 
 import SortableTable from './SortableTable';
 import useSortableTable from './useSortable';
 
 const meta = {
-  title: 'data display/SortableTable',
+  title: 'data display/useSortableTable',
   component: SortableTable,
   parameters: {
     layout: 'centered'
@@ -122,14 +123,37 @@ export const Interactive: Story = {
         const periodStartCheckbox = canvas.getByLabelText('period-start');
         const periodEndCheckbox = canvas.getByLabelText('period-end');
 
+        // name을 클릭하여 정렬
         userEvent.click(nameCheckbox);
 
         await sleep(1000);
-        const firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
+        let firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
 
         expect(firstRowTdList[0]).toHaveTextContent('apple');
 
+        // like를 클릭하여 정렬
+        userEvent.click(likeCheckbox);
+
+        await sleep(1000);
+        firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
         
+        expect(firstRowTdList[0]).toHaveTextContent('orange');
+
+        // period-start를 클릭하여 정렬
+        userEvent.click(periodStartCheckbox);
+
+        await sleep(1000);
+        firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
+        
+        expect(firstRowTdList[0]).toHaveTextContent('orange');
+
+        // period-end를 클릭하여 정렬
+        userEvent.click(periodEndCheckbox);
+
+        await sleep(1000);
+        firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
+        
+        expect(firstRowTdList[0]).toHaveTextContent('orange');
     },
     args: { children: null },
     render: DefaultTemplete
