@@ -2,10 +2,10 @@ import type { AddonOptionsWebpack } from '@storybook/addon-coverage';
 import type { StorybookConfig } from "@storybook/react-webpack5";
 
 const coverageOptions:AddonOptionsWebpack = {
-  istanbul: {
-    include: ['../packages/**/**/src/*.stories.@(ts|tsx)'],
-    extension: ['.ts', '.tsx'],
-  }
+    istanbul: {
+        include: ['../packages/**/**/src/*.stories.@(ts|tsx)'],
+        extension: ['.ts', '.tsx'],
+    }
 }
 
 const config: StorybookConfig = {
@@ -37,7 +37,7 @@ const config: StorybookConfig = {
           "@storybook/addon-essentials"
         ]
       }
-    }
+    },
     managerHead: (head) => `
     ${head}
     <script>
