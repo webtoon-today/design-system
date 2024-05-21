@@ -10,21 +10,18 @@ const isVaildKeysType = (data, keys) => {
     return false;
 };
 const useSortableTable = (data) => {
-    if (data.length === 0) {
-        return {
-            sort: (key, compareFn) => { },
-            sortableData: data,
-            initializeSort: () => { }
-        };
-    }
     const [convertedData, setConvertedData] = react.useState(undefined);
     const [sortableData, setSortableData] = react.useState(data);
     const keys = react.useMemo(() => {
-        const objectKeys = Object.keys(data[0]);
-        if (isVaildKeysType(data[0], objectKeys)) {
-            return objectKeys;
+        const objectKeys = data.reduce((acc, currentValue) => {
+            const currentValueKeys = Object.keys(currentValue);
+            const newObjectKeys = currentValueKeys.filter((key) => !acc.includes(key));
+            return [...acc, ...newObjectKeys];
+        }, []);
+        if (!data.every((d) => isVaildKeysType(d, objectKeys))) {
+            throw new Error("key is not valid");
         }
-        throw new Error("key is not valid");
+        return objectKeys;
     }, [data]);
     const _initalizeConvertedData = react.useCallback(() => {
         const initTableData = new Map();
@@ -44,8 +41,11 @@ const useSortableTable = (data) => {
     }, [data, keys]);
     react.useEffect(() => {
         _initalizeConvertedData();
-    }, [_initalizeConvertedData]);
+    }, []);
     const sort = react.useCallback((key, compareFn) => {
+        if (keys.length === 0) {
+            return;
+        }
         if (convertedData === undefined) {
             throw new Error("tableData is not initialized");
         }
@@ -69,11 +69,14 @@ const useSortableTable = (data) => {
             return obj;
         }, Object.assign({})));
         setSortableData(sortedData);
-    }, [convertedData]);
+    }, [convertedData, keys]);
     const initializeSort = react.useCallback(() => {
+        if (keys.length === 0) {
+            return;
+        }
         _initalizeConvertedData();
         setSortableData(data);
-    }, [_initalizeConvertedData, data]);
+    }, [_initalizeConvertedData, data, keys]);
     return {
         sort,
         sortableData,

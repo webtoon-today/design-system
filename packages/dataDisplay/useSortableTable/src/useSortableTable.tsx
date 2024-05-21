@@ -11,24 +11,23 @@ const isVaildKeysType = <K extends keyof V, V extends Object>(data: V, keys: (st
 }
 
 const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
-
-    if (data.length === 0) {
-        return {
-            sort: <T extends V[K]>(key: K, compareFn: (a: T, b: T)=>number) => {},
-            sortableData: data,
-            initializeSort: () => {}
-        }
-    }
-
     const [convertedData, setConvertedData] = useState<SortableTableDataType<K, V> | undefined>(undefined);
     const [sortableData, setSortableData] = useState<V[]>(data);
 
     const keys = useMemo(()=> {
-        const objectKeys = Object.keys(data[0]);
-        if (isVaildKeysType(data[0], objectKeys)) {
-            return objectKeys as K[];
+        const objectKeys = data.reduce((acc, currentValue) => {
+            const currentValueKeys = Object.keys(currentValue);
+            
+            const newObjectKeys = currentValueKeys.filter((key) => !acc.includes(key));
+        
+            return [...acc, ...newObjectKeys];
+        }, [] as string[]);
+
+        if (!data.every((d) => isVaildKeysType(d, objectKeys))) {
+            throw new Error("key is not valid");
         }
-        throw new Error("key is not valid");
+
+        return objectKeys as K[];
     }, [data]);
 
     const _initalizeConvertedData = useCallback(() => {
@@ -55,9 +54,13 @@ const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
 
     useEffect(() => {
         _initalizeConvertedData();
-    },[_initalizeConvertedData]);
+    },[]);
 
-    const sort = useCallback(<T extends V[K]>(key: K, compareFn: (a: T, b: T)=>number) => {
+    const sort = useCallback(<T extends V[K]>(key: K, compareFn: (a: T, b: T) => number) => {
+        if (keys.length === 0) {
+            return;
+        }
+
         if (convertedData === undefined) {
             throw new Error("tableData is not initialized");
         }
@@ -89,12 +92,15 @@ const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
             }, Object.assign({}))
         );
         setSortableData(sortedData);
-    }, [convertedData]);
+    }, [convertedData, keys]);
 
     const initializeSort = useCallback(() => {
+        if (keys.length === 0) {
+            return;
+        }
         _initalizeConvertedData();
         setSortableData(data);
-    },[_initalizeConvertedData, data]);
+    },[_initalizeConvertedData, data, keys]);
 
     return {
         sort,
