@@ -199,12 +199,43 @@ const ArrayTemplete = () => {
     );
 }
 
+const EmptyTemplete = () => {
+    const emptyData: DummyType[] = [];
+
+    const { sort, sortableData, initializeSort } = useSortableTable(emptyData);
+
+
+
+    return (
+        <table>
+            <thead></thead>
+            <tbody>
+                {sortableData.map((obj) => (
+                    <tr>
+                        <td>{obj.name}</td>
+                        <td>{obj.like}</td>
+                        <td>{obj.period.start}</td>
+                        <td>{obj.period.end}</td>
+                    </tr>
+                ))}
+                {sortableData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
+                <tr><button onClick={() => sort('like', (a:number, b: number) => a - b)}>정렬</button></tr>
+                <tr><button onClick={() => initializeSort()}>초기화</button></tr>
+            </tbody>
+        </table>
+    )
+}
+
 export const Default: Story = {
     render: DefaultTemplete
 }
 
 export const Array: Story = {
     render: ArrayTemplete
+}
+
+export const Empty: Story = {
+    render: EmptyTemplete
 }
 
 export const Interactive: Story = {

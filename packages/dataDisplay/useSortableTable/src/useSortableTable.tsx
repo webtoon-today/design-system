@@ -11,6 +11,15 @@ const isVaildKeysType = <K extends keyof V, V extends Object>(data: V, keys: (st
 }
 
 const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
+
+    if (data.length === 0) {
+        return {
+            sort: <T extends V[K]>(key: K, compareFn: (a: T, b: T)=>number) => {},
+            sortableData: data,
+            initializeSort: () => {}
+        }
+    }
+
     const [convertedData, setConvertedData] = useState<SortableTableDataType<K, V> | undefined>(undefined);
     const [sortableData, setSortableData] = useState<V[]>(data);
 

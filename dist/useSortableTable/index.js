@@ -10,6 +10,13 @@ const isVaildKeysType = (data, keys) => {
     return false;
 };
 const useSortableTable = (data) => {
+    if (data.length === 0) {
+        return {
+            sort: (key, compareFn) => { },
+            sortableData: data,
+            initializeSort: () => { }
+        };
+    }
     const [convertedData, setConvertedData] = react.useState(undefined);
     const [sortableData, setSortableData] = react.useState(data);
     const keys = react.useMemo(() => {
