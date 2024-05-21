@@ -1,16 +1,29 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-type SortableTableDataType<V extends Object, K extends keyof V> = Map<K, V[K][]>;
+type SortableTableDataType<K extends keyof V, V extends Object> = Map<K, V[]>;
 
-const useSortableTable = <V extends Object, K extends keyof V>(data: V[]) => {
-    const [convertedData, setConvertedData] = useState<SortableTableDataType<V, K> | undefined>(undefined);
+const isVaildKeysType = <K extends keyof V, V extends Object>(data: V, keys: (string | number | Symbol)[]): keys is K[] => {
+    const dataKeys = Object.keys(data);
+    if (dataKeys.every((dataKey) => keys.includes(dataKey))) {
+        return true;
+    }
+    return false;
+}
+
+const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
+    const [convertedData, setConvertedData] = useState<SortableTableDataType<K, V> | undefined>(undefined);
     const [sortableData, setSortableData] = useState<V[]>(data);
 
-    const keys = useMemo(()=> Object.keys(data[0]) as K[], [data]);
+    const keys = useMemo(()=> {
+        const objectKeys = Object.keys(data[0]);
+        if (isVaildKeysType(data[0], objectKeys)) {
+            return objectKeys as K[];
+        }
+        throw new Error("key is not valid");
+    }, [data]);
 
     const _initalizeConvertedData = useCallback(() => {
-    
-        const initTableData: SortableTableDataType<V, K> = new Map();
+        const initTableData: SortableTableDataType<K, V> = new Map();
 
         keys.forEach((key) => {
             initTableData.set(key, []);
@@ -29,24 +42,24 @@ const useSortableTable = <V extends Object, K extends keyof V>(data: V[]) => {
         });
     
         setConvertedData(initTableData);
-    },[]);
+    },[data, keys]);
 
     useEffect(() => {
         _initalizeConvertedData();
-    },[]);
+    },[_initalizeConvertedData]);
 
-    const sort = useCallback((key: K, compareFn: (a: V[K], b: V[K])=>number) => {
+    const sort = useCallback(<T extends V[K]>(key: K, compareFn: (a: T, b: T)=>number) => {
         if (convertedData === undefined) {
             throw new Error("tableData is not initialized");
         }
 
-        const validKey = keys.find((k) => k === key);
+        const validKey = keys.find((k) => k === key.toString());
 
         if (!validKey) {
             throw new Error("key is not valid");
         }
 
-        const targetColumn = convertedData.get(validKey);
+        const targetColumn = convertedData.get(validKey) as T[] | undefined;
         
         if (targetColumn === undefined) {
             throw new Error("Can not find key in data");
@@ -55,7 +68,7 @@ const useSortableTable = <V extends Object, K extends keyof V>(data: V[]) => {
         const sortedIndex = targetColumn.map((v, i) => ({v, i}))
             .sort((a, b) => compareFn(a.v, b.v))
             .map((sorted) => sorted.i);
-            
+
         const sortedData = sortedIndex.map((index) => 
             keys.reduce((obj, key) => {
                 const targetMapArray = convertedData.get(key);
@@ -72,7 +85,7 @@ const useSortableTable = <V extends Object, K extends keyof V>(data: V[]) => {
     const initializeSort = useCallback(() => {
         _initalizeConvertedData();
         setSortableData(data);
-    },[]);
+    },[_initalizeConvertedData, data]);
 
     return {
         sort,
