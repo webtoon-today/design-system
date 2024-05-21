@@ -29,11 +29,12 @@ const useSortableTable = (data) => {
             initTableData.set(key, []);
         });
         data.forEach((rowData) => {
-            Object.values(rowData).forEach((value, columnIndex) => {
-                const targetMapArray = initTableData.get(keys[columnIndex]);
+            Object.keys(rowData).forEach((key) => {
+                const targetMapArray = initTableData.get(keys.find((k) => k === key));
                 if (targetMapArray === undefined) {
                     throw new Error("Can not find key in data");
                 }
+                const value = rowData[key];
                 targetMapArray.push(value);
             });
         });

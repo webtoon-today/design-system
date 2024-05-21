@@ -38,20 +38,22 @@ const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
         })
     
         data.forEach((rowData) => {
-            Object.values(rowData).forEach((value, columnIndex) => {
-                const targetMapArray = initTableData.get(keys[columnIndex]);
+            Object.keys(rowData).forEach((key) => {
+                const targetMapArray = initTableData.get(keys.find((k) => k === key) as K);
 
                 if (targetMapArray === undefined) {
                     throw new Error("Can not find key in data");
                 }
-                
+
+                const value = rowData[key as K] as V;
+
                 targetMapArray.push(value);
             });
         });
     
         setConvertedData(initTableData);
     },[data, keys]);
-
+    
     useEffect(() => {
         _initalizeConvertedData();
     },[]);
