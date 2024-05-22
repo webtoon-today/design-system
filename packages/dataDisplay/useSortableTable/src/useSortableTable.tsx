@@ -73,9 +73,9 @@ const useSortableTable = <V extends Object>(data: V[]) => {
                 }
 
                 return { [key]: value[index] };
-            }).reduce((objA, objB) => {
-                let ret = Object.assign({}, objA);
-                ret = Object.assign(ret, objB);
+            }).reduce((acc, current) => {
+                let ret = Object.assign({}, acc);
+                ret = Object.assign(ret, current);
                 
                 return ret;
             }, {} as V)
