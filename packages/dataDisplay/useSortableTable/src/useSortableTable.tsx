@@ -6,7 +6,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     type K = keyof V;
 
     const [convertedData, setConvertedData] = useState<SortableTableDataType<V> | undefined>(undefined);
-    const [sortableData, setSortableData] = useState<V[]>(data);
+    const [sortedData, setSortedData] = useState<V[]>(data);
 
     const keys = useMemo(()=> {
         const objectKeys = data.reduce((acc, currentValue) => {
@@ -65,7 +65,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
             .sort((a, b) => compareFn(a.v, b.v))
             .map((sorted) => sorted.i);
 
-        const sortedData = sortedIndex.map((index) => 
+        const newSortedData = sortedIndex.map((index) => 
             keys.reduce((obj, key) => {
                 const targetMapArray = convertedData.get(key);
                 if (targetMapArray === undefined) {
@@ -76,7 +76,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
             }, {} as V)
         );
 
-        setSortableData(sortedData);
+        setSortedData(newSortedData);
     }, [convertedData, keys]);
 
     const initializeSort = useCallback(() => {
@@ -84,16 +84,15 @@ const useSortableTable = <V extends Object>(data: V[]) => {
             return;
         }
         _initalizeConvertedData();
-        setSortableData(data);
+        setSortedData(data);
     },[_initalizeConvertedData, data, keys]);
 
     const sortableTable = {
         sort,
-        sortableData,
         initializeSort
-    }
+    };
 
-    return sortableTable;
+    return { sortableTable, sortedData };
 }
 
 export default useSortableTable;

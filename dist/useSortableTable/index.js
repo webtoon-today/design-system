@@ -4,7 +4,7 @@ var react = require('react');
 
 const useSortableTable = (data) => {
     const [convertedData, setConvertedData] = react.useState(undefined);
-    const [sortableData, setSortableData] = react.useState(data);
+    const [sortedData, setSortedData] = react.useState(data);
     const keys = react.useMemo(() => {
         const objectKeys = data.reduce((acc, currentValue) => {
             const currentValueKeys = Object.keys(currentValue);
@@ -46,7 +46,7 @@ const useSortableTable = (data) => {
         const sortedIndex = targetColumn.map((v, i) => ({ v, i }))
             .sort((a, b) => compareFn(a.v, b.v))
             .map((sorted) => sorted.i);
-        const sortedData = sortedIndex.map((index) => keys.reduce((obj, key) => {
+        const newSortedData = sortedIndex.map((index) => keys.reduce((obj, key) => {
             const targetMapArray = convertedData.get(key);
             if (targetMapArray === undefined) {
                 throw new Error("Can not find key in data");
@@ -54,21 +54,20 @@ const useSortableTable = (data) => {
             obj[key] = targetMapArray[index];
             return obj;
         }, {}));
-        setSortableData(sortedData);
+        setSortedData(newSortedData);
     }, [convertedData, keys]);
     const initializeSort = react.useCallback(() => {
         if (keys.length === 0) {
             return;
         }
         _initalizeConvertedData();
-        setSortableData(data);
+        setSortedData(data);
     }, [_initalizeConvertedData, data, keys]);
     const sortableTable = {
         sort,
-        sortableData,
         initializeSort
     };
-    return sortableTable;
+    return { sortableTable, sortedData };
 };
 
 exports.useSortableTable = useSortableTable;

@@ -47,8 +47,7 @@ const arrayDummy: ArrayDummyType = [
 const DefaultTemplete = () => {
     const keys = ["checked", "name", "like", "period"] as const;
 
-    const sortableTable = useSortableTable(dummy);
-    const { sortableData } = sortableTable;
+    const { sortableTable, sortedData } = useSortableTable(dummy);
 
     return (
         <table>
@@ -71,7 +70,7 @@ const DefaultTemplete = () => {
 
                                     if (e.target.checked) {
                                         if (objKey === "name") {
-                                            const foo = sortableData[0]["name"]
+                                            const foo = sortedData[0]["name"]
                                             sortableTable.sort(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
 
@@ -109,7 +108,7 @@ const DefaultTemplete = () => {
                 </tr>
             </thead>
             <tbody style={{textAlign: 'center'}}>
-            {sortableData.map((obj, index) => (
+            {sortedData.map((obj, index) => (
                 <tr key={obj.name} aria-label={`${index}-row`}>
                     <td>{obj.checked ? "check" : "uncheck"}</td>
                     <td>{obj.name}</td>
@@ -128,8 +127,7 @@ const DefaultTemplete = () => {
 }
 
 const ArrayTemplete = () => {
-    const sortableTable = useSortableTable(arrayDummy);
-    const { sortableData } = sortableTable;
+    const { sortableTable, sortedData } = useSortableTable(arrayDummy);
 
     return (
         <table>
@@ -189,7 +187,7 @@ const ArrayTemplete = () => {
                 </tr>
             </thead>
             <tbody style={{textAlign: 'center'}}>
-            {sortableData.map((obj, index) => (
+            {sortedData.map((obj, index) => (
                 <tr key={obj[0]} aria-label={`${index}-row`}>
                     <td>{obj[0]}</td>
                     <td>{obj[1]}</td>
@@ -205,14 +203,13 @@ const ArrayTemplete = () => {
 const EmptyTemplete = () => {
     const emptyData: DummyType[] = [];
 
-    const sortableTable = useSortableTable(emptyData);
-    const { sortableData } = sortableTable;
+    const { sortableTable, sortedData } = useSortableTable(emptyData);
 
     return (
         <table>
             <thead></thead>
             <tbody>
-                {sortableData.map((obj) => (
+                {sortedData.map((obj) => (
                     <tr>
                         <td>{obj.name}</td>
                         <td>{obj.like}</td>
@@ -220,7 +217,7 @@ const EmptyTemplete = () => {
                         <td>{obj.period.end}</td>
                     </tr>
                 ))}
-                {sortableData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
+                {sortedData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
                 <tr>
                     <td>
                         <button onClick={() => sortableTable.sort('like', (a:number, b: number) => a - b)}>정렬</button>
