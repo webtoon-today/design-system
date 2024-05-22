@@ -3,7 +3,7 @@ TARGET_PACKAGE="$1"
 if [ -z "$TARGET_PACKAGE" ]; then
   echo "build all packages"
   
-  PACKAGES=$(ls -d ./packages/*/*)
+  PACKAGES=$(ls -d ./packages/*/* | grep -v "\.\/packages\/page\/*")
 
   for PACKAGE in $PACKAGES; do
     PACKAGE_NAME=$(node -e "
