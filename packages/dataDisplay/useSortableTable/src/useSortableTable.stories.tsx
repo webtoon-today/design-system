@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 
-import SortableTable from './SortableTable';
 import useSortableTable from './useSortableTable';
+
+const SortableTable = () => {
+    return (
+        <table></table>
+    )
+}
 
 const meta = {
   title: 'data display/useSortableTable',
@@ -13,7 +18,6 @@ const meta = {
     layout: 'centered'
   },
   tags: ['autodocs'],
-  args: {},
 } satisfies Meta<typeof SortableTable>;
 
 export default meta;
@@ -22,27 +26,31 @@ type Story = StoryObj<typeof meta>;
 // TODO: 스토리북 테스트를 위한 공용 파일로 분리
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const objectDummy: {name: string; like: number; period: {start: number, end: number}}[] = [
-    {name: "banana", like: 10, period: {start: new Date(2024, 1, 1, 11).setMilliseconds(1000), end: new Date(2024, 1, 1, 12).setMilliseconds(1000)} },
-    {name: "apple", like: 100, period: {start: new Date(2024, 1, 2).setMilliseconds(1000), end: new Date(2024, 1, 4).setMilliseconds(1000)} },
-    {name: "pineapple", like: 50, period: {start: new Date(2024, 1, 3).setMilliseconds(1000), end: new Date(2024, 1, 10).setMilliseconds(1000)} },
-    {name: "cherry", like: 30, period: {start: new Date(2024, 1, 1).setMilliseconds(1000), end: new Date(2024, 1, 20).setMilliseconds(1000)} },
-    {name: "orange", like: 1, period: {start: new Date(2024, 1, 1, 0).setMilliseconds(1000), end: new Date(2024, 1, 1, 10).setMilliseconds(1000)} },
+type DummyType = {name: string; like: number; checked: boolean; period: {start: number, end: number};};
+
+const dummy: DummyType[] = [
+    {name: "banana", like: 10, checked: true, period: {start: new Date(2024, 1, 1).setMilliseconds(1000), end: new Date(2024, 1, 30).setMilliseconds(1000)} },
+    {name: "apple", like: 100, checked: false, period: {start: new Date(2024, 1, 2).setMilliseconds(1000), end: new Date(2024, 1, 13).setMilliseconds(1000)} },
+    {name: "pineapple", like: 50, checked: true, period: {start: new Date(2024, 1, 3).setMilliseconds(1000), end: new Date(2024, 1, 12).setMilliseconds(1000)} },
+    {name: "cherry", like: 30, checked: true, period: {start: new Date(2024, 1, 5).setMilliseconds(1000), end: new Date(2024, 1, 20).setMilliseconds(1000)} },
+    {name: "orange", like: 1, checked: false, period: {start: new Date(2024, 1, 6).setMilliseconds(1000), end: new Date(2024, 1, 10).setMilliseconds(1000)},  },
 ];
 
-const DefaultTemplete = ({...args}) => {
-    const keys = ["name", "like", "period"];
+type ArrayDummyType = [string, number, number][];
 
-    const {sort, sortableData, initializeSort } = useSortableTable({keys, data: objectDummy});
+const arrayDummy: ArrayDummyType = [
+    ["banana", 1, 100],
+    ["apple", 2, 99],
+    ["cherry", 3, 98],
+];
 
-    const [selected, setSelected] = useState<string[]>([]);
+const DefaultTemplete = () => {
+    const keys = ["checked", "name", "like", "period"] as const;
 
-    const sortName = <T,>(a:T, b: T) => a > b ? 1 : -1;
-    const sortLike = <T,>(a:T, b: T) => Number(a) - Number(b);
-    const sortPeriod = (target: 'start' | 'end') => <T,>(a: T, b: T) => a[target] > b[target] ? 1 : -1;
+    const { sort, sortableData, initializeSort } = useSortableTable(dummy);
 
     return (
-        <SortableTable {...args}>
+        <table>
             <thead>
                 <tr>
                     {keys.map((objKey) => (
@@ -54,20 +62,25 @@ const DefaultTemplete = ({...args}) => {
                                 aria-label={objKey === "period" ? "period-start" : objKey}
                                 name={objKey === "period" ? "period-start" : objKey}
                                 id={objKey === "period" ? "period-start" : objKey}
+                                disabled={objKey === "checked"}
                                 onChange={(e) => {
+                                    if (objKey === "checked") {
+                                        return;
+                                    }
+
                                     if (e.target.checked) {
                                         if (objKey === "name") {
-                                            sort(objKey, sortName);
-                                            return;
+                                            sort(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
+
                                         if (objKey === "like") {
-                                            sort(objKey, sortLike);
-                                            return;
+                                            sort(objKey, (a: number, b: number) => a - b);
                                         }
+
                                         if (objKey === "period") {
-                                            sort(objKey, sortPeriod('start'));
-                                            return;
+                                            sort(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
                                         }
+                                        return;
                                     }
                                     initializeSort();
                                 }} 
@@ -75,7 +88,7 @@ const DefaultTemplete = ({...args}) => {
                         </th>
                     ))}
                     <th>
-                        <span>종료 날짜 기준</span>
+                        <span>{'종료 날짜 기준'}</span>
                         <input 
                             type="checkbox"
                             role='checkbox'
@@ -84,8 +97,10 @@ const DefaultTemplete = ({...args}) => {
                             id="period-end"
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort("period", sortPeriod('end'));
+                                    sort("period", (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
+                                    return;
                                 }
+                                initializeSort();
                             }}
                         />
                     </th>
@@ -94,6 +109,7 @@ const DefaultTemplete = ({...args}) => {
             <tbody style={{textAlign: 'center'}}>
             {sortableData.map((obj, index) => (
                 <tr key={obj.name} aria-label={`${index}-row`}>
+                    <td>{obj.checked ? "check" : "uncheck"}</td>
                     <td>{obj.name}</td>
                     <td>{obj.like}</td>
                     <td colSpan={2}>
@@ -105,13 +121,129 @@ const DefaultTemplete = ({...args}) => {
                 )
             )}
             </tbody>
-        </SortableTable>
+        </table>
+    )
+}
+
+const ArrayTemplete = () => {
+    const { sort, sortableData, initializeSort } = useSortableTable(arrayDummy);
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span>name</span>
+                        <input 
+                            type="checkbox"
+                            role='checkbox'
+                            aria-label='name'
+                            name='name'
+                            id='name'
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    sort(0, (a: string, b: string) => a.localeCompare(b));
+                                    return;
+                                }
+                                initializeSort();
+                            }}
+                        />
+                    </th>
+                    <th>
+                        <span>like</span>
+                        <input 
+                            type="checkbox"
+                            role='checkbox'
+                            aria-label='like'
+                            name='like'
+                            id='like'
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    sort(1, (a: number, b: number) => a - b > 0 ? -1 : 1);
+                                    return;
+                                }
+                                initializeSort();
+                            }}
+                        />
+                    </th>
+                    <th>
+                        <span>count</span>
+                        <input 
+                            type="checkbox"
+                            role='checkbox'
+                            aria-label='count'
+                            name='count'
+                            id='count'
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    sort(2, (a: number, b: number) => a - b);
+                                    return;
+                                }
+                                initializeSort();
+                            }}
+                        />
+                    </th>
+                </tr>
+            </thead>
+            <tbody style={{textAlign: 'center'}}>
+            {sortableData.map((obj, index) => (
+                <tr key={obj[0]} aria-label={`${index}-row`}>
+                    <td>{obj[0]}</td>
+                    <td>{obj[1]}</td>
+                    <td>{obj[2]}</td>
+                </tr>
+                )
+            )}
+            </tbody>
+        </table>
+    );
+}
+
+const EmptyTemplete = () => {
+    const emptyData: DummyType[] = [];
+
+    const { sort, sortableData, initializeSort } = useSortableTable(emptyData);
+
+
+
+    return (
+        <table>
+            <thead></thead>
+            <tbody>
+                {sortableData.map((obj) => (
+                    <tr>
+                        <td>{obj.name}</td>
+                        <td>{obj.like}</td>
+                        <td>{obj.period.start}</td>
+                        <td>{obj.period.end}</td>
+                    </tr>
+                ))}
+                {sortableData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
+                <tr>
+                    <td>
+                        <button onClick={() => sort('like', (a:number, b: number) => a - b)}>정렬</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button onClick={() => initializeSort()}>초기화</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     )
 }
 
 export const Default: Story = {
-    args: { children: null },
     render: DefaultTemplete
+}
+
+export const Array: Story = {
+    render: ArrayTemplete
+}
+
+export const Empty: Story = {
+    render: EmptyTemplete
 }
 
 export const Interactive: Story = {
@@ -129,7 +261,7 @@ export const Interactive: Story = {
         await sleep(1000);
         let firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
 
-        expect(firstRowTdList[0]).toHaveTextContent('apple');
+        expect(firstRowTdList[1]).toHaveTextContent('apple');
 
         // like를 클릭하여 정렬
         userEvent.click(likeCheckbox);
@@ -137,7 +269,7 @@ export const Interactive: Story = {
         await sleep(1000);
         firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
         
-        expect(firstRowTdList[0]).toHaveTextContent('orange');
+        expect(firstRowTdList[1]).toHaveTextContent('orange');
 
         // period-start를 클릭하여 정렬
         userEvent.click(periodStartCheckbox);
@@ -145,7 +277,7 @@ export const Interactive: Story = {
         await sleep(1000);
         firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
         
-        expect(firstRowTdList[0]).toHaveTextContent('orange');
+        expect(firstRowTdList[1]).toHaveTextContent('banana');
 
         // period-end를 클릭하여 정렬
         userEvent.click(periodEndCheckbox);
@@ -153,8 +285,7 @@ export const Interactive: Story = {
         await sleep(1000);
         firstRowTdList = canvas.getByLabelText('0-row').getElementsByTagName('td');
         
-        expect(firstRowTdList[0]).toHaveTextContent('orange');
+        expect(firstRowTdList[1]).toHaveTextContent('orange');
     },
-    args: { children: null },
     render: DefaultTemplete
 }
