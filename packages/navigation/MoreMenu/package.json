@@ -11,5 +11,8 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.12.4"
+    },
+    "peerDependencies": {
+        "@material-ui/core": "^4.12"
     }
 }
