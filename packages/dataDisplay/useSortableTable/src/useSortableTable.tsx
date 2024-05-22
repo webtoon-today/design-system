@@ -65,13 +65,19 @@ const useSortableTable = <V extends Object>(data: V[]) => {
             .map((sorted) => sorted.i);
 
         const newSortedData = sortedIndex.map((index) => 
-            keys.reduce((obj, key) => {
-                const targetMapArray = convertedData.get(key);
-                if (targetMapArray === undefined) {
+            keys.map( (key) => {
+                const value = convertedData.get(key);
+
+                if (!value) {
                     throw new Error("Can not find key in data");
-                }                
-                obj[key] = targetMapArray[index];
-                return obj;
+                }
+
+                return { [key]: value[index] };
+            }).reduce((objA, objB) => {
+                let ret = Object.assign({}, objA);
+                ret = Object.assign(ret, objB);
+                
+                return ret;
             }, {} as V)
         );
 
