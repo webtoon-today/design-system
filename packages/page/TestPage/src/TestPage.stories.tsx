@@ -27,7 +27,7 @@ export const Interaction: Story = {
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
 
-        const button = canvas.getByRole('button');
+        const button = canvas.getByRole('button', {name:'open drawer'});
         await userEvent.click(button);
     },
     render: DefaultTemplete
