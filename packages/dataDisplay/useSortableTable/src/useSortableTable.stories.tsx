@@ -47,7 +47,7 @@ const arrayDummy: ArrayDummyType = [
 const DefaultTemplete = () => {
     const keys = ["checked", "name", "like", "period"] as const;
 
-    const { sortableTable, sortedData } = useSortableTable(dummy);
+    const sortableTable = useSortableTable(dummy);
 
     return (
         <table>
@@ -107,7 +107,7 @@ const DefaultTemplete = () => {
                 </tr>
             </thead>
             <tbody style={{textAlign: 'center'}}>
-            {sortedData.map((obj, index) => (
+            {sortableTable.sortedData.map((obj, index) => (
                 <tr key={obj.name} aria-label={`${index}-row`}>
                     <td>{obj.checked ? "check" : "uncheck"}</td>
                     <td>{obj.name}</td>
@@ -126,7 +126,7 @@ const DefaultTemplete = () => {
 }
 
 const ArrayTemplete = () => {
-    const { sortableTable, sortedData } = useSortableTable(arrayDummy);
+    const sortableTable = useSortableTable(arrayDummy);
 
     return (
         <table>
@@ -186,7 +186,7 @@ const ArrayTemplete = () => {
                 </tr>
             </thead>
             <tbody style={{textAlign: 'center'}}>
-            {sortedData.map((obj, index) => (
+            {sortableTable.sortedData.map((obj, index) => (
                 <tr key={obj[0]} aria-label={`${index}-row`}>
                     <td>{obj[0]}</td>
                     <td>{obj[1]}</td>
@@ -201,13 +201,13 @@ const ArrayTemplete = () => {
 
 const EmptyTemplete = () => {
 
-    const { sortableTable, sortedData } = useSortableTable<DummyType>([]);
+    const sortableTable = useSortableTable<DummyType>([]);
 
     return (
         <table>
             <thead></thead>
             <tbody>
-                {sortedData.map((obj) => (
+                {sortableTable.sortedData.map((obj) => (
                     <tr>
                         <td>{obj.name}</td>
                         <td>{obj.like}</td>
@@ -215,7 +215,7 @@ const EmptyTemplete = () => {
                         <td>{obj.period.end}</td>
                     </tr>
                 ))}
-                {sortedData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
+                {sortableTable.sortedData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
                 <tr>
                     <td>
                         <button onClick={() => sortableTable.sort('like', (a:number, b: number) => a - b)}>정렬</button>

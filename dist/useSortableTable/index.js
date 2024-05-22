@@ -65,9 +65,10 @@ const useSortableTable = (data) => {
     }, [_initalizeConvertedData, data, keys]);
     const sortableTable = {
         sort,
-        initializeSort
+        initializeSort,
+        sortedData
     };
-    return { sortableTable, sortedData };
+    return sortableTable;
 };
 
 exports.useSortableTable = useSortableTable;

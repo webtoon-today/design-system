@@ -88,10 +88,11 @@ const useSortableTable = <V extends Object>(data: V[]) => {
 
     const sortableTable = {
         sort,
-        initializeSort
+        initializeSort,
+        sortedData
     };
 
-    return { sortableTable, sortedData };
+    return sortableTable;
 }
 
 export default useSortableTable;
