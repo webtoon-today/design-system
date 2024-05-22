@@ -4,18 +4,12 @@ var react = require('react');
 
 const isValidKeysType = (data, keys) => {
     const dataKeys = Object.keys(data);
-    if (dataKeys.every((dataKey) => keys.includes(dataKey))) {
-        return true;
-    }
-    return false;
+    return dataKeys.every((dataKey) => keys.includes(dataKey));
 };
 const isValidKeysTypeArray = (data, keys) => data.every((d) => isValidKeysType(d, keys));
 const isValidKeyType = (data, key) => {
     const dataKeys = Object.keys(data);
-    if (dataKeys.includes(key.toString())) {
-        return true;
-    }
-    return false;
+    return dataKeys.includes(key.toString());
 };
 const isSubType = (data) => {
     const subTypeData = data;
@@ -33,6 +27,7 @@ const isSubType = (data) => {
     return false;
 };
 const isSubTypeArray = (data) => data.every((d) => isSubType(d));
+
 const useSortableTable = (data) => {
     const [convertedData, setConvertedData] = react.useState(undefined);
     const [sortableData, setSortableData] = react.useState(data);
@@ -99,7 +94,7 @@ const useSortableTable = (data) => {
             }
             obj[key] = targetMapArray[index];
             return obj;
-        }, Object.assign({})));
+        }, {}));
         setSortableData(sortedData);
     }, [convertedData, keys]);
     const initializeSort = react.useCallback(() => {
