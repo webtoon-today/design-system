@@ -47,7 +47,8 @@ const arrayDummy: ArrayDummyType = [
 const DefaultTemplete = () => {
     const keys = ["checked", "name", "like", "period"] as const;
 
-    const { sort, sortableData, initializeSort } = useSortableTable(dummy);
+    const sortableTable = useSortableTable(dummy);
+    const { sortableData } = sortableTable;
 
     return (
         <table>
@@ -70,19 +71,20 @@ const DefaultTemplete = () => {
 
                                     if (e.target.checked) {
                                         if (objKey === "name") {
-                                            sort(objKey, (a: string, b: string) => a.localeCompare(b));
+                                            const foo = sortableData[0]["name"]
+                                            sortableTable.sort(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
 
                                         if (objKey === "like") {
-                                            sort(objKey, (a: number, b: number) => a - b);
+                                            sortableTable.sort(objKey, (a: number, b: number) => a - b);
                                         }
 
                                         if (objKey === "period") {
-                                            sort(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
+                                            sortableTable.sort(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
                                         }
                                         return;
                                     }
-                                    initializeSort();
+                                    sortableTable.initializeSort();
                                 }} 
                             />
                         </th>
@@ -97,10 +99,10 @@ const DefaultTemplete = () => {
                             id="period-end"
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort("period", (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
+                                    sortableTable.sort("period", (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
                                     return;
                                 }
-                                initializeSort();
+                                sortableTable.initializeSort();
                             }}
                         />
                     </th>
@@ -126,7 +128,8 @@ const DefaultTemplete = () => {
 }
 
 const ArrayTemplete = () => {
-    const { sort, sortableData, initializeSort } = useSortableTable(arrayDummy);
+    const sortableTable = useSortableTable(arrayDummy);
+    const { sortableData } = sortableTable;
 
     return (
         <table>
@@ -142,10 +145,10 @@ const ArrayTemplete = () => {
                             id='name'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort(0, (a: string, b: string) => a.localeCompare(b));
+                                    sortableTable.sort("0", (a: string, b: string) => a.localeCompare(b));
                                     return;
                                 }
-                                initializeSort();
+                                sortableTable.initializeSort();
                             }}
                         />
                     </th>
@@ -159,10 +162,10 @@ const ArrayTemplete = () => {
                             id='like'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort(1, (a: number, b: number) => a - b > 0 ? -1 : 1);
+                                    sortableTable.sort("1", (a: number, b: number) => a - b > 0 ? -1 : 1);
                                     return;
                                 }
-                                initializeSort();
+                                sortableTable.initializeSort();
                             }}
                         />
                     </th>
@@ -176,10 +179,10 @@ const ArrayTemplete = () => {
                             id='count'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sort(2, (a: number, b: number) => a - b);
+                                    sortableTable.sort("2", (a: number, b: number) => a - b);
                                     return;
                                 }
-                                initializeSort();
+                                sortableTable.initializeSort();
                             }}
                         />
                     </th>
@@ -202,9 +205,8 @@ const ArrayTemplete = () => {
 const EmptyTemplete = () => {
     const emptyData: DummyType[] = [];
 
-    const { sort, sortableData, initializeSort } = useSortableTable(emptyData);
-
-
+    const sortableTable = useSortableTable(emptyData);
+    const { sortableData } = sortableTable;
 
     return (
         <table>
@@ -221,12 +223,12 @@ const EmptyTemplete = () => {
                 {sortableData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
                 <tr>
                     <td>
-                        <button onClick={() => sort('like', (a:number, b: number) => a - b)}>정렬</button>
+                        <button onClick={() => sortableTable.sort('like', (a:number, b: number) => a - b)}>정렬</button>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button onClick={() => initializeSort()}>초기화</button>
+                        <button onClick={() => sortableTable.initializeSort()}>초기화</button>
                     </td>
                 </tr>
             </tbody>
