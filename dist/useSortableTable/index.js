@@ -2,13 +2,37 @@
 
 var react = require('react');
 
-const isVaildKeysType = (data, keys) => {
+const isValidKeysType = (data, keys) => {
     const dataKeys = Object.keys(data);
     if (dataKeys.every((dataKey) => keys.includes(dataKey))) {
         return true;
     }
     return false;
 };
+const isValidKeysTypeArray = (data, keys) => data.every((d) => isValidKeysType(d, keys));
+const isValidKeyType = (data, key) => {
+    const dataKeys = Object.keys(data);
+    if (dataKeys.includes(key.toString())) {
+        return true;
+    }
+    return false;
+};
+const isSubType = (data) => {
+    const subTypeData = data;
+    if (typeof data === "object" && data !== null && typeof subTypeData === "object" && subTypeData !== null) {
+        const originDataKey = Object.keys(data);
+        const subTypeDataKey = Object.keys(subTypeData);
+        if (originDataKey.length === subTypeDataKey.length) {
+            return originDataKey.every((key) => subTypeDataKey.includes(key));
+        }
+        return false;
+    }
+    if (typeof data === typeof subTypeData) {
+        return true;
+    }
+    return false;
+};
+const isSubTypeArray = (data) => data.every((d) => isSubType(d));
 const useSortableTable = (data) => {
     const [convertedData, setConvertedData] = react.useState(undefined);
     const [sortableData, setSortableData] = react.useState(data);
@@ -18,7 +42,7 @@ const useSortableTable = (data) => {
             const newObjectKeys = currentValueKeys.filter((key) => !acc.includes(key));
             return [...acc, ...newObjectKeys];
         }, []);
-        if (!data.every((d) => isVaildKeysType(d, objectKeys))) {
+        if (!isValidKeysTypeArray(data, objectKeys)) {
             throw new Error("key is not valid");
         }
         return objectKeys;
@@ -30,11 +54,15 @@ const useSortableTable = (data) => {
         });
         data.forEach((rowData) => {
             Object.keys(rowData).forEach((key) => {
-                const targetMapArray = initTableData.get(keys.find((k) => k === key));
+                if (!isValidKeyType(rowData, key)) {
+                    throw new Error("key is not valid");
+                }
+                const validKey = key;
+                const targetMapArray = initTableData.get(validKey);
                 if (targetMapArray === undefined) {
                     throw new Error("Can not find key in data");
                 }
-                const value = rowData[key];
+                const value = rowData[validKey];
                 targetMapArray.push(value);
             });
         });
@@ -57,6 +85,9 @@ const useSortableTable = (data) => {
         const targetColumn = convertedData.get(validKey);
         if (targetColumn === undefined) {
             throw new Error("Can not find key in data");
+        }
+        if (!isSubTypeArray(targetColumn)) {
+            throw new Error("Type is not valid");
         }
         const sortedIndex = targetColumn.map((v, i) => ({ v, i }))
             .sort((a, b) => compareFn(a.v, b.v))

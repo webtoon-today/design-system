@@ -219,8 +219,16 @@ const EmptyTemplete = () => {
                     </tr>
                 ))}
                 {sortableData.length === 0 && <tr><td colSpan={4}>데이터가 없습니다.</td></tr>}
-                <tr><button onClick={() => sort('like', (a:number, b: number) => a - b)}>정렬</button></tr>
-                <tr><button onClick={() => initializeSort()}>초기화</button></tr>
+                <tr>
+                    <td>
+                        <button onClick={() => sort('like', (a:number, b: number) => a - b)}>정렬</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button onClick={() => initializeSort()}>초기화</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     )
