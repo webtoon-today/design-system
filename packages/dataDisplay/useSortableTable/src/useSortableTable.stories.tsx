@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
@@ -70,7 +70,6 @@ const DefaultTemplete = () => {
 
                                     if (e.target.checked) {
                                         if (objKey === "name") {
-                                            const foo = sortedData[0]["name"]
                                             sortableTable.sort(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
 
@@ -201,9 +200,8 @@ const ArrayTemplete = () => {
 }
 
 const EmptyTemplete = () => {
-    const emptyData: DummyType[] = [];
 
-    const { sortableTable, sortedData } = useSortableTable(emptyData);
+    const { sortableTable, sortedData } = useSortableTable<DummyType>([]);
 
     return (
         <table>

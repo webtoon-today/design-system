@@ -38,7 +38,6 @@ const useSortableTable = <V extends Object>(data: V[]) => {
                 targetMapArray.push(rowData[key]);
             });
         });
-    
         setConvertedData(initTableData);
     },[data, keys]);
     
