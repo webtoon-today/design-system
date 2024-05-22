@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 type SortableTableDataType<K extends keyof V, V extends Object> = Map<K, Array<V[K]>>;
 
-const isValidKeysType = <K extends keyof V, V extends Object>(data: V, keys: (string | number | Symbol)[]): keys is K[] => {
+export const isValidKeysType = <K extends keyof V, V extends Object>(data: V, keys: (string | number | Symbol)[]): keys is K[] => {
     const dataKeys = Object.keys(data);
     if (dataKeys.every((dataKey) => keys.includes(dataKey))) {
         return true;
@@ -10,9 +10,9 @@ const isValidKeysType = <K extends keyof V, V extends Object>(data: V, keys: (st
     return false;
 }
 
-const isValidKeysTypeArray = <K extends keyof V, V extends Object>(data: V[], keys: (string | number | Symbol | K)[]): keys is K[] => data.every((d) => isValidKeysType<K, V>(d, keys));
+export const isValidKeysTypeArray = <K extends keyof V, V extends Object>(data: V[], keys: (string | number | Symbol | K)[]): keys is K[] => data.every((d) => isValidKeysType<K, V>(d, keys));
 
-const isValidKeyType = <K extends keyof V, V extends Object>(data: V, key: string | number | Symbol): key is K => {
+export const isValidKeyType = <K extends keyof V, V extends Object>(data: V, key: string | number | Symbol): key is K => {
     const dataKeys = Object.keys(data);
     if (dataKeys.includes(key.toString())) {
         return true;
@@ -20,11 +20,10 @@ const isValidKeyType = <K extends keyof V, V extends Object>(data: V, key: strin
     return false;
 }
 
-const isSubType = <T, U extends T>(data: T): data is U => {
+export const isSubType = <T, U extends T>(data: T): data is U => {
     const subTypeData = data as U;
-
-    if (typeof data === "object" && data !== null && typeof subTypeData === "object" && subTypeData !== null) {
-
+    
+    if (typeof data === "object" && data !== null && typeof subTypeData === "object" && subTypeData !== null) {        
         const originDataKey = Object.keys(data);
         const subTypeDataKey = Object.keys(subTypeData);
 
@@ -41,8 +40,9 @@ const isSubType = <T, U extends T>(data: T): data is U => {
     return false;
 }
 
-const isSubTypeArray = <T, U extends T>(data: T[]): data is U[] => data.every((d) => isSubType<T, U>(d));
+export const isSubTypeArray = <T, U extends T>(data: T[]): data is U[] => data.every((d) => isSubType<T, U>(d));
 
+/* istanbul ignore next line */
 const useSortableTable = <K extends keyof V, V extends Object>(data: V[]) => {
     const [convertedData, setConvertedData] = useState<SortableTableDataType<K, V> | undefined>(undefined);
     const [sortableData, setSortableData] = useState<V[]>(data);

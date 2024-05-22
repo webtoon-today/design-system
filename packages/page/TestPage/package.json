@@ -2,8 +2,8 @@
     "name": "test-page",
     "version": "0.1.0",
     "devDependencies": {
-        "Drawer": "file ../../../../../dist/Drawer",
-        "MoreMenu": "file ../../../../../dist/MoreMenu",
-        "Toast": "file ../../../../../dist/Toast"
+        "Drawer": "file: ../../../../../dist/Drawer",
+        "MoreMenu": "file: ../../../../../dist/MoreMenu",
+        "Toast": "file: ../../../../../dist/Toast"
     }
 }
