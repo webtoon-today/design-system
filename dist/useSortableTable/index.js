@@ -76,7 +76,7 @@ const useSortableTable = (data) => {
         initializeSort,
         sortedData
     };
-    return [sortableTable];
+    return sortableTable;
 };
 
 exports.useSortableTable = useSortableTable;
