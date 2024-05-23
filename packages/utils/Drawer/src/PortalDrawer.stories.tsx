@@ -11,14 +11,13 @@ import { PortalDrawer } from './PortalDrawer';
  * NesetedCascadeDrawer is a component that must be nested in PortalDrawer.
  */
 const meta = {
-  title: 'utils/Drawer',
-  component: PortalDrawer,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
-
-  args: { onClose: fn() },
+    title: 'utils/Drawer',
+    component: PortalDrawer,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+    args: { onClose: fn() },
 } satisfies Meta<typeof PortalDrawer>;
 
 export default meta;
@@ -137,25 +136,6 @@ export const WithModalDrawer = () => {
                     <button onClick={()=>setOpen(false)}>close</button>
                 </div>
             </div>}
-        </div>
-    )
-}
-/**
- * NestedCascadeDrawer must be used PortalDrawer as parent.
- * Without PortalDrawer fires an error.
- * 
- * ```bash
- * Error: NestedCascadeDrawer must be used PortalDrawer as parent.
- * ```
- */
-export const Error = () => {
-    const [open, setOpen] = useState(false);
-    return (
-        <div>
-            <button onClick={()=>setOpen(true)}>open NestedCascadeDrawer</button>
-            <NestedCascadeDrawer open={open} onClose={()=>setOpen(false)}>
-                hello NestedCascadeDrawer
-            </NestedCascadeDrawer>
         </div>
     )
 }
