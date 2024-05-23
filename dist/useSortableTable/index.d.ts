@@ -1,7 +1,7 @@
-declare const useSortableTable: <K extends keyof V, V extends Object>(data: V[]) => {
-    sort: <T extends V[K]>(key: K, compareFn: (a: T, b: T) => number) => void;
-    sortableData: V[];
+declare const useSortableTable: <V extends Object>(data: V[]) => {
+    sort: (key: keyof V, compareFn: (a: any, b: any) => number) => void;
     initializeSort: () => void;
+    sortedData: V[];
 };
 
 export { useSortableTable };

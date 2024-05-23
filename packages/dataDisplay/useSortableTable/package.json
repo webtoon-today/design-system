@@ -4,11 +4,9 @@
     "main": "./index.js",
     "types": "./index.d.ts",
     "scripts": {
-        "test": "jest",
         "build": "rollup -c"
     },
     "devDependencies": {
-        "rollup-config": "file: ../../../configs/rollup",
-        "jest-config": "file: ../../../configs/jest"
+        "rollup-config": "file: ../../../configs/rollup"
     }
 }
