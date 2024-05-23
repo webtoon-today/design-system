@@ -103,7 +103,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
         sortedData
     };
 
-    return sortableTable;
+    return [ sortableTable ];
 }
 
 export default useSortableTable;

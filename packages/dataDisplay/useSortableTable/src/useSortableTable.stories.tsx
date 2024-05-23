@@ -63,7 +63,7 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
         })();
     }, []);
 
-    const sortableTable = useSortableTable(data);
+    const [ sortableTable ] = useSortableTable(data);
 
     return (
         <table>
@@ -141,7 +141,7 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
 };
 
 const ArrayTemplete = () => {
-    const sortableTable = useSortableTable(arrayDummy);
+    const [ sortableTable ] = useSortableTable(arrayDummy);
 
     return (
         <table>
@@ -214,7 +214,7 @@ const ArrayTemplete = () => {
 };
 
 const EmptyTemplete = () => {
-    const sortableTable = useSortableTable<DummyType>([]);
+    const [ sortableTable ] = useSortableTable<DummyType>([]);
 
     return (
         <table>
