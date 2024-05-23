@@ -49,7 +49,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
         return objectKeys;
     }, [data]);
     
-    const toSorted = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
+    const sort = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
         if (keys.length === 0) {
             return;
         }
@@ -95,7 +95,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     }, [data, keys]);
 
     const sortableTable = {
-        toSorted,
+        sort,
         initializeSort,
         sortedData
     };
