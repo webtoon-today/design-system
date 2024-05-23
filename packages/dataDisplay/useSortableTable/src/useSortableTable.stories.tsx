@@ -64,7 +64,6 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
     }, []);
 
     const sortableTable = useSortableTable(data);
-
     return (
         <table>
             <thead>
@@ -86,15 +85,15 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
 
                                     if (e.target.checked) {
                                         if (objKey === 'name') {
-                                            sortableTable.sort(objKey, (a: string, b: string) => a.localeCompare(b));
+                                            sortableTable.toSorted(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
 
                                         if (objKey === 'like') {
-                                            sortableTable.sort(objKey, (a: number, b: number) => a - b);
+                                            sortableTable.toSorted(objKey, (a: number, b: number) => a - b);
                                         }
 
                                         if (objKey === 'period') {
-                                            sortableTable.sort(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
+                                            sortableTable.toSorted(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
                                         }
                                         return;
                                     }
@@ -113,7 +112,7 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
                             id='period-end'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('period', (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
+                                    sortableTable.toSorted('period', (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -157,7 +156,7 @@ const ArrayTemplete = () => {
                             id='name'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('0', (a: string, b: string) => a.localeCompare(b));
+                                    sortableTable.toSorted('0', (a: string, b: string) => a.localeCompare(b));
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -174,7 +173,7 @@ const ArrayTemplete = () => {
                             id='like'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('1', (a: number, b: number) => (a - b > 0 ? -1 : 1));
+                                    sortableTable.toSorted('1', (a: number, b: number) => (a - b > 0 ? -1 : 1));
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -191,7 +190,7 @@ const ArrayTemplete = () => {
                             id='count'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('2', (a: number, b: number) => a - b);
+                                    sortableTable.toSorted('2', (a: number, b: number) => a - b);
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -235,7 +234,7 @@ const EmptyTemplete = () => {
                 )}
                 <tr>
                     <td>
-                        <button onClick={() => sortableTable.sort('like', (a: number, b: number) => a - b)}>정렬</button>
+                        <button onClick={() => sortableTable.toSorted('like', (a: number, b: number) => a - b)}>정렬</button>
                     </td>
                 </tr>
                 <tr>

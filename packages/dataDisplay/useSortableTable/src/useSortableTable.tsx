@@ -38,18 +38,18 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     }, [data]);
 
     const keys = useMemo(() => {
-        const objectKeys = data.reduce((acc, currentValue) => {
-            const currentValueKeys = Object.keys(currentValue) as K[];
+        const objectKeys = data.reduce((lhs, rhs) => {
+            const currentValueKeys = Object.keys(rhs) as K[];
 
-            const newObjectKeys = currentValueKeys.filter((key) => !acc.includes(key));
+            const newObjectKeys = currentValueKeys.filter((key) => !lhs.includes(key));
 
-            return [...acc, ...newObjectKeys];
+            return [...lhs, ...newObjectKeys];
         }, [] as K[]);
 
         return objectKeys;
     }, [data]);
-
-    const sort = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
+    
+    const toSorted = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
         if (keys.length === 0) {
             return;
         }
@@ -78,11 +78,8 @@ const useSortableTable = <V extends Object>(data: V[]) => {
                 }
 
                 return { [key]: value[index] };
-            }).reduce((acc, current) => {
-                let ret = Object.assign({}, acc);
-                ret = Object.assign(ret, current);
-
-                return ret;
+            }).reduce((lhs, rhs) => {
+                return {...lhs, ...rhs}; 
             }, {} as V)
         );
 
@@ -98,7 +95,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     }, [data, keys]);
 
     const sortableTable = {
-        sort,
+        toSorted,
         initializeSort,
         sortedData
     };
