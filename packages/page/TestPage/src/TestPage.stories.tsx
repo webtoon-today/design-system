@@ -7,7 +7,7 @@ import { expect } from '@storybook/test';
 import TestPage from './TestPage';
 
 const meta = {
-    title: 'page/TestPage',
+    title: 'page/Test Page',
     component: TestPage,
     parameters: {
         layout: 'centered',
@@ -50,6 +50,13 @@ export const Interaction: Story = {
         await sleep(1000);
 
         expect(canvas.getByText('hello')).toHaveClass('green');
+
+        const redRadio = canvas.getByRole('radio', {name:'red'});
+        await userEvent.click(redRadio);
+
+        await sleep(1000);
+
+        expect(canvas.getByText('hello')).toHaveClass('red');
     },
     render: DefaultTemplete
 }

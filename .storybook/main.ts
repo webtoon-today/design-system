@@ -12,7 +12,7 @@ const config: StorybookConfig = {
         "@storybook/addon-essentials",
         "@storybook/addon-interactions",
         "@storybook/preset-scss",
-        "@storybook/addon-coverage"
+        "@storybook/addon-coverage",
     ],
     framework: {
         name: "@storybook/react-webpack5",

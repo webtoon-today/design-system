@@ -7,7 +7,7 @@ import { expect } from '@storybook/test'
 import OptionalText from './OptionalText';
 
 const meta = {
-    title: 'page/test page/OptionalText',
+    title: 'page/Test Page/OptionalText',
     component: OptionalText,
     parameters: {
         layout: 'centered',
@@ -64,13 +64,22 @@ export const State: Story = {
         const canvas = await within(canvasElement);
 
         const blueButton = await canvas.findByText('blue');
-        
         await userEvent.click(blueButton);
-
         await sleep(1000);
-        
+
         expect(canvas.getByText('optional color is blue')).toHaveClass('blue');
 
+        const greenButton = await canvas.findByText('green');
+        await userEvent.click(greenButton);
+        await sleep(1000);
+        
+        expect(canvas.getByText('optional color is green')).toHaveClass('green');
+
+        const redButton = await canvas.findByText('red');
+        await userEvent.click(redButton);
+        await sleep(1000);
+
+        expect(canvas.getByText('optional color is red')).toHaveClass('red');
     },
     args: {
         option: 'red',
