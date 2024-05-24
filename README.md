@@ -66,9 +66,9 @@ design-system$
 mkdir packages/<root-package>/<new-package>/src && touch packages/<root-package>/<new-package>/src/main.ts
 
 design-system$ 
-cp packages/utils/Dawer/package.json \
-packages/utils/Dawer/rollup.config.mjs \
-packages/utils/Dawer/tsconfig.json \
+cp packages/utils/Drawer/package.json \
+packages/utils/Drawer/rollup.config.mjs \
+packages/utils/Drawer/tsconfig.json \
 packages/<root-package>/<new-package>
 ```
 
