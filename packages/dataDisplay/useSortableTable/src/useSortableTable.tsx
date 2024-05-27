@@ -49,11 +49,11 @@ const useSortableTable = <V extends Object>(data: V[]) => {
         return objectKeys;
     }, [data]);
     
-    const sort = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
+    const sortBy = useCallback((key: K, compareFn: (a: any, b: any) => number) => {
         if (keys.length === 0) {
             return;
         }
-
+        
         if (convertedData === undefined) {
             throw new Error('tableData is not initialized');
         }
@@ -86,6 +86,10 @@ const useSortableTable = <V extends Object>(data: V[]) => {
             setSortedData(newSortedData);
         }, [convertedData, keys]);
 
+    const sort = useCallback((compareFn: (a: V, b: V) => number) => {
+        setSortedData((prevSortedData) => prevSortedData.sort(compareFn));
+    },[]);
+
     const initializeSort = useCallback(() => {
         if (keys.length === 0) {
             return;
@@ -96,6 +100,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
 
     const sortableTable = {
         sort,
+        sortBy,
         initializeSort,
         sortedData
     };

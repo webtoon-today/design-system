@@ -85,15 +85,15 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
 
                                     if (e.target.checked) {
                                         if (objKey === 'name') {
-                                            sortableTable.sort(objKey, (a: string, b: string) => a.localeCompare(b));
+                                            sortableTable.sortBy(objKey, (a: string, b: string) => a.localeCompare(b));
                                         }
 
                                         if (objKey === 'like') {
-                                            sortableTable.sort(objKey, (a: number, b: number) => a - b);
+                                            sortableTable.sortBy(objKey, (a: number, b: number) => a - b);
                                         }
 
                                         if (objKey === 'period') {
-                                            sortableTable.sort(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
+                                            sortableTable.sortBy(objKey, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
                                         }
                                         return;
                                     }
@@ -112,7 +112,7 @@ const DefaultTemplete = ({ isAsyncDataFetch = false, delay }:{ isAsyncDataFetch?
                             id='period-end'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('period', (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
+                                    sortableTable.sortBy('period', (a: DummyType['period'], b: DummyType['period']) => a.end - b.end);
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -156,7 +156,7 @@ const ArrayTemplete = () => {
                             id='name'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('0', (a: string, b: string) => a.localeCompare(b));
+                                    sortableTable.sortBy('0', (a: string, b: string) => a.localeCompare(b));
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -173,7 +173,7 @@ const ArrayTemplete = () => {
                             id='like'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('1', (a: number, b: number) => (a - b > 0 ? -1 : 1));
+                                    sortableTable.sortBy('1', (a: number, b: number) => (a - b > 0 ? -1 : 1));
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -190,7 +190,7 @@ const ArrayTemplete = () => {
                             id='count'
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    sortableTable.sort('2', (a: number, b: number) => a - b);
+                                    sortableTable.sortBy('2', (a: number, b: number) => a - b);
                                     return;
                                 }
                                 sortableTable.initializeSort();
@@ -234,7 +234,7 @@ const EmptyTemplete = () => {
                 )}
                 <tr>
                     <td>
-                        <button onClick={() => sortableTable.sort('like', (a: number, b: number) => a - b)}>정렬</button>
+                        <button onClick={() => sortableTable.sortBy('like', (a: number, b: number) => a - b)}>정렬</button>
                     </td>
                 </tr>
                 <tr>

@@ -36,7 +36,7 @@ const useSortableTable = (data) => {
         }, []);
         return objectKeys;
     }, [data]);
-    const sort = react.useCallback((key, compareFn) => {
+    const sortBy = react.useCallback((key, compareFn) => {
         if (keys.length === 0) {
             return;
         }
@@ -62,6 +62,9 @@ const useSortableTable = (data) => {
         }, {}));
         setSortedData(newSortedData);
     }, [convertedData, keys]);
+    const sort = react.useCallback((compareFn) => {
+        setSortedData((prevSortedData) => prevSortedData.sort(compareFn));
+    }, []);
     const initializeSort = react.useCallback(() => {
         if (keys.length === 0) {
             return;
@@ -71,6 +74,7 @@ const useSortableTable = (data) => {
     }, [data, keys]);
     const sortableTable = {
         sort,
+        sortBy,
         initializeSort,
         sortedData
     };
