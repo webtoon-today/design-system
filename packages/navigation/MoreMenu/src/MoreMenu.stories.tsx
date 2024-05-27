@@ -35,24 +35,24 @@ const defaultArgs: Story['args'] = {
 const DefaultTemplete = (args:Story['args']) => {
     return (
         <div>
-        <MoreMenu
-            ButtonElementChild={
-                args?.ButtonElementChild ||
-                <img src='https://static.webtoon.today/ddah/icon/more_horiz.svg' style={{transform: 'rotate(90deg)'}} alt='more_horiz' width={20} height={20} />
-            }
-            anchorOrigin={args?.anchorOrigin}
-            transformOrigin={args?.transformOrigin}
-        >
-            <MoreMenu.MenuItemButton onClick={ () => alert('click')}>
-                {'click'}
-            </MoreMenu.MenuItemButton>
-            <MoreMenu.MenuItemButton onClick={ () => alert('click_01')}>
-                {'click_01'}
-            </MoreMenu.MenuItemButton>
-            <MoreMenu.MenuItemButton onClick={ () => alert('click_02')}>
-                {'click_02'}
-            </MoreMenu.MenuItemButton>
-        </MoreMenu>
+            <MoreMenu
+                ButtonElementChild={
+                    args?.ButtonElementChild ||
+                    <img src='https://static.webtoon.today/ddah/icon/more_horiz.svg' style={{transform: 'rotate(90deg)'}} alt='more_horiz' width={20} height={20} />
+                }
+                anchorOrigin={args?.anchorOrigin}
+                transformOrigin={args?.transformOrigin}
+            >
+                <MoreMenu.MenuItemButton onClick={ () => alert('click')}>
+                    {'click'}
+                </MoreMenu.MenuItemButton>
+                <MoreMenu.MenuItemButton onClick={ () => alert('click_01')}>
+                    {'click_01'}
+                </MoreMenu.MenuItemButton>
+                <MoreMenu.MenuItemButton onClick={ () => alert('click_02')}>
+                    {'click_02'}
+                </MoreMenu.MenuItemButton>
+            </MoreMenu>
         </div>
     )
 }
