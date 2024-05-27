@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/test';
+import { expect, waitFor } from '@storybook/test';
 
 import TestPage from './TestPage';
 
@@ -30,30 +30,30 @@ export const Interaction: Story = {
         const button = canvas.getByRole('button', {name:'open drawer'});
         await userEvent.click(button);
 
+        waitFor(() => expect(canvas.getByText('hello portal drawer')).toBeInTheDocument());
+
         await sleep(1000);
 
-        await userEvent.click(canvas.getByRole('button', {name:'close'}));
+        await userEvent.click(canvas.getByText('close'));
 
         const blueRadio = canvas.getByRole('radio', {name:'blue'});
         await userEvent.click(blueRadio);
 
-        await sleep(1000);
+        waitFor(() => expect(canvas.getByText('hello')).toHaveClass('blue'));
 
-        expect(canvas.getByText('hello')).toHaveClass('blue');
+        await sleep(1000);
 
         const greenRadio = canvas.getByRole('radio', {name:'green'});
         await userEvent.click(greenRadio);
 
-        await sleep(1000);
+        waitFor(() => expect(canvas.getByText('hello')).toHaveClass('green'));
 
-        expect(canvas.getByText('hello')).toHaveClass('green');
+        await sleep(1000);
 
         const redRadio = canvas.getByRole('radio', {name:'red'});
         await userEvent.click(redRadio);
 
-        await sleep(1000);
-
-        expect(canvas.getByText('hello')).toHaveClass('red');
+        waitFor(() => expect(canvas.getByText('hello')).toHaveClass('red'));
     },
     render: DefaultTemplete
 }

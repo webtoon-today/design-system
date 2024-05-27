@@ -19,6 +19,13 @@ const TestPage = () => {
     return (
         <div className={'TestPage'} data-testid={"test-page"} ref={container}>
             <h1>Test Page</h1>
+            <nav>
+                <ul style={{display: 'flex', gap: 8, listStyleType: 'none'}}>
+                    <li><a href="javascript: void(0)">optional text color controller</a></li>
+                    <li><a href="javascript: void(0)">button group</a></li>
+                    <li><a href="javascript: void(0)">card</a></li>
+                </ul>
+            </nav>
             <hr />
             <div>
                 <h2>optional text color controller</h2>
