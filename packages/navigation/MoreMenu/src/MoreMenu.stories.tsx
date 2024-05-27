@@ -46,6 +46,12 @@ const DefaultTemplete = (args:Story['args']) => {
             <MoreMenu.MenuItemButton onClick={ () => alert('click')}>
                 {'click'}
             </MoreMenu.MenuItemButton>
+            <MoreMenu.MenuItemButton onClick={ () => alert('click_01')}>
+                {'click_01'}
+            </MoreMenu.MenuItemButton>
+            <MoreMenu.MenuItemButton onClick={ () => alert('click_02')}>
+                {'click_02'}
+            </MoreMenu.MenuItemButton>
         </MoreMenu>
         </div>
     )
