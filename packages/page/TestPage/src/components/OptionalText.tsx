@@ -1,6 +1,10 @@
 import React from "react";
 import './OptionalText.scss';
 
+
+/**
+ * The component for optional text
+ */
 const OptionalText = ({
     option = 'red', 
     children
@@ -18,8 +22,7 @@ const OptionalText = ({
 }) => {
     return (
         <div className={"OptionalText"}>
-            <span>optional text</span>
-            <div className={option}>{children}</div>
+            <span className={option}>{children}</span>
         </div>
     )
 }

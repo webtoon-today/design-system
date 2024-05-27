@@ -4,6 +4,8 @@ import { PortalDrawer } from 'Drawer';
 
 import OptionalText from "./components/OptionalText";
 
+import "./TestPage.scss";
+
 const TestPage = () => {
     const [open, setOpen] = useState(false);
     const [option, setOption] = useState<'red' | 'blue' | 'green'>('red');
@@ -35,6 +37,27 @@ const TestPage = () => {
             <div>
                 <h2>button group</h2>
                 <button onClick={()=>setOpen(true)}>open drawer</button>
+            </div>
+            <hr />
+            <div style={{display: 'flex', gap: 8}}>
+                <div className={'Card'}>
+                    <header>Card</header>
+                    <div className={"Content"}>
+                        <h3>card content heading</h3>
+                        <p>hello world</p>
+                        <button>button</button>
+                    </div>
+                    <footer>footer</footer>
+                </div>
+                <div className={'Card'}>
+                    <header>Card2</header>
+                    <div className={"Content"}>
+                        <h3>card content heeding</h3>
+                        <p>this content has typo</p>
+                        <button>button</button>
+                    </div>
+                    <footer>footer</footer>
+                </div>
             </div>
             <PortalDrawer isClient open={open} onClose={()=>setOpen(false)} container={container.current}>
                 <div>

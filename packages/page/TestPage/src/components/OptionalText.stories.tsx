@@ -54,6 +54,7 @@ const StateTemplete = (args:Story['args']) => {
 
 export const Default: Story = {
     args: {
+        children: 'hello',
         option: 'red',
     },
     render: DefaultTemplete,

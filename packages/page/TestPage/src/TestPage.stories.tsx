@@ -9,9 +9,6 @@ import TestPage from './TestPage';
 const meta = {
     title: 'page/Test Page',
     component: TestPage,
-    parameters: {
-        layout: 'centered',
-    },
     tags: ['autodocs']
 } satisfies Meta<typeof TestPage>;
 
