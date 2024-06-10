@@ -41,10 +41,10 @@ compareFn) => {
         const targetColumn = convertedData.get(key || keys[0]);
         if (targetColumn === undefined) {
             console.error('Can not find key in data');
-            return Array((_a = convertedData.get(key || keys[0])) === null || _a === void 0 ? void 0 : _a.length).fill(null).map((_, i) => i);
+            return ((_a = convertedData.get(key || keys[0])) === null || _a === void 0 ? void 0 : _a.map((_, i) => i)) || [];
         }
         if (!compareFn) {
-            return Array(targetColumn.length).fill(null).map((_, i) => i);
+            return targetColumn.map((_, i) => i);
         }
         const sortedIndex = targetColumn
             .map((v, i) => ({ v, i }))
@@ -63,6 +63,7 @@ const useSortableTable = (data) => {
     const [convertedData, setConvertedData] = react.useState(_initalizeConvertedData(data));
     const [key, setKey] = react.useState();
     const [compareFn, setCompareFn] = react.useState();
+    const sortedData = react.useMemo(() => _revertDataInOrder(convertedData, key, compareFn), [convertedData, key, compareFn]);
     react.useEffect(() => {
         setConvertedData(_initalizeConvertedData(data));
     }, [data]);
@@ -87,7 +88,7 @@ const useSortableTable = (data) => {
     const sortableTable = {
         sort,
         initializeSort,
-        sortedData: _revertDataInOrder(convertedData, key, compareFn)
+        sortedData
     };
     return sortableTable;
 };
