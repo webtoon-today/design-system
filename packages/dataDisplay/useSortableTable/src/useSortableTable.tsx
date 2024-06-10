@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type SortableTableDataType<V extends Object> = Map<keyof V, Array<V[keyof V]>>;
 
@@ -87,6 +87,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     const [convertedData, setConvertedData] = useState<SortableTableDataType<V> | undefined>(_initalizeConvertedData(data));
     const [key, setKey] = useState<K>();
     const [compareFn, setCompareFn] = useState<(a: any, b: any) => number>();
+    const sortedData = useMemo(()=>_revertDataInOrder(convertedData, key, compareFn),[convertedData, key, compareFn]);
 
     useEffect(() => {
 
@@ -123,7 +124,7 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     const sortableTable = {
         sort,
         initializeSort,
-        sortedData: _revertDataInOrder(convertedData, key, compareFn)
+        sortedData
     };
 
     return sortableTable;
