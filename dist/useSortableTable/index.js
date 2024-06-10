@@ -2,8 +2,13 @@
 
 var react = require('react');
 
-const _initalizeConvertedData = (data, keys) => {
+const unique = (val, idx, arr) => arr.indexOf(val) === idx;
+const _initalizeConvertedData = (data) => {
     const initTableData = new Map();
+    const keys = data.map(row => Object.keys(row)).flat().filter(unique);
+    if (keys.length === 0) {
+        return initTableData;
+    }
     keys.forEach((key) => {
         initTableData.set(key, []);
     });
@@ -18,61 +23,71 @@ const _initalizeConvertedData = (data, keys) => {
     });
     return initTableData;
 };
-const useSortableTable = (data) => {
-    const [convertedData, setConvertedData] = react.useState(undefined);
-    const [sortedData, setSortedData] = react.useState(() => data);
-    react.useEffect(() => {
-        if (data.length === 0) {
-            return;
-        }
-        setSortedData(data);
-        setConvertedData(_initalizeConvertedData(data, keys));
-    }, [data]);
-    const keys = react.useMemo(() => {
-        const objectKeys = data.reduce((lhs, rhs) => {
-            const currentValueKeys = Object.keys(rhs);
-            const newObjectKeys = currentValueKeys.filter((key) => !lhs.includes(key));
-            return [...lhs, ...newObjectKeys];
-        }, []);
-        return objectKeys;
-    }, [data]);
-    const sort = react.useCallback((key, compareFn) => {
-        if (keys.length === 0) {
-            return;
-        }
-        if (convertedData === undefined) {
-            throw new Error('tableData is not initialized');
-        }
-        const targetColumn = convertedData.get(key);
+/**
+ *
+ * @param convertedData
+ * @param key key가 주어지지 않은 경우 아무 키(구현상에서는 첫번째 키)를 사용, 최초의 정렬을 반환
+ * @param compareFn compareFn이 없는 경우 최초의 정렬을 반환
+ * @returns
+ */
+const _revertDataInOrder = (convertedData, key, // 
+compareFn) => {
+    if (!convertedData || convertedData.size === 0) {
+        return [];
+    }
+    const keys = [...convertedData.keys()];
+    const order = (() => {
+        var _a;
+        const targetColumn = convertedData.get(key || keys[0]);
         if (targetColumn === undefined) {
-            throw new Error('Can not find key in data');
+            console.error('Can not find key in data');
+            return Array((_a = convertedData.get(key || keys[0])) === null || _a === void 0 ? void 0 : _a.length).fill(null).map((_, i) => i);
+        }
+        if (!compareFn) {
+            return Array(targetColumn.length).fill(null).map((_, i) => i);
         }
         const sortedIndex = targetColumn
             .map((v, i) => ({ v, i }))
             .sort((a, b) => compareFn(a.v, b.v))
             .map((sorted) => sorted.i);
-        const newSortedData = sortedIndex.map((index) => keys.map((key) => {
-            const value = convertedData.get(key);
-            if (!value) {
-                throw new Error('Can not find key in data');
-            }
-            return { [key]: value[index] };
-        }).reduce((lhs, rhs) => {
-            return Object.assign(Object.assign({}, lhs), rhs);
-        }, {}));
-        setSortedData(newSortedData);
-    }, [convertedData, keys]);
-    const initializeSort = react.useCallback(() => {
-        if (keys.length === 0) {
-            return;
+        return sortedIndex;
+    })();
+    const sortedData = order.map((index) => keys.map((key) => {
+        return { [key]: (convertedData.get(key) || [])[index] };
+    }).reduce((lhs, rhs) => {
+        return Object.assign(Object.assign({}, lhs), rhs);
+    }, {}));
+    return sortedData;
+};
+const useSortableTable = (data) => {
+    const [convertedData, setConvertedData] = react.useState(_initalizeConvertedData(data));
+    const [key, setKey] = react.useState();
+    const [compareFn, setCompareFn] = react.useState();
+    react.useEffect(() => {
+        setConvertedData(_initalizeConvertedData(data));
+    }, [data]);
+    /** validate params and pass key, compareFn */
+    const sort = react.useCallback((key, compareFn) => {
+        if (convertedData === undefined) {
+            throw new Error('tableData is not initialized');
         }
-        setConvertedData(_initalizeConvertedData(data, keys));
-        setSortedData(data);
-    }, [data, keys]);
+        if (!key || !compareFn) {
+            throw new Error('sort parameters are not given');
+        }
+        if (convertedData.get(key) === undefined) {
+            throw new Error('Can not find key in data or data has no key');
+        }
+        setKey(key);
+        setCompareFn(() => compareFn);
+    }, [convertedData]);
+    const initializeSort = react.useCallback(() => {
+        setKey(undefined);
+        setCompareFn(undefined);
+    }, [data]);
     const sortableTable = {
         sort,
         initializeSort,
-        sortedData
+        sortedData: _revertDataInOrder(convertedData, key, compareFn)
     };
     return sortableTable;
 };
