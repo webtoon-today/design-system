@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type SortableTableDataType<V extends Object> = Map<keyof V, Array<V[keyof V]>>;
 
@@ -17,7 +17,6 @@ const _initalizeConvertedData = <V extends Object,>(data: V[]) => {
         initTableData.set(key, []);
     });
 
-
     data.forEach((rowData) => {
         (Object.keys(rowData) as (keyof V)[]).forEach((key) => {
             const targetMapArray = initTableData.get(key);
@@ -32,72 +31,67 @@ const _initalizeConvertedData = <V extends Object,>(data: V[]) => {
     return initTableData;
 }
 
-
-    /** sort data depends on convertedData, key, compareFn */
-const _updateSortedData = <V extends object>(
-    convertedData: SortableTableDataType<V>,
-    setSortedData: React.Dispatch<React.SetStateAction<V[]>>,
-    key?: keyof V,
-    compareFn?: (a: any, b: any) => number
-)=>{
-    
-    const revertDataInOrder = <V extends object>(convertedData: SortableTableDataType<V>, order?: number[]) => {
-
-        const keys = [...convertedData.keys()];
-            
-        const sortedIndex = order
-            ?? Array(convertedData.get(keys[0])?.length).fill(null).map((v,index) => index);
-
-        const sortedData = sortedIndex.map((index) => 
-            keys.map((key) => {
-                return { [key]: (convertedData.get(key)||[])[index] };
-            }).reduce((lhs, rhs) => {
-                return {...lhs, ...rhs}; 
-            }, {} as V)
-        )
-
-        return sortedData;
-    }
+/**
+ * 
+ * @param convertedData 
+ * @param key key가 주어지지 않은 경우 아무 키(구현상에서는 첫번째 키)를 사용, 최초의 정렬을 반환
+ * @param compareFn compareFn이 없는 경우 최초의 정렬을 반환
+ * @returns 
+ */
+const _revertDataInOrder = <V extends object>(
+    convertedData?: SortableTableDataType<V>,
+    key?: keyof V, // 
+    compareFn?: (a: any, b: any) => number, // will use original order
+) => {
 
     if (!convertedData || convertedData.size === 0){
-        setSortedData([]);
-        return;
-    }
-    
-    if (!key || !compareFn){
-        setSortedData(revertDataInOrder(convertedData));;
-        return;
-    }
-    
-    const targetColumn = convertedData.get(key);
-
-    if (targetColumn === undefined) {
-        console.error('Can not find key in data');
-        return;
+        return [];
     }
 
-    const sortedIndex = targetColumn
-        .map((v, i) => ({ v, i }))
-        .sort((a, b) => compareFn(a.v, b.v))
-        .map((sorted) => sorted.i);
+    const keys = [...convertedData.keys()];
+
+    const order = (()=>{
+        const targetColumn = convertedData.get(key || keys[0]);
+    
+        if (targetColumn === undefined) {
+            console.error('Can not find key in data');
+            return Array(convertedData.get(key || keys[0])?.length).fill(null).map((_,i) => i);
+        }
+
+        if (!compareFn){
+            return Array(targetColumn.length).fill(null).map((_,i) => i);
+        }
+    
+        const sortedIndex = targetColumn
+            .map((v, i) => ({ v, i }))
+            .sort((a, b) => compareFn(a.v, b.v))
+            .map((sorted) => sorted.i);
         
-    setSortedData(revertDataInOrder(convertedData, sortedIndex));
+            return sortedIndex;
+    })();
+        
+    const sortedData = order.map((index) => 
+        keys.map((key) => {
+            return { [key]: (convertedData.get(key)||[])[index] };
+        }).reduce((lhs, rhs) => {
+            return {...lhs, ...rhs}; 
+        }, {} as V)
+    )
 
+    return sortedData;
 }
 
 const useSortableTable = <V extends Object>(data: V[]) => {
     type K = keyof V;
 
-    const [convertedData, setConvertedData] = useState<SortableTableDataType<V> | undefined>(undefined);
-    const [sortedData, setSortedData] = useState<V[]>(() => data);
+    const [convertedData, setConvertedData] = useState<SortableTableDataType<V> | undefined>(_initalizeConvertedData(data));
     const [key, setKey] = useState<K>();
     const [compareFn, setCompareFn] = useState<(a: any, b: any) => number>();
 
     useEffect(() => {
-        const newConvertedData = _initalizeConvertedData(data);
-        setConvertedData(newConvertedData);
+
+        setConvertedData(_initalizeConvertedData(data));
         
-        _updateSortedData(newConvertedData, setSortedData, key, compareFn);
     }, [data]);
     
     /** validate params and pass key, compareFn */
@@ -117,20 +111,19 @@ const useSortableTable = <V extends Object>(data: V[]) => {
         setKey(key);
         setCompareFn(()=>compareFn);
         
-        _updateSortedData(convertedData, setSortedData, key, compareFn);
-
     }, [convertedData]);
 
     const initializeSort = useCallback(() => {
 
-        setConvertedData(_initalizeConvertedData(data));
-        setSortedData(data);
+        setKey(undefined);
+        setCompareFn(undefined);
+        
     }, [data]);
 
     const sortableTable = {
         sort,
         initializeSort,
-        sortedData
+        sortedData: _revertDataInOrder(convertedData, key, compareFn)
     };
 
     return sortableTable;
