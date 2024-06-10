@@ -55,11 +55,11 @@ const _revertDataInOrder = <V extends object>(
     
         if (targetColumn === undefined) {
             console.error('Can not find key in data');
-            return Array(convertedData.get(key || keys[0])?.length).fill(null).map((_,i) => i);
+            return convertedData.get(key || keys[0])?.map((_,i) => i) || [];
         }
 
         if (!compareFn){
-            return Array(targetColumn.length).fill(null).map((_,i) => i);
+            return targetColumn.map((_,i) => i);
         }
     
         const sortedIndex = targetColumn
