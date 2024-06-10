@@ -7,7 +7,7 @@ const unique = <T,>(val: T, idx: number, arr: T[]) => arr.indexOf(val) === idx;
 const _initalizeConvertedData = <V extends Object,>(data: V[]) => {
     type K = keyof V;
     const initTableData: SortableTableDataType<V> = new Map();
-    const keys = data.map(row => Object.keys(row) as K[]).flat().filter(unique);
+    const keys = data.flatMap(row => Object.keys(row) as K[]).filter(unique);
 
     if (keys.length === 0) {
         return initTableData;
@@ -67,7 +67,7 @@ const _revertDataInOrder = <V extends object>(
             .sort((a, b) => compareFn(a.v, b.v))
             .map((sorted) => sorted.i);
         
-            return sortedIndex;
+        return sortedIndex;
     })();
         
     const sortedData = order.map((index) => 
