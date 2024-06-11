@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from "react";
 import { DrawerContext } from "./DrawerContext";
 import useAnimation from "./useAnimation";
 
@@ -51,10 +51,26 @@ export const NestedCascadeDrawer = ({
         }
     },[open, id]);
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (Math.max(...nestedDrawerIdList) === id) {
+                    onClose();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [nestedDrawerIdList, id]);
+
     return (
         <div 
-            className={['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v)=>v).join(' ')} 
-            style={{...style, ...isRender ? {} : {display: 'none'}}}
+            className={['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter(Boolean).join(' ')}
+            style={{...style, ...!isRender ? {display: 'none'} : {}}}
             onTransitionEnd={onTransitionEnd} 
             onAnimationEnd={onTransitionEnd} 
             onClick={() => onClose()}
