@@ -58,7 +58,7 @@ jobs:
           git add .
           if git diff-index --name-only HEAD --; then
             git commit -m "build all packages"
-            git push
+            git push origin HEAD:${GITHUB_REF#refs/heads/}
           else
             echo "No changes to the output on this push;"
           fi
