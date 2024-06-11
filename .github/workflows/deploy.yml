@@ -71,13 +71,12 @@ jobs:
 
               const bodyString = `Storybook Deployed: https://design-system.webtoon.today/${releaseBranch}`;
               
-              cosnt res = await github.rest.issues.createComment({
+              github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: bodyString
               });
-              console.log(res);
             } catch(error) {
               console.error(error);
             }
