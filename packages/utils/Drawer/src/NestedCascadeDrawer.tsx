@@ -66,6 +66,7 @@ export const NestedCascadeDrawer = ({
             >
                 <div className={'DrawerInner'}>
                     {children}
+                    {"test"}
                 </div>
             </div>
         </div>
