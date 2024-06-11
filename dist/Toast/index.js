@@ -77,8 +77,7 @@ const RootToast = ({ message, timeout = 3000, iconType }) => {
                 : message }) }));
 };
 const GlobalToast = () => {
-    const toast = recoil.useRecoilValue(toastAlertAtom);
-    const { message, timeout, iconType } = toast;
+    const { message, timeout, iconType } = recoil.useRecoilValue(toastAlertAtom);
     return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { message, timeout, iconType }) }));
 };
 const Toast = RootToast;

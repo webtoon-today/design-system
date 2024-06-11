@@ -39,9 +39,7 @@ const RootToast = ({ message, timeout = 3000, iconType } : { message: React.Reac
 }
 
 export const GlobalToast = () => {
-    const toast = useRecoilValue(toastAlertAtom);
-
-    const { message, timeout, iconType } = toast;
+    const { message, timeout, iconType } = useRecoilValue(toastAlertAtom);
 
     return (
         <RecoilRoot>
