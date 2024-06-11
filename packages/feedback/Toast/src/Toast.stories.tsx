@@ -2,16 +2,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import React from 'react';
 
-import { WithOutReoilToast } from './Toast';
+import { WithoutReoilToast } from './Toast';
 
 const meta = {
     title: 'feadback/Toast',
-    component: WithOutReoilToast,
+    component: WithoutReoilToast,
     parameters: {
         layout: 'centered',
     },
     tags: ['autodocs'],
-} satisfies Meta<typeof WithOutReoilToast>;
+} satisfies Meta<typeof WithoutReoilToast>;
 
 export default meta;
 
@@ -22,7 +22,7 @@ export const Default = {
         return (
             <div>
                 content
-                <WithOutReoilToast message={'hello'} />
+                <WithoutReoilToast message={'hello'} />
             </div>
         )
     }

@@ -81,8 +81,8 @@ const Toast = () => {
     const { message, timeout, iconType } = toast;
     return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { message: message, timeout: timeout, iconType: iconType }) }));
 };
-const WithOutReoilToast = RootToast;
+const WithoutReoilToast = RootToast;
 
 exports.Toast = Toast;
-exports.WithOutReoilToast = WithOutReoilToast;
+exports.WithoutReoilToast = WithoutReoilToast;
 exports.useToastAlert = useToastAlert;

@@ -50,4 +50,4 @@ export const Toast = () => {
     );
 }
 
-export const WithOutReoilToast = RootToast;
+export const WithoutReoilToast = RootToast;
