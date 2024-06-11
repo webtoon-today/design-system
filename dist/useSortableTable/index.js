@@ -5,7 +5,7 @@ var react = require('react');
 const unique = (val, idx, arr) => arr.indexOf(val) === idx;
 const _initalizeConvertedData = (data) => {
     const initTableData = new Map();
-    const keys = data.map(row => Object.keys(row)).flat().filter(unique);
+    const keys = data.flatMap(row => Object.keys(row)).filter(unique);
     if (keys.length === 0) {
         return initTableData;
     }
@@ -65,6 +65,9 @@ const useSortableTable = (data) => {
     const [compareFn, setCompareFn] = react.useState();
     const sortedData = react.useMemo(() => _revertDataInOrder(convertedData, key, compareFn), [convertedData, key, compareFn]);
     react.useEffect(() => {
+        if (data.length === 0) {
+            return;
+        }
         setConvertedData(_initalizeConvertedData(data));
     }, [data]);
     /** validate params and pass key, compareFn */
