@@ -83,7 +83,7 @@ const NestedCascadeDrawer = ({ children, open, onClose, className = "", style = 
             setNestedDrawerIdList((prev) => prev.filter((v) => v !== id));
         };
     }, [open, id]);
-    return (jsxRuntime.jsx("div", { className: ['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v) => v).join(' '), style: Object.assign(Object.assign({}, style), isRender ? {} : { display: 'none' }), onTransitionEnd: onTransitionEnd, onAnimationEnd: onTransitionEnd, onClick: () => onClose(), children: jsxRuntime.jsx("div", { className: `CascadeDrawer`, "data-depth": depth, onClick: (e) => e.stopPropagation(), children: jsxRuntime.jsx("div", { className: 'DrawerInner', children: children }) }) }));
+    return (jsxRuntime.jsx("div", { className: ['BackgroundScreen', className, !isAnimating ? "DrawerOut" : ""].filter((v) => v).join(' '), style: Object.assign(Object.assign({}, style), isRender ? {} : { display: 'none' }), onTransitionEnd: onTransitionEnd, onAnimationEnd: onTransitionEnd, onClick: () => onClose(), children: jsxRuntime.jsx("div", { className: `CascadeDrawer`, "data-depth": depth, onClick: (e) => e.stopPropagation(), children: jsxRuntime.jsxs("div", { className: 'DrawerInner', children: [children, "test"] }) }) }));
 };
 
 /******************************************************************************

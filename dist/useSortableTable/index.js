@@ -5,7 +5,7 @@ var react = require('react');
 const unique = (val, idx, arr) => arr.indexOf(val) === idx;
 const _initalizeConvertedData = (data) => {
     const initTableData = new Map();
-    const keys = data.map(row => Object.keys(row)).flat().filter(unique);
+    const keys = data.flatMap(row => Object.keys(row)).filter(unique);
     if (keys.length === 0) {
         return initTableData;
     }
