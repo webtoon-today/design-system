@@ -23,4 +23,4 @@ declare const useToastAlert: () => {
     toastAlert: toastAlertType;
 };
 
-export { Toast, WithoutReoilToast, type toastAlertType, useToastAlert };
+export { Toast, WithoutReoilToast, type toastAlertType, type toastObjectType, useToastAlert };

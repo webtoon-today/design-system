@@ -4,11 +4,12 @@ import { atom, useSetRecoilState } from "recoil";
 const types = ["success", "warning", "error", "info"] as const
 export type toastIconTypes = typeof types[number];
 
-type toastObjectType = {
+export type toastObjectType = {
     message: string | ReactNode,
     timeout?: number,
     iconType?: toastIconTypes
 }
+
 export type toastAlertType = {
     (obj: toastObjectType): void;
     (message: string, timeout?: number, iconType?: toastIconTypes): void;
