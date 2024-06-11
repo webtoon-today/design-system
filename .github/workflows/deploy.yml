@@ -32,18 +32,54 @@ jobs:
       - if: steps.npm-cache.outputs.cache-hit == 'true'
         run: echo 'npm cache hit'
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: build-storybook
+        run: npm run build-storybook
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: build-storybook
-        run: npm run build-storybook
       
       - name: deploy-storybook
         run: npm run deploy-storybook
+
+      - name: build packages
+        run: npm run build
+
+      - name: commit and push
+        run: |
+          git config --global user.email ""
+          git config --global user.name "github-actions[bot]"
+          git add .
+          if git diff-index --name-only HEAD --; then
+            git commit -m "build all packages"
+            git push
+          else
+            echo "No changes to the output on this push;"
+          fi
+          - name: comment on PR
+          uses: actions/github-script@v6
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            script: |
+              try {
+                const event = require(process.env.GITHUB_EVENT_PATH);
+                const releaseBranch = event.ref;
+  
+                const bodyString = `Storybook Deployed: https://design-system.webtoon.today/${releaseBranch}`;
+  
+                github.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: bodyString
+                });
+              } catch(error) {
+                console.error(error);
+              }
