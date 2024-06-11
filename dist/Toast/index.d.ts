@@ -1,26 +1,26 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import React, { ReactNode } from 'react';
 
-declare const Toast: () => react_jsx_runtime.JSX.Element;
-declare const WithoutReoilToast: ({ message, timeout, iconType }: {
+declare const GlobalToast: () => react_jsx_runtime.JSX.Element;
+declare const Toast: ({ message, timeout, iconType }: {
     message: React.ReactNode;
     timeout?: number;
     iconType?: "error" | "success" | "warning" | "info";
 }) => react_jsx_runtime.JSX.Element;
 
 declare const types: readonly ["success", "warning", "error", "info"];
-type toastIconTypes = typeof types[number];
-type toastObjectType = {
+type ToastIconTypes = typeof types[number];
+type ToastObjectType = {
     message: string | ReactNode;
     timeout?: number;
-    iconType?: toastIconTypes;
+    iconType?: ToastIconTypes;
 };
-type toastAlertType = {
-    (obj: toastObjectType): void;
-    (message: string, timeout?: number, iconType?: toastIconTypes): void;
+type ToastAlertType = {
+    (obj: ToastObjectType): void;
+    (message: string, timeout?: number, iconType?: ToastIconTypes): void;
 };
 declare const useToastAlert: () => {
-    toastAlert: toastAlertType;
+    toastAlert: ToastAlertType;
 };
 
-export { Toast, WithoutReoilToast, type toastAlertType, type toastObjectType, useToastAlert };
+export { GlobalToast, Toast, type ToastAlertType, type ToastObjectType, useToastAlert };

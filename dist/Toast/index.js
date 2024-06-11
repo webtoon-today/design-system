@@ -76,13 +76,13 @@ const RootToast = ({ message, timeout = 3000, iconType }) => {
                 ? jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("img", { src: `https://static.webtoon.today/ddah/icon/icon_${iconType}.svg`, alt: iconType, width: 20, height: 20, style: { marginRight: 10 } }), message, jsxRuntime.jsx("div", { className: 'CheckButton', onClick: () => setAnimationState('FadeOut'), children: '확인' })] })
                 : message }) }));
 };
-const Toast = () => {
+const GlobalToast = () => {
     const toast = recoil.useRecoilValue(toastAlertAtom);
     const { message, timeout, iconType } = toast;
-    return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { message: message, timeout: timeout, iconType: iconType }) }));
+    return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { message, timeout, iconType }) }));
 };
-const WithoutReoilToast = RootToast;
+const Toast = RootToast;
 
+exports.GlobalToast = GlobalToast;
 exports.Toast = Toast;
-exports.WithoutReoilToast = WithoutReoilToast;
 exports.useToastAlert = useToastAlert;
