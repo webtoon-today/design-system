@@ -56,12 +56,9 @@ jobs:
           git config --global user.email ""
           git config --global user.name "github-actions[bot]"
           git add .
-          if git diff-index --name-only HEAD --; then
-            git commit -m "build all packages"
-            git push origin HEAD:${GITHUB_REF#refs/heads/}
-          else
-            echo "No changes to the output on this push;"
-          fi
+          git commit -m "build all packages" || exit 0
+          git push
+          
       - name: comment on PR
         uses: actions/github-script@v6
         env:
