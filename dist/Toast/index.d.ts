@@ -1,7 +1,12 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 declare const Toast: () => react_jsx_runtime.JSX.Element;
+declare const WithOutReoilToast: ({ message, timeout, iconType }: {
+    message: React.ReactNode;
+    timeout?: number;
+    iconType?: "error" | "success" | "warning" | "info";
+}) => react_jsx_runtime.JSX.Element;
 
 declare const types: readonly ["success", "warning", "error", "info"];
 type toastIconTypes = typeof types[number];
@@ -18,4 +23,4 @@ declare const useToastAlert: () => {
     toastAlert: toastAlertType;
 };
 
-export { Toast, type toastAlertType, useToastAlert };
+export { Toast, WithOutReoilToast, type toastAlertType, useToastAlert };
