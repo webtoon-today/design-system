@@ -67,7 +67,7 @@ jobs:
           script: |
             try {
               const event = require(process.env.GITHUB_EVENT_PATH);
-              const releaseBranch = event.ref;
+              const releaseBranch = event.ref.replace('refs/heads/', '');
 
               const bodyString = `Storybook Deployed: https://design-system.webtoon.today/${releaseBranch}`;
               
