@@ -62,24 +62,24 @@ jobs:
           else
             echo "No changes to the output on this push;"
           fi
-          - name: comment on PR
-          uses: actions/github-script@v6
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            script: |
-              try {
-                const event = require(process.env.GITHUB_EVENT_PATH);
-                const releaseBranch = event.ref;
-  
-                const bodyString = `Storybook Deployed: https://design-system.webtoon.today/${releaseBranch}`;
-  
-                github.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: bodyString
-                });
-              } catch(error) {
-                console.error(error);
-              }
+      - name: comment on PR
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            try {
+              const event = require(process.env.GITHUB_EVENT_PATH);
+              const releaseBranch = event.ref;
+
+              const bodyString = `Storybook Deployed: https://design-system.webtoon.today/${releaseBranch}`;
+
+              github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: bodyString
+              });
+            } catch(error) {
+              console.error(error);
+            }
