@@ -90,7 +90,9 @@ const useSortableTable = <V extends Object>(data: V[]) => {
     const sortedData = useMemo(()=>_revertDataInOrder(convertedData, key, compareFn),[convertedData, key, compareFn]);
 
     useEffect(() => {
-
+        if (data.length === 0) {
+            return;
+        }
         setConvertedData(_initalizeConvertedData(data));
         
     }, [data]);
