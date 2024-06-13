@@ -330,4 +330,96 @@ export const Interactive: Story = {
     render: DefaultTemplete,
 };
 
+export const CreateAndRemoveData: Story = {
+    render: () => {
+        const [data, setData] = useState<DummyType[]>(dummy);
+        const [inputData, setInputData] = useState<DummyType>({ name: '', like: 0, checked: false, period: { start: 0, end: 0 } });
+
+        const [selectedSortKey, setSelectedSortKey] = useState<keyof DummyType | "">('');
+
+        const addData = (newData: DummyType) => {
+            setData([...data, newData]);
+            setInputData({ name: '', like: 0, checked: false, period: { start: 0, end: 0 } });
+        }
+
+        const removeData = (index: number) => {
+            setData(data.filter((_, i) => i !== index));
+        }
+
+        const sortableTable = useSortableTable(data);
+
+        return (
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            {(['checked', 'name', 'like', 'period'] as (keyof DummyType)[]).map((key) => <th key={key}>
+                                <button 
+                                    onClick={() => {
+                                        setSelectedSortKey(key);
+                                        if (key === 'name') {
+                                            sortableTable.sort(key, (a: string, b: string) => a.localeCompare(b));
+                                        }
+                                        if (key === 'like') {
+                                            sortableTable.sort(key, (a: number, b: number) => a - b);
+                                        }
+                                        if (key === 'period') {
+                                            sortableTable.sort(key, (a: DummyType['period'], b: DummyType['period']) => a.start - b.start);
+                                        }
+                                    }} 
+                                    style={selectedSortKey === key ? {color: 'red'} : {}}
+                                >
+                                    {key}
+                                </button>
+                            </th>)}
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sortableTable.sortedData.map((obj, index) => 
+                            <tr key={`${obj.name}:${obj.like}`}>
+                                <td>{obj.checked ? "V" : "X"}</td>
+                                <td>{obj.name}</td>
+                                <td>{obj.like}</td>
+                                <td>
+                                    <span>{new Date(obj.period.start).toLocaleDateString()}</span>
+                                    <br />
+                                    <span>{new Date(obj.period.end).toLocaleDateString()}</span>
+                                </td>
+                                <td>
+                                    <button onClick={() => removeData(index)}>삭제</button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <div>
+                    <h3>새로운 데이터 추가</h3>
+                    <label>
+                        name
+                        <input type="text" value={inputData.name} onChange={(e) => setInputData({...inputData, name: e.target.value})} />
+                    </label>
+                    <label>
+                        like
+                        <input type="number" value={inputData.like} onChange={(e) => setInputData({...inputData, like: Number(e.target.value)})} />
+                    </label>
+                    <label>
+                        checked
+                        <input type="checkbox" checked={inputData.checked} onChange={(e) => setInputData({...inputData, checked: e.target.checked})} />
+                    </label>
+                    <label>
+                        period start
+                        <input type="date" value={new Date(inputData.period.start).toISOString().split('T')[0]} onChange={(e) => setInputData({...inputData, period: {...inputData.period, start: new Date(e.target.value).getTime()}})} />
+                    </label>
+                    <label>
+                        period end
+                        <input type="date" value={new Date(inputData.period.end).toISOString().split('T')[0]} onChange={(e) => setInputData({...inputData, period: {...inputData.period, end: new Date(e.target.value).getTime()}})} />
+                    </label>
+                    <button onClick={() => addData(inputData)}>추가</button>
+                </div>
+            </div>
+        )
+    }
+}
+
 
