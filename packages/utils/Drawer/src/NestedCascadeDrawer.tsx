@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import React, { CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from "react";
 import { DrawerContext } from "./DrawerContext";
 import useAnimation from "./useAnimation";
 
