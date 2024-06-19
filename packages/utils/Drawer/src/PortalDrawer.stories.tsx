@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 import React, { useRef, useState } from 'react';
+
 import { NestedCascadeDrawer } from './NestedCascadeDrawer';
 import { PortalDrawer } from './PortalDrawer';
+
 /**
  * PortalDrawer is a component that renders Drawer in the body element.
  * 
@@ -17,7 +18,6 @@ const meta = {
         layout: 'centered',
     },
     tags: ['autodocs'],
-    args: { onClose: fn() },
 } satisfies Meta<typeof PortalDrawer>;
 
 export default meta;
