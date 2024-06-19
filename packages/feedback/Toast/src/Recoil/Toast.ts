@@ -2,20 +2,21 @@ import { ReactNode, useCallback } from "react";
 import { atom, useSetRecoilState } from "recoil";
 
 const types = ["success", "warning", "error", "info"] as const
-export type toastIconTypes = typeof types[number];
+export type ToastIconTypes = typeof types[number];
 
-type toastObjectType = {
+export type ToastObjectType = {
     message: string | ReactNode,
     timeout?: number,
-    iconType?: toastIconTypes
+    iconType?: ToastIconTypes
 }
-export type toastAlertType = {
-    (obj: toastObjectType): void;
-    (message: string, timeout?: number, iconType?: toastIconTypes): void;
+
+export type ToastAlertType = {
+    (obj: ToastObjectType): void;
+    (message: string, timeout?: number, iconType?: ToastIconTypes): void;
 }
 
 const initialTimeout = 3000;
-const toastDefault: toastObjectType = {
+const toastDefault: ToastObjectType = {
     message: '', timeout: 0,
 }
 export const toastAlertAtom = atom({
@@ -26,10 +27,10 @@ export const toastAlertAtom = atom({
 export const useToastAlert = () => {
     const setToastAlertAtom = useSetRecoilState(toastAlertAtom);
 
-    const toastAlert: toastAlertType = useCallback( (
-        messageOfParamsOrToastObject: string | toastObjectType,
+    const toastAlert: ToastAlertType = useCallback( (
+        messageOfParamsOrToastObject: string | ToastObjectType,
         timeoutOfParams?: number,
-        iconTypeOfParams?: toastIconTypes
+        iconTypeOfParams?: ToastIconTypes
     ): void => {
         let message, timeout, iconType;
 
