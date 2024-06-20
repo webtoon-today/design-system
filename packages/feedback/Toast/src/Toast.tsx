@@ -21,6 +21,10 @@ const RootToast = ({ message, timeout = 3000, iconType } : { message: React.Reac
         }
     },[message, timeout]);
 
+    if (!message) {
+        return null;
+    }
+
     return (
         <div className={`ToastBackgroundArea ${animationState}`} >
             <div className={`ToastBox ${ iconType ? "IconToast":""}`} >

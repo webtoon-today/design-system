@@ -72,6 +72,9 @@ const RootToast = ({ message, timeout = 3000, iconType }) => {
             clearTimeout(timer);
         };
     }, [message, timeout]);
+    if (!message) {
+        return null;
+    }
     return (jsxRuntime.jsx("div", { className: `ToastBackgroundArea ${animationState}`, children: jsxRuntime.jsx("div", { className: `ToastBox ${iconType ? "IconToast" : ""}`, children: iconType
                 ? jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("img", { src: `https://static.webtoon.today/ddah/icon/icon_${iconType}.svg`, alt: iconType, width: 20, height: 20, style: { marginRight: 10 } }), message, jsxRuntime.jsx("div", { className: 'CheckButton', onClick: () => setAnimationState('FadeOut'), children: '확인' })] })
                 : message }) }));
