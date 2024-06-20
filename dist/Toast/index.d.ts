@@ -6,7 +6,7 @@ declare const Toast: ({ message, timeout, iconType }: {
     message: React.ReactNode;
     timeout?: number;
     iconType?: "error" | "success" | "warning" | "info";
-}) => react_jsx_runtime.JSX.Element;
+}) => react_jsx_runtime.JSX.Element | null;
 
 declare const types: readonly ["success", "warning", "error", "info"];
 type ToastIconTypes = typeof types[number];

@@ -2,7 +2,7 @@
   "name": "design-system",
   "description": "webtoon today design system",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "workspaces": [
     "configs/*",
     "packages/**/**"
@@ -57,8 +57,7 @@
     "react": "^17.0.2"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "author": "@webtoontoday"
 }
