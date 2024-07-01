@@ -1,9 +1,11 @@
 import React, { ChangeEventHandler, useState } from 'react';
 
-import { TextBox, VerificationButton, buttonStatusType, guideTextType, purposeType, validationStatusType } from './GuideTextBox';
+import { TextBox } from './GuideTextBox';
+import { VerificationButton } from './VerificationButton';
+import { buttonStatusType, guideTextType, purposeType, validationStatusType } from './Type';
+import { getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
-
 
 export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
     purpose: purposeType,
@@ -19,18 +21,13 @@ export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, 
 }) => {
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);            
+    
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: hasClicked && validationStatus === 'undone', 
+        success : validationStatus === 'success',
+        fail    : validationStatus === 'fail', 
+    })
 
-    let guideTextType: guideTextType = 'normal';
-    if(hasClicked && validationStatus === 'undone'){
-        guideTextType = 'required';
-    } else if(validationStatus === 'success'){
-        guideTextType = 'success';
-    } else if(validationStatus === 'fail'){
-        guideTextType = 'fail';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
 
     let buttonStatus: buttonStatusType = 'activated';
     if(text.length === 0){

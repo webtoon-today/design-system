@@ -1,10 +1,12 @@
 
 import React, { ChangeEventHandler, useState } from 'react';
 
-import { TextBox, VerificationButton, buttonStatusType, guideTextType, purposeType, validationStatusType } from './GuideTextBox';
+import { TextBox } from './GuideTextBox';
+import { VerificationButton } from './VerificationButton';
+import { buttonStatusType, guideTextType, purposeType, validationStatusType } from './main';
+import { getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
-
 
 
 export const GuideTextBoxForPairedVerification = ({purpose, text, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
@@ -24,15 +26,10 @@ export const GuideTextBoxForPairedVerification = ({purpose, text, validationPatt
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);            
 
-    let guideTextType: guideTextType = 'normal';
-    if(hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0)){
-        guideTextType = 'required';
-    } else if(validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused){
-        guideTextType = 'success';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0), 
+        success : validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused 
+    })
 
     let buttonStatus: buttonStatusType = 'activated';
     if(text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text))){

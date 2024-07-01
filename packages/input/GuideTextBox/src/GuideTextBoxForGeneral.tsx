@@ -2,7 +2,9 @@ import React, { ChangeEventHandler, FocusEventHandler, HTMLInputTypeAttribute, K
 
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
-import { TextBox, guideTextType } from './GuideTextBox';
+import { TextBox } from './GuideTextBox';
+import { guideTextType } from './Type';
+import { getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
 
@@ -28,13 +30,10 @@ export const GuideTextBoxForGeneral = ({
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    let guideTextType: guideTextType = 'normal';
-    if(isRequired && hasClicked && text.length === 0){
-        guideTextType = 'required';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: isRequired && hasClicked && text.length === 0
+    })
+
     return (
         <TextBox
             text={text}

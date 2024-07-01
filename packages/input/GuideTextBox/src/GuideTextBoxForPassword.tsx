@@ -4,7 +4,9 @@ import React, { ChangeEventHandler, KeyboardEventHandler, useState } from 'react
 import { IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 
-import { TextBox, guideTextType } from './GuideTextBox';
+import { TextBox } from './GuideTextBox';
+import { guideTextType } from './Type';
+import { getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
 
@@ -27,13 +29,9 @@ export const GuideTextBoxForPassword = ({
     const [isFocused, setIsFocused] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
-    let guideTextType: guideTextType = 'normal';
-    if(isRequired && hasClicked ){
-        guideTextType = 'required';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: isRequired && hasClicked
+    })
 
     return (
         <TextBox

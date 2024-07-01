@@ -36,7 +36,7 @@
         
         &.Disabled{
             border: 1px solid rgba(213, 213, 216, 1);
-            background: var(--state-disabled-textfield, linear-gradient(0deg, rgba(138, 138, 138, 0.25) 0%, rgba(138, 138, 138, 0.25) 100%), rgba(246, 246, 249, 1));
+            background: linear-gradient(0deg, rgba(138, 138, 138, 0.25) 0%, rgba(138, 138, 138, 0.25) 100%), rgba(246, 246, 249, 1);
         }
 
         input{
