@@ -7,6 +7,6 @@ export const LocalLoadingCircle = ({show}: { show: boolean }) => {
 
     return (<BaseLoadingCircle 
         show={show}
-        type={"Local"}
+        isLocal={true}
     />);
 }
