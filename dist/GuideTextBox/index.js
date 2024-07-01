@@ -7,16 +7,12 @@ var icons = require('@material-ui/icons');
 
 const capitalizeFirstLetter = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 const getGuideTextType = (conditions) => {
-    if (conditions['required']) {
-        return 'required';
-    }
-    if (conditions['success']) {
-        return 'success';
-    }
-    if (conditions['fail']) {
-        return 'fail';
-    }
-    return 'normal';
+    const foundType = ["fail", "success", "required"].find(type => conditions[type]);
+    return foundType ? foundType : 'normal';
+};
+const getButtonStatusType = (conditions) => {
+    const foundType = ['inactivated', 'fail', 'success', 'pending'].find(type => conditions[type]);
+    return foundType ? foundType : 'activated';
 };
 
 function styleInject(css, ref) {
@@ -50,14 +46,12 @@ var css_248z = ".TextBoxContainer {\n  display: flex;\n  flex-direction: column;
 styleInject(css_248z);
 
 const TextBox = ({ children, text, placeholder, guideTextType, guideText, maxLength, onChange, onFocus, onBlur, onKeyDown, isFocused, isDisabled, type, style }) => {
-    let textboxClassList = ['TextBox'];
-    if (isDisabled) {
-        textboxClassList.push('Disabled');
-    }
-    if (isFocused) {
-        textboxClassList.push('Focused');
-    }
-    return (jsxRuntime.jsxs("div", { className: 'TextBoxContainer', children: [jsxRuntime.jsxs("div", { className: textboxClassList.join(' '), style: style, children: [jsxRuntime.jsx("input", { placeholder: placeholder, value: text, onChange: onChange, onFocus: onFocus, onBlur: onBlur, disabled: isDisabled, type: type, onKeyDown: onKeyDown, style: { fontFamily: 'inherit', fontSize: 'inherit' } }), children] }), guideText &&
+    const textboxClassList = [
+        'TextBox',
+        isDisabled && 'Disabled',
+        isFocused && 'Focused',
+    ];
+    return (jsxRuntime.jsxs("div", { className: 'TextBoxContainer', children: [jsxRuntime.jsxs("div", { className: textboxClassList.filter(Boolean).join(' '), style: style, children: [jsxRuntime.jsx("input", { placeholder: placeholder, value: text, onChange: onChange, onFocus: onFocus, onBlur: onBlur, disabled: isDisabled, type: type, onKeyDown: onKeyDown, style: { fontFamily: 'inherit', fontSize: 'inherit' } }), children] }), guideText &&
                 jsxRuntime.jsxs("div", { className: 'TextBoxGuide', children: [jsxRuntime.jsx("span", { className: capitalizeFirstLetter(guideTextType), children: guideText }), maxLength >= 0 && jsxRuntime.jsx("span", { className: 'LetterCount', children: `${text.length}/${maxLength}` })] })] }));
 };
 
@@ -101,19 +95,12 @@ const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeh
         success: validationStatus === 'success',
         fail: validationStatus === 'fail',
     });
-    let buttonStatus = 'activated';
-    if (text.length === 0) {
-        buttonStatus = 'inactivated';
-    }
-    else if (validationStatus === 'pending') {
-        buttonStatus = 'pending';
-    }
-    else if (validationStatus === 'success' && !isFocused) {
-        buttonStatus = 'success';
-    }
-    else if (validationStatus === 'fail' && !isFocused) {
-        buttonStatus = 'fail';
-    }
+    const buttonStatus = getButtonStatusType({
+        inactivated: text.length === 0,
+        pending: validationStatus === 'pending',
+        success: validationStatus === 'success' && !isFocused,
+        fail: validationStatus === 'fail' && !isFocused,
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled || validationStatus === 'pending', onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
@@ -163,13 +150,10 @@ const GuideTextBoxForPairedVerification = ({ purpose, text, validationPattern, o
         required: hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0),
         success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
     });
-    let buttonStatus = 'activated';
-    if (text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text))) {
-        buttonStatus = 'inactivated';
-    }
-    else if (validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused) {
-        buttonStatus = 'success';
-    }
+    const buttonStatus = getButtonStatusType({
+        inactivated: text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text)),
+        success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
