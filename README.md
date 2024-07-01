@@ -3,7 +3,7 @@
 ### Preferred Dev Environment
 
 * Ubuntu Linux 20.04.
-* Node 18.22.
+* Node 18
 
 ### Install instruction
 

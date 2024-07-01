@@ -2,7 +2,7 @@
   "name": "design-system",
   "description": "webtoon today design system",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.4.0",
   "workspaces": [
     "configs/*",
     "packages/**/**"
@@ -24,16 +24,16 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.5",
-    "@storybook/addon-essentials": "^8.0.9",
-    "@storybook/addon-interactions": "^8.0.9",
-    "@storybook/addon-links": "^8.0.9",
-    "@storybook/addon-onboarding": "^8.0.9",
+    "@storybook/addon-essentials": "^8.1.5",
+    "@storybook/addon-interactions": "^8.1.5",
+    "@storybook/addon-links": "^8.1.5",
+    "@storybook/addon-onboarding": "^8.1.5",
     "@storybook/addon-webpack5-compiler-swc": "^1.0.2",
-    "@storybook/blocks": "^8.0.9",
+    "@storybook/blocks": "^8.1.5",
     "@storybook/preset-scss": "^1.0.3",
-    "@storybook/react": "^8.0.9",
-    "@storybook/react-webpack5": "^8.0.9",
-    "@storybook/test": "^8.0.9",
+    "@storybook/react": "^8.1.5",
+    "@storybook/react-webpack5": "^8.1.5",
+    "@storybook/test": "^8.1.5",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.18",
     "css-loader": "^7.1.1",
@@ -45,13 +45,19 @@
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.69.5",
     "sass-loader": "^14.2.1",
-    "storybook": "^8.0.9",
+    "storybook": "^8.1.5",
     "style-loader": "^4.0.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.2"
   },
+  "overrides": {
+    "ip": "^2.0.1"
+  },
   "peerDependencies": {
     "react": "^17.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "author": "@webtoontoday"
 }
