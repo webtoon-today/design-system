@@ -26,16 +26,15 @@ export const TextBox = ({
     onKeyDown?: KeyboardEventHandler<HTMLInputElement>,
     style?: CSSProperties,
 }) => {
-    let textboxClassList = ['TextBox'];
-    if(isDisabled){
-        textboxClassList.push('Disabled');
-    }
-    if(isFocused){
-        textboxClassList.push('Focused');
-    }
+    const textboxClassList = [
+        'TextBox',
+        isDisabled && 'Disabled',
+        isFocused  && 'Focused' ,
+    ] as const;
+
     return (
         <div className={'TextBoxContainer'}>
-            <div className={textboxClassList.join(' ')} style={style}>
+            <div className={textboxClassList.filter(Boolean).join(' ')} style={style}>
                 <input
                     placeholder={placeholder}
                     value={text}

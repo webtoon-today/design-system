@@ -3,7 +3,7 @@ import React, { ChangeEventHandler, useState } from 'react';
 import { TextBox } from './GuideTextBox';
 import { VerificationButton } from './VerificationButton';
 import { buttonStatusType, guideTextType, purposeType, validationStatusType } from './Type';
-import { getGuideTextType } from './Function';
+import { getButtonStatusType, getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
 
@@ -28,17 +28,12 @@ export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, 
         fail    : validationStatus === 'fail', 
     })
 
-
-    let buttonStatus: buttonStatusType = 'activated';
-    if(text.length === 0){
-        buttonStatus = 'inactivated';
-    } else if(validationStatus === 'pending'){
-        buttonStatus = 'pending';
-    } else if(validationStatus === 'success' && !isFocused){
-        buttonStatus = 'success';
-    } else if(validationStatus === 'fail' && !isFocused){
-        buttonStatus = 'fail';
-    }
+    const buttonStatus: buttonStatusType = getButtonStatusType({
+        inactivated: text.length === 0,
+        pending: validationStatus === 'pending',
+        success: validationStatus === 'success' && !isFocused,
+        fail: validationStatus === 'fail'       && !isFocused,
+    })
 
     return (
         <TextBox

@@ -3,8 +3,8 @@ import React, { ChangeEventHandler, useState } from 'react';
 
 import { TextBox } from './GuideTextBox';
 import { VerificationButton } from './VerificationButton';
-import { buttonStatusType, guideTextType, purposeType, validationStatusType } from './main';
-import { getGuideTextType } from './Function';
+import { buttonStatusType, guideTextType, purposeType, validationStatusType } from './Type';
+import { getButtonStatusType, getGuideTextType } from './Function';
 
 import './GuideTextBox.scss';
 
@@ -31,12 +31,10 @@ export const GuideTextBoxForPairedVerification = ({purpose, text, validationPatt
         success : validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused 
     })
 
-    let buttonStatus: buttonStatusType = 'activated';
-    if(text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text))){
-        buttonStatus = 'inactivated';
-    } else if(validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused){
-        buttonStatus = 'success';
-    }
+    const buttonStatus: buttonStatusType = getButtonStatusType({
+        inactivated: text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text)),
+        success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
+    })
 
     return (
         <TextBox
