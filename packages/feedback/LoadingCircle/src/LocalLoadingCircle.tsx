@@ -1,11 +1,11 @@
 import React, { CSSProperties } from 'react';
 
 import "./LoadingCircle.scss";
-import { LoadingCircle } from './LoadingCircle';
+import { BaseLoadingCircle } from './BaseLoadingCircle';
 
 export const LocalLoadingCircle = ({show}: { show: boolean }) => {
 
-    return (<LoadingCircle 
+    return (<BaseLoadingCircle 
         show={show}
         type={"Local"}
     />);

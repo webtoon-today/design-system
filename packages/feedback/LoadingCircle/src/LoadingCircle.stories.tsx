@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import React, { useEffect, useRef, useState } from 'react';
-import { GlobalLoadingCircle } from './GlobalLoadingCircle';
+import { LoadingCircle } from './LoadingCircle';
 import { LocalLoadingCircle } from './LocalLoadingCircle';
 /**
  * GlobalLoadingCircle is the component covers the whole browser.
@@ -10,13 +10,13 @@ import { LocalLoadingCircle } from './LocalLoadingCircle';
  */
 const meta = {
     title: 'feedback/loadingCircle',
-    component: GlobalLoadingCircle,
+    component: LoadingCircle,
     parameters: {
         layout: 'centered',
     },
     tags: ['autodocs'],
     args: { isClient: true },
-} satisfies Meta<typeof GlobalLoadingCircle>;
+} satisfies Meta<typeof LoadingCircle>;
 
 
 export default meta;
@@ -32,8 +32,8 @@ export const Default = () => {
     },[isLoading])
     return(
         <div>
-            <button onClick={() => !isLoading ? setIsLoading(true) : {} } >{'글로벌 서클 켜기(2초만)'}</button>
-            <GlobalLoadingCircle show={isLoading} isClient={true} />
+            <button onClick={() => !isLoading ? setIsLoading(true) : {} } >{'로딩 서클 켜기(2초만)'}</button>
+            <LoadingCircle show={isLoading} isClient={true} />
         </div>
     )
 }
@@ -49,7 +49,7 @@ export const LocalLoading = () => {
     return(
         <div>
             <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: 10 }} >
-                <button onClick={() => !isLoading ? setIsLoading(true) : {} } >{'로컬 서클 켜기(2초만)'}</button>
+                <button onClick={() => !isLoading ? setIsLoading(true) : {} } >{'로컬 로딩 서클 켜기(2초만)'}</button>
             </div>
             <div style={{width: 400, height: 400, backgroundColor: 'rgba(0,176,240,0.1)', position: 'relative'}} >
                 <LocalLoadingCircle show={isLoading} />

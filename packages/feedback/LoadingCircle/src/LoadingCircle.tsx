@@ -1,13 +1,15 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
+
+import { BaseLoadingCircle } from './BaseLoadingCircle';
 
 import "./LoadingCircle.scss";
+import { createPortal } from 'react-dom';
 
-export const LoadingCircle = ({ show, type, style }: { show: boolean, type: 'Global'|'Local', style?: CSSProperties }) => {
+export const LoadingCircle = ({ show, isClient = false }: { show: boolean, isClient: boolean }) => {
 
-    return (<div className={`LoadingCircle Animated ${show?'Show':''} ${type}`}>
-        {["Bottom","Left","Top","Right","Center"].map(
-            direction => <div key={direction} className={`Holder ${direction}`} > 
-                <div className={"Circle"} />
-            </div>)}
-    </div>);
+    if ( !isClient ) {
+        return <></>;
+    }
+
+    return (createPortal(<BaseLoadingCircle show={show} />,document.body));
 }
