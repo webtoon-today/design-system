@@ -7,11 +7,11 @@ export const capitalizeFirstLetter = (str: string) => `${str.charAt(0).toUpperCa
 export const getGuideTextType = (conditions: {[key in guideTextType]?: boolean}) => {
     const foundType = ([ "required", "success", "fail"  ] as const).find( type => conditions[type] )
     
-    return foundType ? foundType : 'normal';
+    return foundType ?? 'normal';
 }
 
 export const getButtonStatusType = (conditions: {[key in buttonStatusType]?: boolean}) => {
     const foundType = (['inactivated', 'pending', 'success', 'fail' ] as const).find( type => conditions[type])
     
-    return  foundType ? foundType : 'activated';
+    return  foundType ?? 'activated';
 }
