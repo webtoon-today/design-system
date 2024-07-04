@@ -5,7 +5,7 @@ import React from 'react';
 import { Toast } from './Toast';
 
 const meta = {
-    title: 'feadback/Toast',
+    title: 'feedback/Toast',
     component: Toast,
     parameters: {
         layout: 'centered',
