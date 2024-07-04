@@ -1,0 +1,16 @@
+{
+    "name": "guide-text-boxs",
+    "version": "0.1.0",
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "dependencies": {
+        "@material-ui/core": "^4.12.4",
+        "@material-ui/icons": "^4.11.3"
+    },
+    "devDependencies": {
+        "rollup-config": "file: ../../../configs/rollup"
+    }
+}

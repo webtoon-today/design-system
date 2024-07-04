@@ -2,7 +2,7 @@
   "name": "design-system",
   "description": "webtoon today design system",
   "private": true,
-  "version": "1.3.1",
+  "version": "1.4.0",
   "workspaces": [
     "configs/*",
     "packages/**/**"
@@ -23,7 +23,6 @@
     "postinstall": "sh scripts/postinstall.sh"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.5",
     "@storybook/addon-essentials": "^8.1.5",
     "@storybook/addon-interactions": "^8.1.5",
     "@storybook/addon-links": "^8.1.5",
@@ -34,15 +33,13 @@
     "@storybook/react": "^8.1.5",
     "@storybook/react-webpack5": "^8.1.5",
     "@storybook/test": "^8.1.5",
-    "@types/react": "^18.2.39",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
     "css-loader": "^7.1.1",
     "postcss": "^8.4.32",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rollup": "^4.9.5",
-    "rollup-plugin-dts": "^6.1.0",
-    "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.69.5",
     "sass-loader": "^14.2.1",
     "storybook": "^8.1.5",
@@ -51,7 +48,8 @@
     "typescript": "^5.3.2"
   },
   "overrides": {
-    "ip": "^2.0.1"
+    "ip": "^2.0.1",
+    "ws": "^8.17.1"
   },
   "peerDependencies": {
     "react": "^17.0.2"
