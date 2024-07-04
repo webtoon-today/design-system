@@ -1,14 +1,14 @@
 import React, { ChangeEventHandler, FocusEventHandler, HTMLInputTypeAttribute, KeyboardEventHandler, ReactNode, useState } from 'react';
 import './GuideTextBoxs.scss';
-import { capitalizeFirstLetter } from './Functions';
+import { capitalizeFirstLetter, getButtonStatusType, getGuideTextType } from './Functions';
 import { IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
-type guideTextType = 'initial' | 'normal' | 'success' | 'fail' | 'required';
+export type guideTextType = 'initial' | 'normal' | 'success' | 'fail' | 'required';
 type purposeType = 'uniqueness' | 'verification' | 'send';
 export type validationStatusType = 'undone' | 'pending' | 'success' | 'fail';
-type buttonStatusType = 'activated' | 'inactivated' | 'pending' | 'success' | 'fail';
+export type buttonStatusType = 'activated' | 'inactivated' | 'pending' | 'success' | 'fail';
 
 
 export const GuideTextBoxForGeneral = ({
@@ -32,13 +32,10 @@ export const GuideTextBoxForGeneral = ({
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    let guideTextType: guideTextType = 'normal';
-    if(isRequired && hasClicked && text.length === 0){
-        guideTextType = 'required';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: isRequired && hasClicked && text.length === 0
+    })
+
     return (
         <TextBox
             text={text}
@@ -82,13 +79,9 @@ export const GuideTextBoxForPassword = ({
     const [isFocused, setIsFocused] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
-    let guideTextType: guideTextType = 'normal';
-    if(isRequired && hasClicked ){
-        guideTextType = 'required';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: isRequired && hasClicked
+    })
 
     return (
         <TextBox
@@ -134,28 +127,18 @@ export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, 
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);            
 
-    let guideTextType: guideTextType = 'normal';
-    if(hasClicked && validationStatus === 'undone'){
-        guideTextType = 'required';
-    } else if(validationStatus === 'success'){
-        guideTextType = 'success';
-    } else if(validationStatus === 'fail'){
-        guideTextType = 'fail';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: hasClicked && validationStatus === 'undone', 
+        success : validationStatus === 'success',
+        fail    : validationStatus === 'fail', 
+    })
 
-    let buttonStatus: buttonStatusType = 'activated';
-    if(text.length === 0){
-        buttonStatus = 'inactivated';
-    } else if(validationStatus === 'pending'){
-        buttonStatus = 'pending';
-    } else if(validationStatus === 'success' && !isFocused){
-        buttonStatus = 'success';
-    } else if(validationStatus === 'fail' && !isFocused){
-        buttonStatus = 'fail';
-    }
+    const buttonStatus: buttonStatusType = getButtonStatusType({
+        inactivated: text.length === 0,
+        pending: validationStatus === 'pending',
+        success: validationStatus === 'success' && !isFocused,
+        fail: validationStatus === 'fail'       && !isFocused,
+    })
 
     return (
         <TextBox
@@ -203,22 +186,15 @@ export const GuideTextBoxForPairedVerification = ({purpose, text, validationPatt
     const [hasClicked, setHasClicked] = useState(false);
     const [isFocused, setIsFocused] = useState(false);            
 
-    let guideTextType: guideTextType = 'normal';
-    if(hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0)){
-        guideTextType = 'required';
-    } else if(validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused){
-        guideTextType = 'success';
-    }
-    if(forcedGuideTextType){
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({ 
+        required: hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0), 
+        success : validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused 
+    })
 
-    let buttonStatus: buttonStatusType = 'activated';
-    if(text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text))){
-        buttonStatus = 'inactivated';
-    } else if(validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused){
-        buttonStatus = 'success';
-    }
+    const buttonStatus: buttonStatusType = getButtonStatusType({
+        inactivated: text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text)),
+        success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
+    })
 
     return (
         <TextBox
@@ -269,16 +245,15 @@ const TextBox = ({
     onKeyDown?: KeyboardEventHandler<HTMLInputElement>,
     style?: CSSProperties,
 }) => {
-    let textboxClassList = ['TextBox'];
-    if(isDisabled){
-        textboxClassList.push('Disabled');
-    }
-    if(isFocused){
-        textboxClassList.push('Focused');
-    }
+    const textboxClassList = [
+        'TextBox',
+        isDisabled && 'Disabled',
+        isFocused  && 'Focused' ,
+    ] as const;
+
     return (
         <div className={'TextBoxContainer'}>
-            <div className={textboxClassList.join(' ')} style={style}>
+            <div className={textboxClassList.filter(Boolean).join(' ')} style={style}>
                 <input
                     placeholder={placeholder}
                     value={text}
