@@ -36,17 +36,21 @@ var css_248z = ".TextBoxContainer {\n  display: flex;\n  flex-direction: column;
 styleInject(css_248z);
 
 const capitalizeFirstLetter = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+const getGuideTextType = (conditions) => {
+    const foundType = ["required", "success", "fail"].find(type => conditions[type]);
+    return foundType !== null && foundType !== void 0 ? foundType : 'normal';
+};
+const getButtonStatusType = (conditions) => {
+    const foundType = ['inactivated', 'pending', 'success', 'fail'].find(type => conditions[type]);
+    return foundType !== null && foundType !== void 0 ? foundType : 'activated';
+};
 
 const GuideTextBoxForGeneral = ({ text, type, onChange, onBlur = () => { }, placeholder, guideTexts, isRequired, isDisabled = false, maxLength = -1, forcedGuideTextType, onKeyDown, style, children }) => {
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
-    let guideTextType = 'normal';
-    if (isRequired && hasClicked && text.length === 0) {
-        guideTextType = 'required';
-    }
-    if (forcedGuideTextType) {
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({
+        required: isRequired && hasClicked && text.length === 0
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, type: type, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: (e) => {
@@ -59,13 +63,9 @@ const GuideTextBoxForPassword = ({ text, onChange, placeholder, guideTexts, maxL
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
     const [isVisible, setIsVisible] = react.useState(false);
-    let guideTextType = 'normal';
-    if (isRequired && hasClicked) {
-        guideTextType = 'required';
-    }
-    if (forcedGuideTextType) {
-        guideTextType = forcedGuideTextType;
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({
+        required: isRequired && hasClicked
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, type: isVisible ? 'text' : 'password', placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
@@ -78,32 +78,17 @@ const GuideTextBoxForPassword = ({ text, onChange, placeholder, guideTexts, maxL
 const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
-    let guideTextType = 'normal';
-    if (hasClicked && validationStatus === 'undone') {
-        guideTextType = 'required';
-    }
-    else if (validationStatus === 'success') {
-        guideTextType = 'success';
-    }
-    else if (validationStatus === 'fail') {
-        guideTextType = 'fail';
-    }
-    if (forcedGuideTextType) {
-        guideTextType = forcedGuideTextType;
-    }
-    let buttonStatus = 'activated';
-    if (text.length === 0) {
-        buttonStatus = 'inactivated';
-    }
-    else if (validationStatus === 'pending') {
-        buttonStatus = 'pending';
-    }
-    else if (validationStatus === 'success' && !isFocused) {
-        buttonStatus = 'success';
-    }
-    else if (validationStatus === 'fail' && !isFocused) {
-        buttonStatus = 'fail';
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({
+        required: hasClicked && validationStatus === 'undone',
+        success: validationStatus === 'success',
+        fail: validationStatus === 'fail',
+    });
+    const buttonStatus = getButtonStatusType({
+        inactivated: text.length === 0,
+        pending: validationStatus === 'pending',
+        success: validationStatus === 'success' && !isFocused,
+        fail: validationStatus === 'fail' && !isFocused,
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled || validationStatus === 'pending', onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
@@ -116,23 +101,14 @@ const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeh
 const GuideTextBoxForPairedVerification = ({ purpose, text, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
-    let guideTextType = 'normal';
-    if (hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0)) {
-        guideTextType = 'required';
-    }
-    else if (validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused) {
-        guideTextType = 'success';
-    }
-    if (forcedGuideTextType) {
-        guideTextType = forcedGuideTextType;
-    }
-    let buttonStatus = 'activated';
-    if (text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text))) {
-        buttonStatus = 'inactivated';
-    }
-    else if (validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused) {
-        buttonStatus = 'success';
-    }
+    const guideTextType = forcedGuideTextType || getGuideTextType({
+        required: hasClicked && validationStatus === 'undone' && !(isFocused && text.length > 0),
+        success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
+    });
+    const buttonStatus = getButtonStatusType({
+        inactivated: text.length === 0 || (validationStatus === 'success' && secondStepValidationStatus !== 'success') || (validationPattern && !validationPattern.test(text)),
+        success: validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused
+    });
     return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
@@ -143,14 +119,12 @@ const GuideTextBoxForPairedVerification = ({ purpose, text, validationPattern, o
         }, children: jsxRuntime.jsx(VerificationButton, { purpose: purpose, status: buttonStatus, onClick: onClick }) }));
 };
 const TextBox = ({ children, text, placeholder, guideTextType, guideText, maxLength, onChange, onFocus, onBlur, onKeyDown, isFocused, isDisabled, type, style }) => {
-    let textboxClassList = ['TextBox'];
-    if (isDisabled) {
-        textboxClassList.push('Disabled');
-    }
-    if (isFocused) {
-        textboxClassList.push('Focused');
-    }
-    return (jsxRuntime.jsxs("div", { className: 'TextBoxContainer', children: [jsxRuntime.jsxs("div", { className: textboxClassList.join(' '), style: style, children: [jsxRuntime.jsx("input", { placeholder: placeholder, value: text, onChange: onChange, onFocus: onFocus, onBlur: onBlur, disabled: isDisabled, type: type, onKeyDown: onKeyDown, style: { fontFamily: 'inherit', fontSize: 'inherit' } }), children] }), guideText &&
+    const textboxClassList = [
+        'TextBox',
+        isDisabled && 'Disabled',
+        isFocused && 'Focused',
+    ];
+    return (jsxRuntime.jsxs("div", { className: 'TextBoxContainer', children: [jsxRuntime.jsxs("div", { className: textboxClassList.filter(Boolean).join(' '), style: style, children: [jsxRuntime.jsx("input", { placeholder: placeholder, value: text, onChange: onChange, onFocus: onFocus, onBlur: onBlur, disabled: isDisabled, type: type, onKeyDown: onKeyDown, style: { fontFamily: 'inherit', fontSize: 'inherit' } }), children] }), guideText &&
                 jsxRuntime.jsxs("div", { className: 'TextBoxGuide', children: [jsxRuntime.jsx("span", { className: capitalizeFirstLetter(guideTextType), children: guideText }), maxLength >= 0 && jsxRuntime.jsx("span", { className: 'LetterCount', children: `${text.length}/${maxLength}` })] })] }));
 };
 const buttonSrc = {
