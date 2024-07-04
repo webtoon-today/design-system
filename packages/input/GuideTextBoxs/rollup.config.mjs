@@ -1,3 +1,3 @@
 import { generateRollupConfig } from "rollup-config";
 
-export default generateRollupConfig('../../../dist/GuideTextBox');
+export default generateRollupConfig('../../../dist/GuideTextBoxs');
