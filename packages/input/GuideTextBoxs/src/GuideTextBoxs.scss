@@ -1,0 +1,151 @@
+.TextBoxContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 5px;
+    
+    width: 100%;
+    
+    .TextBox{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        box-sizing: border-box;
+        height: 48px;
+        border-radius: 5px;
+        border: 1px solid rgba(236, 237, 243, 1);
+        padding: 2px 16px 2px 14px;
+        color: rgba(25, 24, 27, 1);
+        font-size: 0.9375rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        
+        background-color: rgba(255, 255, 255, 1);
+        
+        &:hover{
+            border: 1px solid rgba(61, 106, 255, 1);
+        }
+        
+        &.Focused{
+            border: 2px solid rgba(61, 106, 255, 1);
+            padding: 1px 15px 1px 13px;
+        }
+        
+        &.Disabled{
+            border: 1px solid rgba(213, 213, 216, 1);
+            background: var(--state-disabled-textfield, linear-gradient(0deg, rgba(138, 138, 138, 0.25) 0%, rgba(138, 138, 138, 0.25) 100%), rgba(246, 246, 249, 1));
+        }
+
+        input{
+            width: 100%;
+
+            border: none;
+            background: none;
+
+            &::placeholder{
+                color: rgba(121, 120, 130, 1);
+            }
+
+            &:focus{
+                outline: none;
+            }
+        }
+
+        .VerificationButton{
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            color: rgba(255, 255, 255, 1);
+            font-size: 0.8125rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0.13px;
+
+            user-select: none;
+            transition: 200ms;
+            &.Activated {
+                cursor: pointer;
+            
+                &:active {
+                    filter: brightness(0.9);
+                }
+            }
+
+            &.Activated .Background, &.Inactivated .Background, &.Pending .Background{
+                width: 66px;
+                height: 32px;
+            }
+            &.Success .Background, &.Fail .Background{
+                width: 18px;
+                height: 18px;
+            }
+
+            span {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+            }
+
+            .Spinner {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                top: calc(50% - 10px);
+                left: calc(50% - 10px);
+    
+                animation: spin 1s 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96) infinite;
+            }
+
+            &.Visibility {
+                color: rgb(189,189,194);
+
+                &:hover, &:focus {
+                    color: rgb(155,155,160);
+                }
+            }
+        }
+    }
+
+    .TextBoxGuide{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 0.8125rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 0.13px;
+
+        .Initial, .Normal{
+            color: rgba(189, 189, 194, 1);
+        }
+
+        .Success{
+            color: rgba(80, 200, 114, 1);
+        }
+
+        .Fail{
+            color: rgba(235, 81, 71, 1);
+        }
+
+        .Required{
+            color: rgba(250, 149, 56, 1);
+        }
+
+        .LetterCount{
+            color: rgba(121, 120, 130, 1);
+        }
+    }
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
