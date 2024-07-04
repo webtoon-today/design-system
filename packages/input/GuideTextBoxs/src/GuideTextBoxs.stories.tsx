@@ -67,8 +67,8 @@ export const BoxForPairedVerification = () => {
 
     const [ email, setEmail ] = useState<string>('');
     const [ otp, setOtp ] = useState<string>('');
-    const [ emailValidationStatus, setEmailValidationStatus ] = useState<validationStatusType>(!otp?'undone':'success');
-    const [ emailKeyValidationStatus, setEmailKeyValidationStatus ] = useState<validationStatusType>(!otp?'undone':'success');
+    const [ emailValidationStatus, setEmailValidationStatus ] = useState<validationStatusType>('undone');
+    const [ emailKeyValidationStatus, setEmailKeyValidationStatus ] = useState<validationStatusType>('undone');
 
     
     return (<div style={{display: 'flex', flexDirection: 'column', width: 400, gap: 8}}>
