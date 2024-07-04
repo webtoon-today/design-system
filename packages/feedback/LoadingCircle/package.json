@@ -1,0 +1,12 @@
+{
+    "name": "loadingCircle",
+    "version": "0.1.0",
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "devDependencies": {
+        "rollup-config": "file: ../../../configs/rollup"
+    }
+}
