@@ -48,7 +48,8 @@
     "typescript": "^5.3.2"
   },
   "overrides": {
-    "ip": "^2.0.1"
+    "ip": "^2.0.1",
+    "ws": "^8.17.1"
   },
   "peerDependencies": {
     "react": "^17.0.2"
