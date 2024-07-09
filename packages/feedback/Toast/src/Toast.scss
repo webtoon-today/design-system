@@ -32,13 +32,16 @@
 }
 
 .ToastBackgroundArea{
-    z-index: 2000;
-    font-size: 1rem;
     position: fixed;
     top: 24px; 
-    text-align: center;
-    width: 100vw; 
+    right: 0;
+    left: 0; 
+    z-index: 2000;
+    
     min-height: 50px;
+    
+    text-align: center;
+    font-size: 1rem;
     
     &.FadeIn  { animation: toast-in  287ms linear forwards; }
     &.FadeOut { animation: toast-out 287ms linear forwards; }
