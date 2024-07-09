@@ -22,23 +22,11 @@ type Story = StoryObj<typeof meta>;
 export const Default= {
     render: () => {
         const [show, setShow] = useState(false);
-        const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-        useEffect(() => {
-            if (show) {
-                timer.current = setTimeout(() => {
-                    setShow(false);
-                }, 3000);
-            }
-            return () => {
-                clearTimeout(timer.current);
-            };
-        }, [show]);
 
         return (
             <div>
-                <button onClick={() => setShow(true)} disabled={show}>toast</button>
-                <Toast show={show} message={'hello'} />
+                <button onClick={() => setShow(true)}>toast</button>
+                <Toast show={show} message={'hello'} onClose={() => setShow(false)}/>
             </div>
         )
     }
