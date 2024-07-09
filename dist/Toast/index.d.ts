@@ -2,7 +2,9 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import React, { ReactNode } from 'react';
 
 declare const GlobalToast: () => react_jsx_runtime.JSX.Element;
-declare const Toast: ({ message, timeout, iconType }: {
+declare const Toast: ({ show, onClose, message, timeout, iconType }: {
+    show: boolean;
+    onClose?: () => void;
     message: React.ReactNode;
     timeout?: number;
     iconType?: "error" | "success" | "warning" | "info";
