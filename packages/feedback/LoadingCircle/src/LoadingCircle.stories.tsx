@@ -9,7 +9,7 @@ import { LocalLoadingCircle } from './LocalLoadingCircle';
  * LocalLoadingCircle covers their parent component.
  */
 const meta = {
-    title: 'feedback/loadingCircle',
+    title: 'feedback/LoadingCircle',
     component: LoadingCircle,
     parameters: {
         layout: 'centered',
