@@ -47,3 +47,17 @@ jobs:
       
       - name: deploy-storybook
         run: npm run deploy-storybook
+
+      - name: comment github action
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branchName = process.env.GITHUB_REF.split('/').pop();
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Storybook Deploy Success! 🚀\n\nhttps://design-system.webtoon.today/release/${branchName}'
+            })
