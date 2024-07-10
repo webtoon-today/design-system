@@ -12,18 +12,18 @@ const RootToast = ({
     open, onClose,
     message, timeout = 3000, iconType
 } : {
-    open: boolean, onClose?: () => void, 
+    open: boolean, onClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void, 
     message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" | undefined
 }) => {
     const [animationState, setAnimationState] = useState<'FadeIn' | 'FadeOut' | 'Close'>('Close');
 
     const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    const handleClose = useCallback(() => {
+    const handleClose = useCallback((e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
         setAnimationState('FadeOut');
         
         if (!!onClose) {
-            closeTimer.current = setTimeout(onClose, ANIMATION_DURATION);
+            closeTimer.current = setTimeout(() => onClose(e), ANIMATION_DURATION);
         }
     }, [onClose]);
 
@@ -47,9 +47,7 @@ const RootToast = ({
         }
     }, []);
 
-    if (!message || 
-        JSON.stringify(message) === JSON.stringify({})
-    ) {
+    if (!message || JSON.stringify(message) === JSON.stringify({})) {
         return null;
     }
 

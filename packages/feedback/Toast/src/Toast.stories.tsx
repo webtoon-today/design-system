@@ -36,12 +36,13 @@ const ToastAlertHookContainer = (args) => {
     const { toastAlert } = useToastAlert();
 
     return (
-        <div>
-            <button onClick={() => toastAlert({ message: args.message || "hello", timeout: args.timeout, iconType: args.iconType })}>useToastAlertHook</button>
-        </div>
+        <button onClick={() => toastAlert({ message: args.message || "hello", timeout: args.timeout, iconType: args.iconType })}>useToastAlertHook</button>
     )
 }
 
+/**
+ * required `RecoilRoot` for `useToastAlert`
+ */
 export const useToastAlertHook = {
     render: (args) => {
         return (
