@@ -65,10 +65,10 @@ const ANIMATION_DURATION = 287;
 const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
     const [animationState, setAnimationState] = react.useState('Close');
     const closeTimer = react.useRef(undefined);
-    const handleClose = react.useCallback(() => {
+    const handleClose = react.useCallback((e) => {
         setAnimationState('FadeOut');
         if (!!onClose) {
-            closeTimer.current = setTimeout(onClose, ANIMATION_DURATION);
+            closeTimer.current = setTimeout(() => onClose(e), ANIMATION_DURATION);
         }
     }, [onClose]);
     react.useEffect(() => {
@@ -80,14 +80,13 @@ const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
         return () => {
             clearTimeout(timer);
         };
-    }, [message, timeout, open]);
+    }, [open, timeout, handleClose]);
     react.useEffect(() => {
         return () => {
             clearTimeout(closeTimer.current);
         };
     }, []);
-    if (!message ||
-        JSON.stringify(message) === JSON.stringify({})) {
+    if (!message || JSON.stringify(message) === JSON.stringify({})) {
         return null;
     }
     return (jsxRuntime.jsx("div", { className: `ToastBackgroundArea ${animationState}`, children: jsxRuntime.jsx("div", { className: `ToastBox ${iconType ? "IconToast" : ""}`, children: iconType
@@ -97,7 +96,7 @@ const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
 const GlobalToast = () => {
     const { open, message, timeout, iconType } = recoil.useRecoilValue(toastAlertAtom);
     const setToastAlertAtom = recoil.useSetRecoilState(toastAlertAtom);
-    return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { open: open, onClose: () => setToastAlertAtom({ open: false, message: '' }), message, timeout, iconType }) }));
+    return (jsxRuntime.jsx(RootToast, { open: open, onClose: () => setToastAlertAtom({ open: false, message: '' }), message, timeout, iconType }));
 };
 const Toast = RootToast;
 

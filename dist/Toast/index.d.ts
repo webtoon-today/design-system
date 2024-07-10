@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 declare const GlobalToast: () => react_jsx_runtime.JSX.Element;
 declare const Toast: ({ open, onClose, message, timeout, iconType }: {
     open: boolean;
-    onClose?: () => void;
+    onClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     message: React.ReactNode;
     timeout?: number;
     iconType?: "error" | "success" | "warning" | "info" | undefined;
