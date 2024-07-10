@@ -7,7 +7,7 @@ declare const Toast: ({ open, onClose, message, timeout, iconType }: {
     onClose?: () => void;
     message: React.ReactNode;
     timeout?: number;
-    iconType?: "error" | "success" | "warning" | "info";
+    iconType?: "error" | "success" | "warning" | "info" | undefined;
 }) => react_jsx_runtime.JSX.Element | null;
 
 declare const types: readonly ["success", "warning", "error", "info"];

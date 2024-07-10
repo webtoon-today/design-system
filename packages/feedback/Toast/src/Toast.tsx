@@ -13,12 +13,11 @@ const RootToast = ({
     message, timeout = 3000, iconType
 } : {
     open: boolean, onClose?: () => void, 
-    message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" 
+    message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" | undefined
 }) => {
     const [animationState, setAnimationState] = useState<'FadeIn' | 'FadeOut' | 'Close'>('Close');
 
     const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
 
     const handleClose = useCallback(() => {
         setAnimationState('FadeOut');
@@ -26,7 +25,6 @@ const RootToast = ({
         if (!!onClose) {
             closeTimer.current = setTimeout(onClose, ANIMATION_DURATION);
         }
-
     }, [onClose]);
 
     useEffect(() => {
@@ -49,7 +47,9 @@ const RootToast = ({
         }
     }, []);
 
-    if (!message) {
+    if (!message || 
+        JSON.stringify(message) === JSON.stringify({})
+    ) {
         return null;
     }
 
