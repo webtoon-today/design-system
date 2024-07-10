@@ -86,7 +86,7 @@ const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
             clearTimeout(closeTimer.current);
         };
     }, []);
-    if (!message || JSON.stringify(message) === JSON.stringify({})) {
+    if (!message) {
         return null;
     }
     return (jsxRuntime.jsx("div", { className: `ToastBackgroundArea ${animationState}`, children: jsxRuntime.jsx("div", { className: `ToastBox ${iconType ? "IconToast" : ""}`, children: iconType

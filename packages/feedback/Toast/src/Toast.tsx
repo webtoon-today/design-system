@@ -47,7 +47,7 @@ const RootToast = ({
         }
     }, []);
 
-    if (!message || JSON.stringify(message) === JSON.stringify({})) {
+    if (!message) {
         return null;
     }
 
