@@ -1,5 +1,14 @@
 ### Webtoon Today Design System
 
+### Install
+```bash
+npm install git+https://github.com/webtoon-today/design-system
+
+or
+
+npm install git+https://github.com/webtoon-today/design-system#<version>
+```
+
 ### Preferred Dev Environment
 
 * Ubuntu Linux 20.04.
