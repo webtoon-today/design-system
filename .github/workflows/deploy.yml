@@ -49,7 +49,7 @@ jobs:
         run: npm run deploy-storybook
 
       - name: comment github action
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
