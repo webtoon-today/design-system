@@ -9,10 +9,10 @@ import './Toast.scss';
 const ANIMATION_DURATION = 287;
 
 const RootToast = ({ 
-    show, onClose,
+    open, onClose,
     message, timeout = 3000, iconType
 } : {
-    show: boolean, onClose?: () => void, 
+    open: boolean, onClose?: () => void, 
     message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" 
 }) => {
     const [animationState, setAnimationState] = useState<'FadeIn' | 'FadeOut' | 'Close'>('Close');
@@ -30,7 +30,7 @@ const RootToast = ({
     }, [onClose]);
 
     useEffect(() => {
-        if (!show) {
+        if (!open) {
             return;
         }
 
@@ -41,7 +41,7 @@ const RootToast = ({
         return ()=>{
             clearTimeout(timer);
         }
-    }, [message, timeout, show]);
+    }, [message, timeout, open]);
 
     useEffect(() => {
         return () => {
@@ -71,12 +71,12 @@ const RootToast = ({
 }
 
 export const GlobalToast = () => {
-    const { show, message, timeout, iconType } = useRecoilValue(toastAlertAtom);
+    const { open, message, timeout, iconType } = useRecoilValue(toastAlertAtom);
     const setToastAlertAtom = useSetRecoilState(toastAlertAtom);
 
     return (
         <RecoilRoot>
-            <RootToast show={show} onClose={() => setToastAlertAtom({show: false, message: ''})} {...{message, timeout, iconType}} />
+            <RootToast open={open} onClose={() => setToastAlertAtom({open: false, message: ''})} {...{message, timeout, iconType}} />
         </RecoilRoot>
     );
 }

@@ -6,7 +6,7 @@ var recoil = require('recoil');
 
 const initialTimeout = 3000;
 const toastDefault = {
-    message: '', timeout: 0, show: false
+    message: '', timeout: 0, open: false
 };
 const toastAlertAtom = recoil.atom({
     key: "toastAlertKey",
@@ -26,7 +26,7 @@ const useToastAlert = () => {
             timeout = messageOfParamsOrToastObject.timeout;
             iconType = messageOfParamsOrToastObject.iconType;
         }
-        setToastAlertAtom({ show: true, message, timeout: timeout || initialTimeout, iconType });
+        setToastAlertAtom({ open: true, message, timeout: timeout || initialTimeout, iconType });
     }, [setToastAlertAtom]);
     return ({ toastAlert });
 };
@@ -62,7 +62,7 @@ var css_248z = "@keyframes toast-in {\n  0% {\n    transform: translate3d(0, -10
 styleInject(css_248z);
 
 const ANIMATION_DURATION = 287;
-const RootToast = ({ show, onClose, message, timeout = 3000, iconType }) => {
+const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
     const [animationState, setAnimationState] = react.useState('Close');
     const closeTimer = react.useRef(undefined);
     const handleClose = react.useCallback(() => {
@@ -72,7 +72,7 @@ const RootToast = ({ show, onClose, message, timeout = 3000, iconType }) => {
         }
     }, [onClose]);
     react.useEffect(() => {
-        if (!show) {
+        if (!open) {
             return;
         }
         setAnimationState('FadeIn');
@@ -80,7 +80,7 @@ const RootToast = ({ show, onClose, message, timeout = 3000, iconType }) => {
         return () => {
             clearTimeout(timer);
         };
-    }, [message, timeout, show]);
+    }, [message, timeout, open]);
     react.useEffect(() => {
         return () => {
             clearTimeout(closeTimer.current);
@@ -94,9 +94,9 @@ const RootToast = ({ show, onClose, message, timeout = 3000, iconType }) => {
                 : message }) }));
 };
 const GlobalToast = () => {
-    const { show, message, timeout, iconType } = recoil.useRecoilValue(toastAlertAtom);
+    const { open, message, timeout, iconType } = recoil.useRecoilValue(toastAlertAtom);
     const setToastAlertAtom = recoil.useSetRecoilState(toastAlertAtom);
-    return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { show: show, onClose: () => setToastAlertAtom({ show: false, message: '' }), message, timeout, iconType }) }));
+    return (jsxRuntime.jsx(recoil.RecoilRoot, { children: jsxRuntime.jsx(RootToast, { open: open, onClose: () => setToastAlertAtom({ open: false, message: '' }), message, timeout, iconType }) }));
 };
 const Toast = RootToast;
 

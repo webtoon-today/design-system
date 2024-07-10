@@ -21,12 +21,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default= {
     render: () => {
-        const [show, setShow] = useState(false);
+        const [open, setOpen] = useState(false);
 
         return (
             <div>
-                <button onClick={() => setShow(true)}>toast</button>
-                <Toast show={show} message={'hello'} onClose={() => setShow(false)}/>
+                <button onClick={() => setOpen(true)}>toast</button>
+                <Toast open={open} message={'hello'} onClose={() => setOpen(false)}/>
             </div>
         )
     }
