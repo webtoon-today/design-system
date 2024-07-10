@@ -45,7 +45,7 @@ export const useToastAlert = () => {
         }
 
         setToastAlertAtom({open: true, message, timeout: timeout || initialTimeout, iconType});
-    },[setToastAlertAtom])
+    },[setToastAlertAtom]);
 
     return ({ toastAlert })
 }

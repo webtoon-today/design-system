@@ -19,7 +19,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default= {
+export const Default = {
     render: (args) => {
         const [open, setOpen] = useState(false);
 
@@ -38,7 +38,6 @@ const ToastAlertHookContainer = (args) => {
     return (
         <div>
             <button onClick={() => toastAlert({ message: args.message || "hello", timeout: args.timeout, iconType: args.iconType })}>useToastAlertHook</button>
-            <GlobalToast />
         </div>
     )
 }
@@ -48,6 +47,7 @@ export const useToastAlertHook = {
         return (
             <RecoilRoot>
                 <ToastAlertHookContainer {...args}/>
+                <GlobalToast />
             </RecoilRoot>
         )
     }

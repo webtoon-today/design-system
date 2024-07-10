@@ -39,7 +39,7 @@ const RootToast = ({
         return ()=>{
             clearTimeout(timer);
         }
-    }, [message, timeout, open]);
+    }, [open, timeout, handleClose]);
 
     useEffect(() => {
         return () => {
@@ -75,9 +75,7 @@ export const GlobalToast = () => {
     const setToastAlertAtom = useSetRecoilState(toastAlertAtom);
 
     return (
-        <RecoilRoot>
-            <RootToast open={open} onClose={() => setToastAlertAtom({open: false, message: ''})} {...{message, timeout, iconType}} />
-        </RecoilRoot>
+        <RootToast open={open} onClose={() => setToastAlertAtom({open: false, message: ''})} {...{message, timeout, iconType}} />
     );
 }
 
