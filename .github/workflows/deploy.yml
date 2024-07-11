@@ -49,7 +49,7 @@ jobs:
         run: npm run deploy-storybook
 
       - name: comment github action
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5
         env:
           branchName: ${{ github.head_ref }}
         with:
