@@ -53,14 +53,17 @@ jobs:
         with:
           script: |
             try {
-              const success = '${{ job.status }}' === 'success';
-              const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/${{ github.head_ref }}` : ''}`;
+              const fs = require('fs')
+              const ev = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+              const prNum = ev.pull_request.number;
 
-              console.log(context.issue.number);
-              console.log(context.repo.owner);
-              console.log(context.repo.repo);
+              
+              const success = '${{ job.status }}' === 'success';
+              const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/release/${${{ github.event.ref }}.slice('/').at(-1)}` : ''}`;
+              
+              console.log(prNum);
               console.log(body);
-          
+
               const res = await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
