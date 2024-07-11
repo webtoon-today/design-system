@@ -75,7 +75,7 @@ const GuideTextBoxForPassword = ({ text, onChange, placeholder, guideTexts, maxL
             }, 50);
         }, onKeyDown: onKeyDown, children: jsxRuntime.jsx(core.IconButton, { className: 'VerificationButton Visibility', onClick: () => setIsVisible(!isVisible), children: isVisible ? jsxRuntime.jsx(icons.VisibilityOff, {}) : jsxRuntime.jsx(icons.Visibility, {}) }) }));
 };
-const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
+const GuideTextBoxForStandAloneVerification = ({ purpose, text, type, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
     let guideTextType = 'normal';
@@ -104,7 +104,7 @@ const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeh
     else if (validationStatus === 'fail' && !isFocused) {
         buttonStatus = 'fail';
     }
-    return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled || validationStatus === 'pending', onChange: onChange, onFocus: () => {
+    return (jsxRuntime.jsx(TextBox, { text: text, type: type, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled || validationStatus === 'pending', onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
             setTimeout(() => {
@@ -113,7 +113,7 @@ const GuideTextBoxForStandAloneVerification = ({ purpose, text, onChange, placeh
             }, 50);
         }, children: jsxRuntime.jsx(VerificationButton, { purpose: purpose, status: buttonStatus, onClick: onClick }) }));
 };
-const GuideTextBoxForPairedVerification = ({ purpose, text, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
+const GuideTextBoxForPairedVerification = ({ purpose, text, type, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType }) => {
     const [hasClicked, setHasClicked] = react.useState(false);
     const [isFocused, setIsFocused] = react.useState(false);
     let guideTextType = 'normal';
@@ -133,7 +133,7 @@ const GuideTextBoxForPairedVerification = ({ purpose, text, validationPattern, o
     else if (validationStatus === 'success' && secondStepValidationStatus === 'success' && !isFocused) {
         buttonStatus = 'success';
     }
-    return (jsxRuntime.jsx(TextBox, { text: text, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
+    return (jsxRuntime.jsx(TextBox, { text: text, type: type, placeholder: placeholder, guideTextType: guideTextType, guideText: guideTexts[guideTextType], maxLength: maxLength, isFocused: isFocused, isDisabled: isDisabled, onChange: onChange, onFocus: () => {
             setIsFocused(true);
         }, onBlur: () => {
             setTimeout(() => {

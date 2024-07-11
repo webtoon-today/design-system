@@ -43,9 +43,10 @@ declare const GuideTextBoxForPassword: ({ text, onChange, placeholder, guideText
     forcedGuideTextType?: guideTextType | undefined;
     onKeyDown?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
 }) => react_jsx_runtime.JSX.Element;
-declare const GuideTextBoxForStandAloneVerification: ({ purpose, text, onChange, placeholder, guideTexts, maxLength, validationStatus, onClick, isDisabled, forcedGuideTextType }: {
+declare const GuideTextBoxForStandAloneVerification: ({ purpose, text, type, onChange, placeholder, guideTexts, maxLength, validationStatus, onClick, isDisabled, forcedGuideTextType }: {
     purpose: purposeType;
     text: string;
+    type?: React.HTMLInputTypeAttribute | undefined;
     onChange: ChangeEventHandler<HTMLInputElement>;
     placeholder: string;
     guideTexts: {
@@ -61,9 +62,10 @@ declare const GuideTextBoxForStandAloneVerification: ({ purpose, text, onChange,
     isDisabled?: boolean | undefined;
     forcedGuideTextType?: guideTextType | undefined;
 }) => react_jsx_runtime.JSX.Element;
-declare const GuideTextBoxForPairedVerification: ({ purpose, text, validationPattern, onChange, placeholder, guideTexts, maxLength, validationStatus, secondStepValidationStatus, onClick, isDisabled, forcedGuideTextType }: {
+declare const GuideTextBoxForPairedVerification: ({ purpose, text, type, validationPattern, onChange, placeholder, guideTexts, maxLength, validationStatus, secondStepValidationStatus, onClick, isDisabled, forcedGuideTextType }: {
     purpose: purposeType;
     text: string;
+    type?: React.HTMLInputTypeAttribute | undefined;
     validationPattern?: RegExp | undefined;
     onChange: ChangeEventHandler<HTMLInputElement>;
     placeholder: string;

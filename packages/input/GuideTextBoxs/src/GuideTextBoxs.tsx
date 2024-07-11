@@ -119,9 +119,10 @@ export const GuideTextBoxForPassword = ({
     )
 }
 
-export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
+export const GuideTextBoxForStandAloneVerification = ({purpose, text, type, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
     purpose: purposeType,
     text: string,
+    type?: HTMLInputTypeAttribute,
     onChange: ChangeEventHandler<HTMLInputElement>,
     placeholder: string,
     guideTexts: {[key in guideTextType]: string},
@@ -160,6 +161,7 @@ export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, 
     return (
         <TextBox
             text={text}
+            type={type}
             placeholder={placeholder}
             guideTextType={guideTextType}
             guideText={guideTexts[guideTextType]}
@@ -186,9 +188,10 @@ export const GuideTextBoxForStandAloneVerification = ({purpose, text, onChange, 
     )
 }
 
-export const GuideTextBoxForPairedVerification = ({purpose, text, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
+export const GuideTextBoxForPairedVerification = ({purpose, text, type, validationPattern, onChange, placeholder, guideTexts, maxLength = -1, validationStatus, secondStepValidationStatus, onClick, isDisabled = false, forcedGuideTextType} : {
     purpose: purposeType,
     text: string,
+    type?: HTMLInputTypeAttribute,
     validationPattern?: RegExp,
     onChange: ChangeEventHandler<HTMLInputElement>,
     placeholder: string,
@@ -223,6 +226,7 @@ export const GuideTextBoxForPairedVerification = ({purpose, text, validationPatt
     return (
         <TextBox
             text={text}
+            type={type}
             placeholder={placeholder}
             guideTextType={guideTextType}
             guideText={guideTexts[guideTextType]}
