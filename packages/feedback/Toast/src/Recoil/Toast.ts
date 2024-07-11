@@ -16,8 +16,8 @@ export type ToastAlertType = {
 }
 
 const initialTimeout = 3000;
-const toastDefault: ToastObjectType = {
-    message: '', timeout: 0,
+const toastDefault: ToastObjectType & { open: boolean } = {
+    message: '', timeout: 0, open: false
 }
 export const toastAlertAtom = atom({
     key: "toastAlertKey",
@@ -44,8 +44,8 @@ export const useToastAlert = () => {
             iconType = messageOfParamsOrToastObject.iconType;
         }
 
-        setToastAlertAtom({message, timeout: timeout || initialTimeout, iconType});
-    },[setToastAlertAtom])
+        setToastAlertAtom({open: true, message, timeout: timeout || initialTimeout, iconType});
+    },[setToastAlertAtom]);
 
     return ({ toastAlert })
 }
