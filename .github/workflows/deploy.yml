@@ -55,9 +55,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.issues.createComment({
+            const success = '${{ job.status }}' === 'success';
+            const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/${process.env.branchName}` : ''}`;
+
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Storybook Deploy Success! 🚀\n\nhttps://design-system.webtoon.today/${branchName}'
+              body: body
             })
