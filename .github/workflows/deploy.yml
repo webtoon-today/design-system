@@ -50,14 +50,14 @@ jobs:
 
       - name: comment github action
         uses: actions/github-script@v6
+        env:
+          branchName: ${{ github.head_ref }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const branchName = process.env.GITHUB_REF.split('/').pop();
-
-            github.issues.createComment({
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Storybook Deploy Success! 🚀\n\nhttps://design-system.webtoon.today/release/${branchName}'
+              body: 'Storybook Deploy Success! 🚀\n\nhttps://design-system.webtoon.today/${branchName}'
             })
