@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { Card, List, ListItem } from '@material-ui/core';
-import { KeyboardArrowUp } from '@material-ui/icons';
+import { KeyboardArrowDown } from '@material-ui/icons';
+import { useEffect, useState } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 import { getReleaseNote } from '../Data/Release';
@@ -44,7 +44,7 @@ const ReleaseNote = () => {
                                             </h1>
                                             <span>{`update time: ${updateDateString}`}</span>
                                         </div>
-                                        <KeyboardArrowUp className={'Arrow'}/>
+                                        <KeyboardArrowDown className={'Arrow'}/>
                                     </summary>
                                     <div className={'ReleaseBody'}>
                                         <ReactMarkdown
