@@ -48,14 +48,14 @@ jobs:
       - name: deploy-storybook
         run: npm run deploy-storybook
 
-      - name: comment github action
-        uses: actions/github-script@v5
+      - name: comment on pull request
+        uses: actions/github-script@v3
         env:
           branchName: ${{ github.head_ref }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.issues.createComment({
+            github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
