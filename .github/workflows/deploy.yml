@@ -64,8 +64,13 @@ jobs:
 
               const success = '${{ job.status }}' === 'success';
 
-              const urlPath = `${{ github.event.ref }}`.slice('/').at(-1);
-              const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/release/${urlPath}` : ''}`;
+              const urlPath = `${{ github.event.ref }}`.replace(/^release\//,"");
+
+              const body = `## 🚀Storybook Deploy\n
+              | status | url |
+              | :---: | :---: |
+              | ${success ? '✅ successed' : '❌ failed'} | [Storybook](https://design-system.webtoon.today/release/${urlPath}) |
+              `;
 
               const res = await github.rest.issues.createComment({
                 issue_number: prNumber,
