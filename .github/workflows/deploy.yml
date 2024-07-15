@@ -63,7 +63,9 @@ jobs:
               const prNumber = context.issue.number || issues.data[0].number;
 
               const success = '${{ job.status }}' === 'success';
-              const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/release/${${{ github.event.ref }}.slice('/').at(-1)}` : ''}`;
+
+              const urlPath = `${{ github.event.ref }}`.slice('/').at(-1);
+              const body = `Deploy ${success ? '✅' : '❌'}!\n${success ? `🚀 https://design-system.webtoon.today/release/${urlPath}` : ''}`;
 
               const res = await github.rest.issues.createComment({
                 issue_number: prNumber,
