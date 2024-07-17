@@ -53,23 +53,23 @@ jobs:
         with:
           script: |
             try {
+              const refPath = '${{ github.event.ref }}'.replace('refs/heads/', ''); 
+
               const issues = await github.rest.pulls.list({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 state: 'open',
-                head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
+                head: `${context.repo.owner}:${refPath}`
               });
 
-              const prNumber = context.issue?.number || issues.data[0].number;
+              const prNumber = context.issue.number || issues.data[0].number;
 
               const success = '${{ job.status }}' === 'success';
-
-              const urlPath = `${{ github.event.ref }}`.replace(/^refs\/heads\/release\//,"");
 
               const body = `## 🚀Storybook Deploy\n
               | status | url |
               | :---: | :---: |
-              | ${success ? '✅ successed' : '❌ failed'} | [Storybook](https://design-system.webtoon.today/release/${urlPath}) |
+              | ${success ? '✅ successed' : '❌ failed'} | [Storybook](https://design-system.webtoon.today/${refPath}) |
               `;
 
               const res = await github.rest.issues.createComment({
