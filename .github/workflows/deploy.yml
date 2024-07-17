@@ -64,7 +64,7 @@ jobs:
 
               const success = '${{ job.status }}' === 'success';
 
-              const urlPath = '${{github.event.ref}}''.replace(/^refs\/heads\/release\//,"");
+              const urlPath = '${{github.event.ref}}'.replace(/^refs\/heads\/release\//,"");
 
               const body = `## 🚀Storybook Deploy\n
               | status | url |
