@@ -33,12 +33,12 @@
 
 .ToastBackgroundArea{
     position: fixed;
-    top: 24px; 
-    right: 0;
-    left: 0; 
+    top: 24px;
+
     z-index: 2000;
     
     min-height: 50px;
+    margin: 0 auto;
     
     text-align: center;
     font-size: 1rem;
