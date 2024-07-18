@@ -34,14 +34,17 @@
 .ToastBackgroundArea{
     position: fixed;
     top: 24px;
+    left: 0;
+    right: 0;
 
     z-index: 2000;
     
     min-height: 50px;
-    margin: 0 auto;
     
     text-align: center;
     font-size: 1rem;
+
+    pointer-events: none;
     
     &.FadeIn  { animation: toast-in  287ms linear forwards; }
     &.FadeOut { animation: toast-out 287ms linear forwards; }
@@ -60,6 +63,8 @@
         word-break: keep-all;
         text-align: start;
         max-width: 600px;
+
+        pointer-events: auto;
 
         @media (max-width: 700px) {
             max-width: calc(100% - 62px);
