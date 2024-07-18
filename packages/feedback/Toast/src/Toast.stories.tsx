@@ -9,9 +9,6 @@ import { GlobalToast, Toast } from './Toast';
 const meta = {
     title: 'feedback/Toast',
     component: Toast,
-    parameters: {
-        layout: 'centered',
-    },
     tags: ['autodocs'],
 } satisfies Meta<typeof Toast>;
 
