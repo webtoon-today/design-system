@@ -14,19 +14,21 @@ const toastAlertAtom = recoil.atom({
 });
 const useToastAlert = () => {
     const setToastAlertAtom = recoil.useSetRecoilState(toastAlertAtom);
-    const toastAlert = react.useCallback((messageOfParamsOrToastObject, timeoutOfParams, iconTypeOfParams) => {
-        let message, timeout, iconType;
+    const toastAlert = react.useCallback((messageOfParamsOrToastObject, timeoutOfParams, iconTypeOfParams, ctaOfParams) => {
+        let message, timeout, iconType, cta;
         if (typeof messageOfParamsOrToastObject === 'string') {
             message = messageOfParamsOrToastObject;
             timeout = timeoutOfParams;
             iconType = iconTypeOfParams;
+            cta = ctaOfParams;
         }
         else {
             message = messageOfParamsOrToastObject.message;
             timeout = messageOfParamsOrToastObject.timeout;
             iconType = messageOfParamsOrToastObject.iconType;
+            cta = messageOfParamsOrToastObject.cta;
         }
-        setToastAlertAtom({ open: true, message, timeout: timeout || initialTimeout, iconType });
+        setToastAlertAtom({ open: true, message, timeout: timeout || initialTimeout, iconType, cta });
     }, [setToastAlertAtom]);
     return ({ toastAlert });
 };
@@ -62,7 +64,7 @@ var css_248z = "@keyframes toast-in {\n  0% {\n    transform: translate3d(0, -10
 styleInject(css_248z);
 
 const ANIMATION_DURATION = 287;
-const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
+const RootToast = ({ open, onClose, message, timeout = 3000, iconType, cta }) => {
     const [animationState, setAnimationState] = react.useState('Close');
     const closeTimer = react.useRef(undefined);
     const handleClose = react.useCallback((e) => {
@@ -90,7 +92,7 @@ const RootToast = ({ open, onClose, message, timeout = 3000, iconType }) => {
         return null;
     }
     return (jsxRuntime.jsx("div", { className: `ToastBackgroundArea ${animationState}`, children: jsxRuntime.jsx("div", { className: `ToastBox ${iconType ? "IconToast" : ""}`, children: iconType
-                ? jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("img", { src: `https://static.webtoon.today/ddah/icon/icon_${iconType}.svg`, alt: iconType, width: 20, height: 20, style: { marginRight: 10 } }), message, jsxRuntime.jsx("div", { className: 'CheckButton', onClick: handleClose, children: '확인' })] })
+                ? jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("img", { src: `https://static.webtoon.today/ddah/icon/icon_${iconType}.svg`, alt: iconType, width: 20, height: 20, style: { marginRight: 10 } }), message, cta !== null && cta !== void 0 ? cta : jsxRuntime.jsx("div", { className: 'CheckButton', onClick: handleClose, children: '확인' })] })
                 : message }) }));
 };
 const GlobalToast = () => {
