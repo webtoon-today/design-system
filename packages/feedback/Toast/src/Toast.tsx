@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -10,10 +10,10 @@ const ANIMATION_DURATION = 287;
 
 const RootToast = ({ 
     open, onClose,
-    message, timeout = 3000, iconType, cta
+    message, timeout = 3000, iconType
 } : {
     open: boolean, onClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void, 
-    message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" | undefined, cta?: ReactNode | undefined
+    message: React.ReactNode, timeout?: number, iconType?: "error" | "success" | "warning" | "info" | undefined
 }) => {
     const [animationState, setAnimationState] = useState<'FadeIn' | 'FadeOut' | 'Close'>('Close');
 
@@ -58,9 +58,9 @@ const RootToast = ({
                     ?<>
                         <img src={`https://static.webtoon.today/ddah/icon/icon_${iconType}.svg`} alt={iconType} width={20} height={20} style={{marginRight: 10}} />
                         {message}
-                        {cta ?? <div className={'CheckButton'} onClick={handleClose} >
+                        <div className={'CheckButton'} onClick={handleClose} >
                             {'확인'}
-                        </div>}
+                        </div>
                     </>
                     :message}
             </div>
